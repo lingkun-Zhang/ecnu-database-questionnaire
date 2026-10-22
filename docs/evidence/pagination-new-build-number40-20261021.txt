@@ -1,0 +1,373 @@
+Browser tab: 4, Title: "问川 · 问卷工作台", URL: "http://127.0.0.1:62573/".
+1 AXWebArea 问川 · 问卷工作台, URL: 127.0.0.1:62573/
+	2 container app
+		3 container
+			4 link Description: 川 问川, Value: 127.0.0.1:62573/
+			5 text 个人工作空间
+			6 button 我的问卷 1
+				7 text 我的问卷
+				8 text 1
+			14 button 问卷编辑
+			15 button 统计与回答
+			9 button 使用说明
+			10 text P pagination_browser 个人账号
+			11 button 退出
+		12 container
+			13 button 我的问卷
+			16 text / 筛选与分页验收（45份） 10月21日
+			17 heading 统计与回答, Value: 1
+				18 text 统计与回答
+			19 text 筛选与分页验收（45份） · 统计与明细使用同一固定范围。
+			20 pop up button (collapsed, settable) Description: 选择统计版本, Value: V1 · 2026/10/21 14:18, Secondary Actions: Expand
+				21 menu
+					22 (disabled) V1 · 2026/10/21 14:18
+			23 pop up button (collapsed, settable) Description: 筛选填写方式, Value: 全部填写方式, Secondary Actions: Expand
+				24 menu
+					25 (disabled) 全部填写方式
+					26 (disabled) 仅匿名填写
+					27 (disabled) 仅实名填写
+			28 button ↓ 导出本版本 CSV
+			29 button ↻ 刷新范围
+			30 text 有效答卷 46 份 独立参与者 1 人 匿名答卷 23 份 当前版本 V1 全部填写方式 · 范围截至提交序号 
+			31 text 46
+			32 text  · 新答卷不会改变当前分页与导出。
+			33 pop up button (collapsed, settable) Description: 筛选单题统计, Value: 答卷序号（1—46）, Secondary Actions: Expand
+				34 menu
+					35 查看整个问卷
+					36 (selected) 答卷序号（1—46）
+					37 备注（选填，部分跳过）
+					38 留空题（全部未答）
+			48 text 数字填空 有效回答 46 份
+			49 heading 答卷序号（1—46）, Value: 3
+				50 text 答卷序号（1—46）
+			51 text 到达 46 未答 0 跳过 0 平均值
+			52 text 23.5
+			53 text 总和
+			54 text 1081
+			55 text 数字 0 计入均值；未答与跳过不计入。原始数值可在下方明细查看。
+			45 heading 原始回答明细, Value: 2
+				46 text 原始回答明细
+			47 text 文本和数字均逐份展示，匿名答卷不会显示身份。
+			217 text 已加载 40 份 p
+			57 text pagination_browser
+			58 text 2026/10/21 14:19 · 第 46 份
+			59 text 0dc2ba08-20b…
+			60 definition list
+				61 container 答卷序号（1—46）
+					62 text 答卷序号（1—46）
+				63 text 46
+			64 text 匿
+			65 text 匿名填写
+			66 text 2026/10/21 14:18 · 第 45 份
+			67 text 4496d47d-592…
+			68 definition list
+				69 container 答卷序号（1—46）
+					70 text 答卷序号（1—46）
+				71 text 45
+			72 text p
+			73 text pagination_browser
+			74 text 2026/10/21 14:18 · 第 44 份
+			75 text 7498b28e-fb1…
+			76 definition list
+				77 container 答卷序号（1—46）
+					78 text 答卷序号（1—46）
+				79 text 44
+			80 text 匿
+			81 text 匿名填写
+			82 text 2026/10/21 14:18 · 第 43 份
+			83 text 8fddbd4a-1d2…
+			84 definition list
+				85 container 答卷序号（1—46）
+					86 text 答卷序号（1—46）
+				87 text 43
+			88 text p
+			89 text pagination_browser
+			90 text 2026/10/21 14:18 · 第 42 份
+			91 text 02df228d-88a…
+			92 definition list
+				93 container 答卷序号（1—46）
+					94 text 答卷序号（1—46）
+				95 text 42
+			96 text 匿
+			97 text 匿名填写
+			98 text 2026/10/21 14:18 · 第 41 份
+			99 text 79f5ff09-389…
+			100 definition list
+				101 container 答卷序号（1—46）
+					102 text 答卷序号（1—46）
+				103 text 41
+			104 text p
+			105 text pagination_browser
+			106 text 2026/10/21 14:18 · 第 40 份
+			107 text a9c8dd0b-a4f…
+			108 definition list
+				109 container 答卷序号（1—46）
+					110 text 答卷序号（1—46）
+				111 text 40
+			112 text 匿
+			113 text 匿名填写
+			114 text 2026/10/21 14:18 · 第 39 份
+			115 text fff045ef-402…
+			116 definition list
+				117 container 答卷序号（1—46）
+					118 text 答卷序号（1—46）
+				119 text 39
+			120 text p
+			121 text pagination_browser
+			122 text 2026/10/21 14:18 · 第 38 份
+			123 text 34d37bb1-f30…
+			124 definition list
+				125 container 答卷序号（1—46）
+					126 text 答卷序号（1—46）
+				127 text 38
+			128 text 匿
+			129 text 匿名填写
+			130 text 2026/10/21 14:18 · 第 37 份
+			131 text cc8c206d-e7a…
+			132 definition list
+				133 container 答卷序号（1—46）
+					134 text 答卷序号（1—46）
+				135 text 37
+			136 text p
+			137 text pagination_browser
+			138 text 2026/10/21 14:18 · 第 36 份
+			139 text 27752754-3dd…
+			140 definition list
+				141 container 答卷序号（1—46）
+					142 text 答卷序号（1—46）
+				143 text 36
+			144 text 匿
+			145 text 匿名填写
+			146 text 2026/10/21 14:18 · 第 35 份
+			147 text 14bcd4fb-d89…
+			148 definition list
+				149 container 答卷序号（1—46）
+					150 text 答卷序号（1—46）
+				151 text 35
+			152 text p
+			153 text pagination_browser
+			154 text 2026/10/21 14:18 · 第 34 份
+			155 text 1e79d368-95d…
+			156 definition list
+				157 container 答卷序号（1—46）
+					158 text 答卷序号（1—46）
+				159 text 34
+			160 text 匿
+			161 text 匿名填写
+			162 text 2026/10/21 14:18 · 第 33 份
+			163 text a2037f50-6f2…
+			164 definition list
+				165 container 答卷序号（1—46）
+					166 text 答卷序号（1—46）
+				167 text 33
+			168 text p
+			169 text pagination_browser
+			170 text 2026/10/21 14:18 · 第 32 份
+			171 text 13d8ecce-b9f…
+			172 definition list
+				173 container 答卷序号（1—46）
+					174 text 答卷序号（1—46）
+				175 text 32
+			176 text 匿
+			177 text 匿名填写
+			178 text 2026/10/21 14:18 · 第 31 份
+			179 text b391518f-945…
+			180 definition list
+				181 container 答卷序号（1—46）
+					182 text 答卷序号（1—46）
+				183 text 31
+			184 text p
+			185 text pagination_browser
+			186 text 2026/10/21 14:18 · 第 30 份
+			187 text c62a4a22-e31…
+			188 definition list
+				189 container 答卷序号（1—46）
+					190 text 答卷序号（1—46）
+				191 text 30
+			192 text 匿
+			193 text 匿名填写
+			194 text 2026/10/21 14:18 · 第 29 份
+			195 text 86aa4475-2ea…
+			196 definition list
+				197 container 答卷序号（1—46）
+					198 text 答卷序号（1—46）
+				199 text 29
+			200 text p
+			201 text pagination_browser
+			202 text 2026/10/21 14:18 · 第 28 份
+			203 text 23bd0ef9-85d…
+			204 definition list
+				205 container 答卷序号（1—46）
+					206 text 答卷序号（1—46）
+				207 text 28
+			208 text 匿
+			209 text 匿名填写
+			210 text 2026/10/21 14:18 · 第 27 份
+			211 text 73390a0b-f3e…
+			212 definition list
+				213 container 答卷序号（1—46）
+					214 text 答卷序号（1—46）
+				215 text 27
+			218 text p
+			219 text pagination_browser
+			220 text 2026/10/21 14:18 · 第 26 份
+			221 text a4e7a0c9-5d2…
+			222 definition list
+				223 container 答卷序号（1—46）
+					224 text 答卷序号（1—46）
+				225 text 26
+			226 text 匿
+			227 text 匿名填写
+			228 text 2026/10/21 14:18 · 第 25 份
+			229 text 3f326d7a-df5…
+			230 definition list
+				231 container 答卷序号（1—46）
+					232 text 答卷序号（1—46）
+				233 text 25
+			234 text p
+			235 text pagination_browser
+			236 text 2026/10/21 14:18 · 第 24 份
+			237 text 1037e8d2-a0b…
+			238 definition list
+				239 container 答卷序号（1—46）
+					240 text 答卷序号（1—46）
+				241 text 24
+			242 text 匿
+			243 text 匿名填写
+			244 text 2026/10/21 14:18 · 第 23 份
+			245 text 7a53d2ea-b65…
+			246 definition list
+				247 container 答卷序号（1—46）
+					248 text 答卷序号（1—46）
+				249 text 23
+			250 text p
+			251 text pagination_browser
+			252 text 2026/10/21 14:18 · 第 22 份
+			253 text 4a9ddba2-0cf…
+			254 definition list
+				255 container 答卷序号（1—46）
+					256 text 答卷序号（1—46）
+				257 text 22
+			258 text 匿
+			259 text 匿名填写
+			260 text 2026/10/21 14:18 · 第 21 份
+			261 text 8e2e7fec-064…
+			262 definition list
+				263 container 答卷序号（1—46）
+					264 text 答卷序号（1—46）
+				265 text 21
+			266 text p
+			267 text pagination_browser
+			268 text 2026/10/21 14:18 · 第 20 份
+			269 text 54360488-bee…
+			270 definition list
+				271 container 答卷序号（1—46）
+					272 text 答卷序号（1—46）
+				273 text 20
+			274 text 匿
+			275 text 匿名填写
+			276 text 2026/10/21 14:18 · 第 19 份
+			277 text e49d5a1a-521…
+			278 definition list
+				279 container 答卷序号（1—46）
+					280 text 答卷序号（1—46）
+				281 text 19
+			282 text p
+			283 text pagination_browser
+			284 text 2026/10/21 14:18 · 第 18 份
+			285 text 1a2aca1e-632…
+			286 definition list
+				287 container 答卷序号（1—46）
+					288 text 答卷序号（1—46）
+				289 text 18
+			290 text 匿
+			291 text 匿名填写
+			292 text 2026/10/21 14:18 · 第 17 份
+			293 text 754f9b4d-e92…
+			294 definition list
+				295 container 答卷序号（1—46）
+					296 text 答卷序号（1—46）
+				297 text 17
+			298 text p
+			299 text pagination_browser
+			300 text 2026/10/21 14:18 · 第 16 份
+			301 text 4f1cf24e-3c8…
+			302 definition list
+				303 container 答卷序号（1—46）
+					304 text 答卷序号（1—46）
+				305 text 16
+			306 text 匿
+			307 text 匿名填写
+			308 text 2026/10/21 14:18 · 第 15 份
+			309 text efc0ae62-d70…
+			310 definition list
+				311 container 答卷序号（1—46）
+					312 text 答卷序号（1—46）
+				313 text 15
+			314 text p
+			315 text pagination_browser
+			316 text 2026/10/21 14:18 · 第 14 份
+			317 text d2875d2a-e59…
+			318 definition list
+				319 container 答卷序号（1—46）
+					320 text 答卷序号（1—46）
+				321 text 14
+			322 text 匿
+			323 text 匿名填写
+			324 text 2026/10/21 14:18 · 第 13 份
+			325 text dce006f2-7dc…
+			326 definition list
+				327 container 答卷序号（1—46）
+					328 text 答卷序号（1—46）
+				329 text 13
+			330 text p
+			331 text pagination_browser
+			332 text 2026/10/21 14:18 · 第 12 份
+			333 text f5f7a130-3c1…
+			334 definition list
+				335 container 答卷序号（1—46）
+					336 text 答卷序号（1—46）
+				337 text 12
+			338 text 匿
+			339 text 匿名填写
+			340 text 2026/10/21 14:18 · 第 11 份
+			341 text 7ddf4ac0-6f8…
+			342 definition list
+				343 container 答卷序号（1—46）
+					344 text 答卷序号（1—46）
+				345 text 11
+			346 text p
+			347 text pagination_browser
+			348 text 2026/10/21 14:18 · 第 10 份
+			349 text ac970651-98f…
+			350 definition list
+				351 container 答卷序号（1—46）
+					352 text 答卷序号（1—46）
+				353 text 10
+			354 text 匿
+			355 text 匿名填写
+			356 text 2026/10/21 14:18 · 第 9 份
+			357 text 745e60c8-696…
+			358 definition list
+				359 container 答卷序号（1—46）
+					360 text 答卷序号（1—46）
+				361 text 9
+			362 text p
+			363 text pagination_browser
+			364 text 2026/10/21 14:18 · 第 8 份
+			365 text 23c5473c-ca1…
+			366 definition list
+				367 container 答卷序号（1—46）
+					368 text 答卷序号（1—46）
+				369 text 8
+			370 text 匿
+			371 text 匿名填写
+			372 text 2026/10/21 14:18 · 第 7 份
+			373 text 49039f02-6d7…
+			374 definition list
+				375 container 答卷序号（1—46）
+					376 text 答卷序号（1—46）
+				377 text 7
+			216 button 加载更多明细
+
+The focused UI element is 1 AXWebArea 问川 · 问卷工作台, URL: 127.0.0.1:62573/

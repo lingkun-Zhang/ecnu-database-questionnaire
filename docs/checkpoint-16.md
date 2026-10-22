@@ -1,0 +1,51 @@
+# 第十六轮检查点：发布时独立校验当前版本
+
+日期：2026年10月21日。范围：补齐T10中“草稿修订号正确，仅expectedCurrentVersionId陈旧”的独立证据，并核对真实发布竞争、失败key更正与成功key重放。现有逻辑通过，无需修改业务代码、前端、Schema、依赖或配置。
+
+## 独立排除草稿修订冲突
+
+[新增测试](../tests/test_publish_version_cas.py)使用真实ASGI应用、MongoDB副本集和事务；每例由既有fixture生成并清理自己的随机测试库，原演示库不用于造数。
+
+先保存并发布V1，提交1份实名答卷；不编辑草稿，继续发布V2。两版定义相同，sourceDraftRevision和当前draftRevision均为1，问卷已有答卷的锁/序号保持正常。使用从未成功过的publishKey，分别传入：
+
+| 请求的expectedCurrentVersionId | 真实当前版本 | 结果 |
+|---|---|---|
+| 原V1 | V2 | 409/PUBLISH_CONFLICT |
+| 过期的初始null | V2 | 409/PUBLISH_CONFLICT |
+| 随机且不存在的版本ID | V2 | 409/PUBLISH_CONFLICT |
+| 另一问卷的真实版本ID | V2 | 409/PUBLISH_CONFLICT |
+
+每个请求携带的草稿修订号都与存储值一致，拒绝后users、surveys、survey_versions、responses四集合完整文档均不变，失败key没有对应的版本。外问卷场景通过正常API另建并发布独立问卷，它的完整文档也在比较范围内。
+
+随后保持相同草稿、修订号和失败key，只把当前版本预期更正为V2，均201生成V3；说明失败尝试没有占用key，拒绝也不是定义非法。完整快照确认成功仅新增该版本，并更新目标问卷的currentVersionId、lastVersionNo、updatedAt，原版本、实名答卷、账号、政策锁、提交序号和修订均保留。
+
+按成功时原参数再发同key，200/Idempotent-Replay=true，返回原V3且全文不变；同一个已成功key改为当前V3预期则409/IDEMPOTENCY_CONFLICT，全文仍不变。失败key可更正与成功key绑定参数是两个不同边界。
+
+## 两个发布事务同时竞争
+
+另例以V1及已有实名答卷为基准，两个不同publishKey携带相同的正确草稿修订和当前V1预期。
+
+测试临时包装Repository.insert_version入口；两请求都已进入真实事务、读取并通过草稿/当前版本检查，各准备了不同ID的V2文档后才统一放行。放行前所有请求未完成，四集合全文仍与基准相同。包装器不修改参数，继续调用原仓储方法执行真实Mongo写入、事务冲突与重试；不用sleep推断先后，不伪造返回。异常退出会释放屏障、回收任务并恢复原方法。
+
+本批实际按请求顺序返回201/409，插入入口次数1/1；第一份胜出，不预设这个顺序必然重复。只有一个新V2，问卷指针/lastVersionNo均指向V2，draftRevision仍1，失败key没有版本文档，原V1与实名答卷全文不变。不是只核对HTTP状态或集合份数。
+
+失败方原参数重试仍409/PUBLISH_CONFLICT，胜者原参数重放200且原V2相同，四集合不变。失败方刷新当前版本预期为V2、保留自己的key后可201发布V3；实际版本号严格为1/2/3，没有孤立版本或失败残留。此时胜者最初的成功请求仍200恢复原V2，不被当前V3重新解释，也不产生新写入。
+
+## 执行批次与复现
+
+新增两个测试函数展开为5项用例，其中4项是独立错误当前版本参数，另1项为竞争。再选跑既有草稿/发布CAS与重放、版本插入后失败回滚、旧V1填写跨V2及跨版本限次3项回归。**同批8项通过，0失败/跳过，3.62秒**；用例内重试和正向请求不另计pytest数量。
+
+在项目目录运行，需已有本项目MongoDB副本集，测试使用随机隔离库：
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_publish_version_cas.py tests/test_api.py::test_draft_cas_and_publish_cas_idempotency tests/test_api.py::test_publish_transaction_rolls_back_snapshot_and_pointer tests/test_api.py::test_old_version_fill_survives_v2_and_repeat_policy_spans_versions -q -s --junitxml=docs/evidence/publish-cas-tests-20261021.xml
+```
+
+- [原始输出](evidence/publish-cas-tests-20261021.txt)及[JUnit](evidence/publish-cas-tests-20261021.xml)。
+- 五项实际结果摘要（本地完整材料），由通过测试打印的结果提取，保留实际状态、屏障到达情况和胜者索引，不保存令牌或内部参与者标识。
+- 演示库前（本地完整材料）/后（本地完整材料）完整规范BSON和.env字节摘要一致，原2账号、5问卷、5版本、6答卷保留，未新增演示业务文档。
+- 本轮文件及范围摘要（本地完整材料），用于核对同步，不代表第一阶段最终冻结。
+
+T10本轮缺口已补齐。测试没有伪造驱动错误或响应，也没有模拟HTTP回执丢失、断网、全部调度交错、多节点故障或性能负载；没有重跑全量后端、前端检查/构建、浏览器或干净安装。T11的发布回执丢失实验仍未做，不把旧成功重放更名成该实验。
+
+下一步补T23中必要字段删除及关键集合结构约束的代表性拒绝证据；页面、干净安装、性能、正式报告和最终回归仍见[收尾清单](acceptance-status.md)。第一阶段尚未全部完成。

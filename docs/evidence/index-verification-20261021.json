@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-21",
+  "stage": 1,
+  "experimentSha256": "bf0d437c27ad5d49bd9a5d3a93b600b7fb7999e871ef3f38d4edcd59b75b3b37",
+  "cases": 5,
+  "modesPerCase": 3,
+  "timedRepeatsPerMode": 7,
+  "allActualResultsEqual": true,
+  "independentExpectationsPassed": true,
+  "defaultOptimizerUsesExistingIndexes": true,
+  "originalDataAndEnvUnchanged": true,
+  "businessCodeSchemaIndexesFrontendUnchanged": true,
+  "ownedDatabaseRemoved": true,
+  "regressionBatch": "Previous final batch, not rerun in this read-query experiment",
+  "externalSubmissionPerformed": false,
+  "previousManifestSha256": "17433f6419387af2a80276f99e198a597375c19498737e92cf38d4d0422599fd"
+}

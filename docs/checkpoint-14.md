@@ -1,0 +1,45 @@
+# 第十四轮检查点：首次提交与多填政策竞态
+
+日期：2026年10月21日。范围：补齐T17中“提交先取得事务gate，再并发修改多填政策”的证据。现有业务逻辑通过核验，本轮只新增测试与说明，没有修改后端业务代码、前端、Schema、依赖或配置。
+
+## 如何确定先后顺序
+
+[新增测试](../tests/test_policy_race.py)调用真实ASGI应用及MongoDB副本集，每例使用既有fixture生成并清理自己的随机测试库。没有替换驱动、数据库、事务或HTTP响应。
+
+1. 首次提交在真实事务中完成submission_gate写入，使用既有after_submission_gate测试hook暂停。记录事务内政策、policyLocked=true、序号1。
+2. 外部读取users、surveys、survey_versions、responses，全文仍与提交前相同，确认未提交的gate没有泄漏。
+3. 通过HTTP发起政策修改，用只读currentOp匹配该随机库、问卷ID及目标allowMultiple，确认真实findAndModify已到达服务器且请求未完成，然后才放行提交。0.01秒仅为检查条件的轮询间隔，不以等待时长推断顺序。
+4. 等两个真实请求结束，核对返回值、四集合完整文档、政策和修订、唯一字段、后续提交的实际结果。断言失败时也会释放屏障、取消并回收自己创建的任务，避免留下活事务。
+
+本地三条currentOp记录active=true、waitingForLock=false；没有将它们描述成锁等待指标。测试环境需要允许观察currentOp，业务代码没有新增该调用或权限。原始操作内容和账号/填写令牌、密码摘要、内部参与者键不写入结果证据。
+
+## 实际结果
+
+| 情况 | 首次提交 | 并发政策修改 | 持久化与正向核对 |
+|---|---|---|---|
+| 原来限一次，试改允许多填 | 201 | 409/POLICY_LOCKED | 仍限一次，1份/序号1，含一次性唯一字段；同账号新标识再交409/ALREADY_SUBMITTED，全文不变 |
+| 原来允许多填，试改限一次 | 201 | 409/POLICY_LOCKED | 仍允许多填，首份不含一次性字段；再交201，2份/序号2，原答卷全文不变 |
+| 原来允许多填，事务内跨截止，试改限一次 | 409/SURVEY_EXPIRED | 200 | 真实事务回滚，答卷0/序号0/政策锁false，完整快照仅有预期设置字段改变；设置修订加1 |
+
+前两例还确认：冲突请求不递增settingsRevision；同时带政策与截止的混合请求409，四集合全文不变；仅改合法截止200，其他字段和原答卷不变。锁定多填政策不妨碍合法调整截止。
+
+第三例通过既有可注入服务端时钟闭包，从存储截止前1秒推进到后1秒；这不是等待真实墙钟到期，也不是伪造错误返回。gate之后的真实check_open拒绝并导致真实事务回滚。清除截止后再交201，使用刚改好的限一次政策、一次性唯一字段和acceptedSeq=1；第二份新标识409且四集合全文不变，说明被撤销的首次尝试不算正式答卷。
+
+## 执行批次和复现
+
+新增两个测试函数展开为3个pytest参数用例，另选跑9项既有相关回归：设置先完成1项、关闭先后顺序2项、20个不同标识两种政策2项、gate跨截止1项、事务恢复3项。**同批12项通过，0失败/跳过，6.25秒**。用例内混合修改等请求步骤不另计独立pytest。
+
+在项目目录运行（需已有本项目MongoDB副本集，测试使用随机隔离库）：
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_policy_race.py tests/test_api.py::test_setting_policy_before_first_commit_uses_latest_inside_transaction tests/test_api.py::test_close_and_submit_controlled_order tests/test_api.py::test_twenty_distinct_keys_respect_multiple_policy tests/test_api.py::test_gate_wait_crossing_deadline_aborts_all_writes tests/test_transaction_recovery.py -q -s --junitxml=docs/evidence/policy-tests-20261021.xml
+```
+
+- [原始输出](evidence/policy-tests-20261021.txt)与[JUnit](evidence/policy-tests-20261021.xml)。
+- 三项实际结果摘要（本地完整材料），从通过测试打印的结构化结果提取，包含实际活动命令观察值。
+- 演示库前（本地完整材料）/后（本地完整材料）完整规范BSON摘要及.env字节摘要相同，保留2账号、5问卷、5版本、6答卷；没有新增演示业务文档。
+- 本轮范围与文件摘要（本地完整材料），用于核对测试、说明及现有产品代码，不代表第一阶段最终冻结。
+
+这是一次确定关键先后关系的真实事务专项，既有设置先完成的回归也在同批通过。没有声称穷尽所有交错、多节点网络故障或所有外部部署；没有重跑全部后端、前端会话/定位、类型检查或构建，没有进行浏览器操作、压测或干净安装。
+
+T17本轮缺口已补齐；T01、T10、T23其余子场景、代表性页面检查、T24干净安装、性能、正式报告及最终回归仍见[收尾清单](acceptance-status.md)，第一阶段尚未全部完成。

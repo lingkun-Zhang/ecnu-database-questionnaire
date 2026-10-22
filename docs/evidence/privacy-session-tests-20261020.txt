@@ -1,0 +1,50 @@
+
+> wenchuan-survey@1.0.0 test:session
+> node --test --test-reporter=tap tests/session.test.cjs
+
+TAP version 13
+# Subtest: 401 clears account A data before account B signs in
+ok 1 - 401 clears account A data before account B signs in
+  ---
+  duration_ms: 86.5964
+  type: 'test'
+  ...
+# Subtest: late 401 from A cannot log out a newly authenticated B
+ok 2 - late 401 from A cannot log out a newly authenticated B
+  ---
+  duration_ms: 49.0026
+  type: 'test'
+  ...
+# Subtest: late successful statistics from A cannot repopulate account B view
+ok 3 - late successful statistics from A cannot repopulate account B view
+  ---
+  duration_ms: 34.7658
+  type: 'test'
+  ...
+# Subtest: late submission receipt stays out of B and keeps A recovery record
+ok 4 - late submission receipt stays out of B and keeps A recovery record
+  ---
+  duration_ms: 36.6475
+  type: 'test'
+  ...
+# Subtest: token change in another page clears this view without deleting its new token
+ok 5 - token change in another page clears this view without deleting its new token
+  ---
+  duration_ms: 27.5683
+  type: 'test'
+  ...
+# Subtest: CSV download allows current session and discards a blob after switching accounts
+ok 6 - CSV download allows current session and discards a blob after switching accounts
+  ---
+  duration_ms: 28.7985
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 935.8706

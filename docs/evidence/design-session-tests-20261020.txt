@@ -1,0 +1,116 @@
+
+> wenchuan-survey@1.0.0 test:session
+> node --test --test-reporter=tap tests/session.test.cjs
+
+TAP version 13
+# Subtest: 401 clears account A data before account B signs in
+ok 1 - 401 clears account A data before account B signs in
+  ---
+  duration_ms: 91.2618
+  type: 'test'
+  ...
+# Subtest: late 401 from A cannot log out a newly authenticated B
+ok 2 - late 401 from A cannot log out a newly authenticated B
+  ---
+  duration_ms: 58.9431
+  type: 'test'
+  ...
+# Subtest: late successful statistics from A cannot repopulate account B view
+ok 3 - late successful statistics from A cannot repopulate account B view
+  ---
+  duration_ms: 49.3882
+  type: 'test'
+  ...
+# Subtest: late submission receipt stays out of B and keeps A recovery record
+ok 4 - late submission receipt stays out of B and keeps A recovery record
+  ---
+  duration_ms: 39.1852
+  type: 'test'
+  ...
+# Subtest: submitFill retains its original request and recovery record after a simulated 503
+ok 5 - submitFill retains its original request and recovery record after a simulated 503
+  ---
+  duration_ms: 37.3228
+  type: 'test'
+  ...
+# Subtest: same-account login after logout and refresh replays only the exact saved submission
+ok 6 - same-account login after logout and refresh replays only the exact saved submission
+  ---
+  duration_ms: 74.5854
+  type: 'test'
+  ...
+# Subtest: token change in another page clears this view without deleting its new token
+ok 7 - token change in another page clears this view without deleting its new token
+  ---
+  duration_ms: 41.7992
+  type: 'test'
+  ...
+# Subtest: CSV download allows current session and discards a blob after switching accounts
+ok 8 - CSV download allows current session and discards a blob after switching accounts
+  ---
+  duration_ms: 28.2307
+  type: 'test'
+  ...
+# Subtest: respondent filter preserves the boundary for details, pagination and CSV
+ok 9 - respondent filter preserves the boundary for details, pagination and CSV
+  ---
+  duration_ms: 37.6498
+  type: 'test'
+  ...
+# Subtest: late statistics cannot replace a newer respondent filter
+ok 10 - late statistics cannot replace a newer respondent filter
+  ---
+  duration_ms: 39.5255
+  type: 'test'
+  ...
+# Subtest: late question details cannot replace a newer selection in the same filtered view
+ok 11 - late question details cannot replace a newer selection in the same filtered view
+  ---
+  duration_ms: 38.2676
+  type: 'test'
+  ...
+# Subtest: opening another survey statistics clears the previous question and respondent filter
+ok 12 - opening another survey statistics clears the previous question and respondent filter
+  ---
+  duration_ms: 27.9066
+  type: 'test'
+  ...
+# Subtest: definition errors mount the editor before focusing and expire on the next edit
+ok 13 - definition errors mount the editor before focusing and expire on the next edit
+  ---
+  duration_ms: 35.5646
+  type: 'test'
+  ...
+# Subtest: a preview response arriving during the edit debounce cannot restore an obsolete definition error
+ok 14 - a preview response arriving during the edit debounce cannot restore an obsolete definition error
+  ---
+  duration_ms: 34.8533
+  type: 'test'
+  ...
+# Subtest: design warnings focus the editor without becoming blocking errors and expire on edit
+ok 15 - design warnings focus the editor without becoming blocking errors and expire on edit
+  ---
+  duration_ms: 28.5482
+  type: 'test'
+  ...
+# Subtest: late design warnings cannot restore results after editing, navigation, or account changes
+ok 16 - late design warnings cannot restore results after editing, navigation, or account changes
+  ---
+  duration_ms: 32.1632
+  type: 'test'
+  ...
+# Subtest: the latest design check wins and failed checks cannot display a clean result
+ok 17 - the latest design check wins and failed checks cannot display a clean result
+  ---
+  duration_ms: 35.2416
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1486.4965

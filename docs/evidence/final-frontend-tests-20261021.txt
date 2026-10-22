@@ -1,0 +1,268 @@
+TAP version 13
+# Subtest: wrapping a configured numeric answer retains its operator and value
+ok 1 - wrapping a configured numeric answer retains its operator and value
+  ---
+  duration_ms: 2.446
+  type: 'test'
+  ...
+# Subtest: AND to OR and back preserves siblings, nested groups, boundaries and ordering
+ok 2 - AND to OR and back preserves siblings, nested groups, boundaries and ordering
+  ---
+  duration_ms: 0.8033
+  type: 'test'
+  ...
+# Subtest: number wrapping and repeated group changes retain the configured answer
+ok 3 - number wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.329
+  type: 'test'
+  ...
+# Subtest: single wrapping and repeated group changes retain the configured answer
+ok 4 - single wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.2443
+  type: 'test'
+  ...
+# Subtest: multi wrapping and repeated group changes retain the configured answer
+ok 5 - multi wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.2589
+  type: 'test'
+  ...
+# Subtest: a saved validation error follows question and rule IDs after independent reordering
+ok 6 - a saved validation error follows question and rule IDs after independent reordering
+  ---
+  duration_ms: 2.1926
+  type: 'test'
+  ...
+# Subtest: a globally unique rule ID can locate its current owner, while an explicit former owner cannot
+ok 7 - a globally unique rule ID can locate its current owner, while an explicit former owner cannot
+  ---
+  duration_ms: 0.334
+  type: 'test'
+  ...
+# Subtest: nested any/all condition paths preserve the exact edited leaf and range boundary
+ok 8 - nested any/all condition paths preserve the exact edited leaf and range boundary
+  ---
+  duration_ms: 1.0136
+  type: 'test'
+  ...
+# Subtest: index-only backend errors locate legal existing fields, including option wording and required properties
+ok 9 - index-only backend errors locate legal existing fields, including option wording and required properties
+  ---
+  duration_ms: 0.3793
+  type: 'test'
+  ...
+# Subtest: definition metadata and entry errors open their actual editor sections
+ok 10 - definition metadata and entry errors open their actual editor sections
+  ---
+  duration_ms: 0.192
+  type: 'test'
+  ...
+# Subtest: whole constraint errors direct users to the first bound and explicitly cover both bounds
+ok 11 - whole constraint errors direct users to the first bound and explicitly cover both bounds
+  ---
+  duration_ms: 0.2056
+  type: 'test'
+  ...
+# Subtest: deleted or duplicate stable IDs cannot fall back to a different item at the old index
+ok 12 - deleted or duplicate stable IDs cannot fall back to a different item at the old index
+  ---
+  duration_ms: 0.2612
+  type: 'test'
+  ...
+# Subtest: stable ID edits and collection structure errors retain their original JSON paths
+ok 13 - stable ID edits and collection structure errors retain their original JSON paths
+  ---
+  duration_ms: 0.2565
+  type: 'test'
+  ...
+# Subtest: unknown fields, malformed paths, and absent nested nodes never select a nearby control
+ok 14 - unknown fields, malformed paths, and absent nested nodes never select a nearby control
+  ---
+  duration_ms: 0.2688
+  type: 'test'
+  ...
+# Subtest: unrenderable condition or config structures are handled without throwing
+ok 15 - unrenderable condition or config structures are handled without throwing
+  ---
+  duration_ms: 0.2713
+  type: 'test'
+  ...
+# Subtest: single and multiple choice comparisons resolve to their value controls
+ok 16 - single and multiple choice comparisons resolve to their value controls
+  ---
+  duration_ms: 0.2072
+  type: 'test'
+  ...
+# Subtest: resolving an error does not rewrite the draft or backend diagnostic
+ok 17 - resolving an error does not rewrite the draft or backend diagnostic
+  ---
+  duration_ms: 0.4666
+  type: 'test'
+  ...
+# Subtest: the JSON rendering guard rejects null containers and malformed records before component rendering
+ok 18 - the JSON rendering guard rejects null containers and malformed records before component rendering
+  ---
+  duration_ms: 0.7369
+  type: 'test'
+  ...
+# Subtest: the rendering guard preserves semantic failures for backend diagnostics without changing the import
+ok 19 - the rendering guard preserves semantic failures for backend diagnostics without changing the import
+  ---
+  duration_ms: 0.2296
+  type: 'test'
+  ...
+# Subtest: the rendering guard bounds deep, cyclic and oversized condition trees
+ok 20 - the rendering guard bounds deep, cyclic and oversized condition trees
+  ---
+  duration_ms: 7.389
+  type: 'test'
+  ...
+# Subtest: submit preflight preserves SURVEY_CLOSED and the answer without creating a recovery key or POST submission
+ok 21 - submit preflight preserves SURVEY_CLOSED and the answer without creating a recovery key or POST submission
+  ---
+  duration_ms: 101.0466
+  type: 'test'
+  ...
+# Subtest: a stale open invitation adopts closed after a rejected start and resets with the account
+ok 22 - a stale open invitation adopts closed after a rejected start and resets with the account
+  ---
+  duration_ms: 62.3892
+  type: 'test'
+  ...
+# Subtest: submit preflight preserves SURVEY_EXPIRED and the answer without creating a recovery key or POST submission
+ok 23 - submit preflight preserves SURVEY_EXPIRED and the answer without creating a recovery key or POST submission
+  ---
+  duration_ms: 53.1394
+  type: 'test'
+  ...
+# Subtest: a stale open invitation adopts expired after a rejected start and resets with the account
+ok 24 - a stale open invitation adopts expired after a rejected start and resets with the account
+  ---
+  duration_ms: 33.9121
+  type: 'test'
+  ...
+# Subtest: closing requires a separate confirmation, Escape cancels, and confirm uses the displayed revision
+ok 25 - closing requires a separate confirmation, Escape cancels, and confirm uses the displayed revision
+  ---
+  duration_ms: 36.4452
+  type: 'test'
+  ...
+# Subtest: an old close confirmation cannot act on a different active survey or survive logout
+ok 26 - an old close confirmation cannot act on a different active survey or survive logout
+  ---
+  duration_ms: 35.8548
+  type: 'test'
+  ...
+# Subtest: 401 clears account A data before account B signs in
+ok 27 - 401 clears account A data before account B signs in
+  ---
+  duration_ms: 33.5731
+  type: 'test'
+  ...
+# Subtest: late 401 from A cannot log out a newly authenticated B
+ok 28 - late 401 from A cannot log out a newly authenticated B
+  ---
+  duration_ms: 35.8983
+  type: 'test'
+  ...
+# Subtest: late successful statistics from A cannot repopulate account B view
+ok 29 - late successful statistics from A cannot repopulate account B view
+  ---
+  duration_ms: 32.592
+  type: 'test'
+  ...
+# Subtest: late submission receipt stays out of B and keeps A recovery record
+ok 30 - late submission receipt stays out of B and keeps A recovery record
+  ---
+  duration_ms: 27.4753
+  type: 'test'
+  ...
+# Subtest: submitFill retains its original request and recovery record after a simulated 503
+ok 31 - submitFill retains its original request and recovery record after a simulated 503
+  ---
+  duration_ms: 32.0525
+  type: 'test'
+  ...
+# Subtest: same-account login after logout and refresh replays only the exact saved submission
+ok 32 - same-account login after logout and refresh replays only the exact saved submission
+  ---
+  duration_ms: 45.4965
+  type: 'test'
+  ...
+# Subtest: token change in another page clears this view without deleting its new token
+ok 33 - token change in another page clears this view without deleting its new token
+  ---
+  duration_ms: 27.46
+  type: 'test'
+  ...
+# Subtest: CSV download allows current session and discards a blob after switching accounts
+ok 34 - CSV download allows current session and discards a blob after switching accounts
+  ---
+  duration_ms: 24.3588
+  type: 'test'
+  ...
+# Subtest: respondent filter preserves the boundary for details, pagination and CSV
+ok 35 - respondent filter preserves the boundary for details, pagination and CSV
+  ---
+  duration_ms: 32.3568
+  type: 'test'
+  ...
+# Subtest: late statistics cannot replace a newer respondent filter
+ok 36 - late statistics cannot replace a newer respondent filter
+  ---
+  duration_ms: 36.0396
+  type: 'test'
+  ...
+# Subtest: late question details cannot replace a newer selection in the same filtered view
+ok 37 - late question details cannot replace a newer selection in the same filtered view
+  ---
+  duration_ms: 30.6714
+  type: 'test'
+  ...
+# Subtest: opening another survey statistics clears the previous question and respondent filter
+ok 38 - opening another survey statistics clears the previous question and respondent filter
+  ---
+  duration_ms: 38.434
+  type: 'test'
+  ...
+# Subtest: definition errors mount the editor before focusing and expire on the next edit
+ok 39 - definition errors mount the editor before focusing and expire on the next edit
+  ---
+  duration_ms: 28.1652
+  type: 'test'
+  ...
+# Subtest: a preview response arriving during the edit debounce cannot restore an obsolete definition error
+ok 40 - a preview response arriving during the edit debounce cannot restore an obsolete definition error
+  ---
+  duration_ms: 28.057
+  type: 'test'
+  ...
+# Subtest: design warnings focus the editor without becoming blocking errors and expire on edit
+ok 41 - design warnings focus the editor without becoming blocking errors and expire on edit
+  ---
+  duration_ms: 28.5344
+  type: 'test'
+  ...
+# Subtest: late design warnings cannot restore results after editing, navigation, or account changes
+ok 42 - late design warnings cannot restore results after editing, navigation, or account changes
+  ---
+  duration_ms: 32.1368
+  type: 'test'
+  ...
+# Subtest: the latest design check wins and failed checks cannot display a clean result
+ok 43 - the latest design check wins and failed checks cannot display a clean result
+  ---
+  duration_ms: 41.4589
+  type: 'test'
+  ...
+1..43
+# tests 43
+# suites 0
+# pass 43
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1769.1878

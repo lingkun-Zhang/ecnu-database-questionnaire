@@ -1,0 +1,6 @@
+..........sss..............                            [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_runner_control.py:231: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:240: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:248: Symlinks unavailable: OSError
+24 passed, 3 skipped, 18 subtests passed in 0.94s

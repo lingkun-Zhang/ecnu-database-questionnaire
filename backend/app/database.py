@@ -1,0 +1,305 @@
+"""MongoDB collection contracts and the indexes used by the application.
+
+The application owns the AsyncMongoClient and calls init_database during lifespan.
+This module never creates a client or resets existing data.
+"""
+
+from __future__ import annotations
+
+from copy import deepcopy
+from typing import Any
+
+from pymongo import ASCENDING, DESCENDING, IndexModel
+from pymongo.errors import CollectionInvalid, OperationFailure
+
+
+INTEGER = {"bsonType": ["int", "long"]}
+NONNEGATIVE = {**INTEGER, "minimum": 0}
+POSITIVE = {**INTEGER, "minimum": 1}
+STRING_ID = {"bsonType": "string", "minLength": 1, "maxLength": 160}
+TOKEN_ID = {**STRING_ID, "pattern": "^[A-Za-z0-9_-]+$"}
+DATE = {"bsonType": "date"}
+NUMBER = {
+    "bsonType": ["int", "long", "double"],
+    "minimum": -9007199254740991,
+    "maximum": 9007199254740991,
+}
+
+
+def _object(properties: dict[str, Any], required: list[str]) -> dict[str, Any]:
+    schema = {
+        "bsonType": "object",
+        "additionalProperties": False,
+        "properties": properties,
+    }
+    if required:
+        schema["required"] = required
+    return schema
+
+
+OPTION_SCHEMA = _object(
+    {"id": TOKEN_ID, "label": {"bsonType": "string", "minLength": 1, "maxLength": 1000}},
+    ["id", "label"],
+)
+
+RULE_SCHEMA = _object(
+    {
+        "id": TOKEN_ID,
+        "priority": INTEGER,
+        # The domain layer validates the bounded, typed condition grammar.
+        "condition": {"bsonType": "object"},
+        "target": TOKEN_ID,
+    },
+    ["id", "priority", "condition", "target"],
+)
+
+QUESTION_SCHEMA = _object(
+    {
+        "id": TOKEN_ID,
+        "kind": {"enum": ["single", "multi", "text", "number"]},
+        "title": {"bsonType": "string", "minLength": 1, "maxLength": 1000},
+        "required": {"bsonType": "bool"},
+        "config": _object(
+            {
+                "options": {"bsonType": "array", "maxItems": 50, "items": OPTION_SCHEMA},
+                "minSelected": {"bsonType": ["int", "long", "null"], "minimum": 0},
+                "maxSelected": {"bsonType": ["int", "long", "null"], "minimum": 0},
+                "minLength": {"bsonType": ["int", "long", "null"], "minimum": 0},
+                "maxLength": {"bsonType": ["int", "long", "null"], "minimum": 0},
+                "min": {"bsonType": ["int", "long", "double", "null"]},
+                "max": {"bsonType": ["int", "long", "double", "null"]},
+                "integerOnly": {"bsonType": "bool"},
+            },
+            [],
+        ),
+        "defaultTarget": TOKEN_ID,
+        "rules": {"bsonType": "array", "maxItems": 20, "items": RULE_SCHEMA},
+    },
+    ["id", "kind", "title", "required", "config", "defaultTarget", "rules"],
+)
+
+
+def _definition_schema(*, draft: bool) -> dict[str, Any]:
+    question_schema = deepcopy(QUESTION_SCHEMA)
+    if draft:
+        # Editing an unfinished title/option must remain saveable; publishing is
+        # checked against the complete definition and the stricter schema.
+        question_schema["properties"]["title"]["minLength"] = 0
+        question_schema["properties"]["config"]["properties"]["options"]["items"]["properties"]["label"]["minLength"] = 0
+    return _object(
+        {
+            "title": {"bsonType": "string", "minLength": 1, "maxLength": 500},
+            "description": {"bsonType": "string", "maxLength": 20000},
+            "allowAnonymous": {"bsonType": "bool"},
+            "entryQuestionId": (
+                {"bsonType": ["string", "null"], "maxLength": 160}
+                if draft
+                else TOKEN_ID
+            ),
+            "questions": {
+                "bsonType": "array",
+                "minItems": 0 if draft else 1,
+                "maxItems": 100,
+                "items": question_schema,
+            },
+        },
+        ["title", "description", "allowAnonymous", "entryQuestionId", "questions"],
+    )
+
+
+def _answer_variant(kind: str, value: dict[str, Any]) -> dict[str, Any]:
+    return _object(
+        {"questionId": TOKEN_ID, "kind": {"enum": [kind]}, "value": value},
+        ["questionId", "kind", "value"],
+    )
+
+
+ANSWER_SCHEMA = {
+    "oneOf": [
+        _answer_variant("single", TOKEN_ID),
+        _answer_variant(
+            "multi",
+            {
+                "bsonType": "array",
+                "minItems": 1,
+                "maxItems": 50,
+                "uniqueItems": True,
+                "items": TOKEN_ID,
+            },
+        ),
+        _answer_variant("text", {"bsonType": "string", "minLength": 1, "maxLength": 10000}),
+        _answer_variant("number", NUMBER),
+    ]
+}
+
+USER_SCHEMA = _object(
+    {
+        "_id": STRING_ID,
+        "username": {"bsonType": "string", "minLength": 3, "maxLength": 32},
+        # Unicode casefold can expand characters, so it is not capped at 32.
+        "usernameKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
+        "passwordHash": {"bsonType": "string", "minLength": 1, "maxLength": 2000},
+        "createdAt": DATE,
+        "schemaVersion": POSITIVE,
+    },
+    ["_id", "username", "usernameKey", "passwordHash", "createdAt", "schemaVersion"],
+)
+
+SURVEY_SCHEMA = _object(
+    {
+        "_id": STRING_ID,
+        "ownerId": STRING_ID,
+        "publicId": STRING_ID,
+        "draft": _definition_schema(draft=True),
+        "draftRevision": NONNEGATIVE,
+        "currentVersionId": {"bsonType": ["string", "null"], "maxLength": 160},
+        "lastVersionNo": NONNEGATIVE,
+        "status": {"enum": ["draft", "open", "closed"]},
+        "deadlineAt": {"bsonType": ["date", "null"]},
+        "allowMultiple": {"bsonType": "bool"},
+        "policyLocked": {"bsonType": "bool"},
+        "settingsRevision": NONNEGATIVE,
+        "submitSequence": NONNEGATIVE,
+        "createdAt": DATE,
+        "updatedAt": DATE,
+        "schemaVersion": POSITIVE,
+    },
+    [
+        "_id", "ownerId", "publicId", "draft", "draftRevision", "currentVersionId",
+        "lastVersionNo", "status", "deadlineAt", "allowMultiple", "policyLocked",
+        "settingsRevision", "submitSequence", "createdAt", "updatedAt", "schemaVersion",
+    ],
+)
+
+VERSION_SCHEMA = _object(
+    {
+        "_id": STRING_ID,
+        "surveyId": STRING_ID,
+        "versionNo": POSITIVE,
+        "sourceDraftRevision": NONNEGATIVE,
+        "definition": _definition_schema(draft=False),
+        "publishKey": STRING_ID,
+        "publishRequestDigest": {"bsonType": "string", "minLength": 1, "maxLength": 256},
+        "publishedAt": DATE,
+        "schemaVersion": POSITIVE,
+    },
+    [
+        "_id", "surveyId", "versionNo", "sourceDraftRevision", "definition",
+        "publishKey", "publishRequestDigest", "publishedAt", "schemaVersion",
+    ],
+)
+
+RESPONSE_SCHEMA = _object(
+    {
+        "_id": STRING_ID,
+        "surveyId": STRING_ID,
+        "versionId": STRING_ID,
+        "participantKey": STRING_ID,
+        "submissionKey": STRING_ID,
+        "payloadDigest": {"bsonType": "string", "minLength": 1, "maxLength": 256},
+        "canonicalizationVersion": POSITIVE,
+        "anonymous": {"bsonType": "bool"},
+        "identity": _object(
+            {"userId": STRING_ID, "usernameAtSubmit": {"bsonType": "string", "minLength": 3, "maxLength": 32}},
+            ["userId", "usernameAtSubmit"],
+        ),
+        "answers": {"bsonType": "array", "maxItems": 100, "items": ANSWER_SCHEMA},
+        "path": {"bsonType": "array", "minItems": 1, "maxItems": 100, "uniqueItems": True, "items": TOKEN_ID},
+        "acceptedSeq": POSITIVE,
+        "acceptedAt": DATE,
+        "oneTimeParticipantKey": STRING_ID,
+        "schemaVersion": POSITIVE,
+    },
+    [
+        "_id", "surveyId", "versionId", "participantKey", "submissionKey",
+        "payloadDigest", "canonicalizationVersion", "anonymous", "answers", "path",
+        "acceptedSeq", "acceptedAt", "schemaVersion",
+    ],
+)
+RESPONSE_SCHEMA["oneOf"] = [
+    {"properties": {"anonymous": {"enum": [True]}}, "not": {"required": ["identity"]}},
+    {"properties": {"anonymous": {"enum": [False]}}, "required": ["identity"]},
+]
+
+VALIDATORS: dict[str, dict[str, Any]] = {
+    "users": {"$jsonSchema": USER_SCHEMA},
+    "surveys": {"$jsonSchema": SURVEY_SCHEMA},
+    "survey_versions": {"$jsonSchema": VERSION_SCHEMA},
+    "responses": {
+        "$and": [
+            {"$jsonSchema": RESPONSE_SCHEMA},
+            {
+                "$expr": {
+                    "$let": {
+                        "vars": {
+                            "safeAnswers": {"$cond": [{"$isArray": "$answers"}, "$answers", []]},
+                            "safePath": {"$cond": [{"$isArray": "$path"}, "$path", []]},
+                        },
+                        "in": {
+                            "$let": {
+                                "vars": {"ids": {"$map": {"input": "$$safeAnswers", "as": "answer", "in": "$$answer.questionId"}}},
+                                "in": {"$and": [
+                                    {"$eq": [{"$size": "$$safeAnswers"}, {"$size": {"$setUnion": ["$$ids", []]}}]},
+                                    {"$setIsSubset": ["$$ids", "$$safePath"]},
+                                    {"$or": [
+                                        {"$eq": [{"$type": "$oneTimeParticipantKey"}, "missing"]},
+                                        {"$eq": ["$oneTimeParticipantKey", "$participantKey"]},
+                                    ]},
+                                ]},
+                            }
+                        },
+                    }
+                }
+            },
+        ]
+    },
+}
+
+INDEXES: dict[str, list[IndexModel]] = {
+    "users": [IndexModel([("usernameKey", ASCENDING)], unique=True, name="uq_users_username_key")],
+    "surveys": [
+        IndexModel([("publicId", ASCENDING)], unique=True, name="uq_surveys_public_id"),
+        IndexModel([("ownerId", ASCENDING), ("createdAt", DESCENDING), ("_id", DESCENDING)], name="ix_surveys_owner_created"),
+    ],
+    "survey_versions": [
+        IndexModel([("surveyId", ASCENDING), ("versionNo", ASCENDING)], unique=True, name="uq_versions_survey_number"),
+        IndexModel([("surveyId", ASCENDING), ("publishKey", ASCENDING)], unique=True, name="uq_versions_publish_key"),
+    ],
+    "responses": [
+        IndexModel([("surveyId", ASCENDING), ("participantKey", ASCENDING), ("submissionKey", ASCENDING)], unique=True, name="uq_responses_submission"),
+        IndexModel(
+            [("surveyId", ASCENDING), ("oneTimeParticipantKey", ASCENDING)],
+            unique=True,
+            partialFilterExpression={"oneTimeParticipantKey": {"$type": "string"}},
+            name="uq_responses_one_time_participant",
+        ),
+        IndexModel([("surveyId", ASCENDING), ("acceptedSeq", ASCENDING)], unique=True, name="uq_responses_accepted_sequence"),
+        IndexModel([("surveyId", ASCENDING), ("versionId", ASCENDING), ("acceptedSeq", DESCENDING)], name="ix_responses_version_sequence"),
+    ],
+}
+
+
+async def init_database(db: Any) -> None:
+    """Create or update contracts without dropping collections or business data.
+
+    Existing invalid documents are not silently repaired. MongoDB will enforce the
+    strict validator on subsequent writes, and conflicting indexes fail startup.
+    """
+    existing = set(await db.list_collection_names())
+    for name, validator in VALIDATORS.items():
+        options = {
+            "validator": deepcopy(validator),
+            "validationLevel": "strict",
+            "validationAction": "error",
+        }
+        if name not in existing:
+            try:
+                await db.create_collection(name, **options)
+            except (CollectionInvalid, OperationFailure) as exc:
+                # Another app process may have initialized the same database.
+                if not isinstance(exc, CollectionInvalid) and exc.code != 48:
+                    raise
+                await db.command({"collMod": name, **options})
+        else:
+            await db.command({"collMod": name, **options})
+        await db[name].create_indexes(INDEXES[name])

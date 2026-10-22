@@ -1,0 +1,7 @@
+...uu.......sssuuuuuuu..uuuuuuuuu.............PowerShell helper: 49 inner scenarios, 86 assertions, 0 failed
+.
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_runner_control.py:231: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:240: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:248: Symlinks unavailable: OSError
+26 passed, 3 skipped, 18 subtests passed in 13.71s

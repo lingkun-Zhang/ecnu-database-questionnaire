@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: wrapping a configured numeric answer retains its operator and value
+ok 1 - wrapping a configured numeric answer retains its operator and value
+  ---
+  duration_ms: 3.3098
+  type: 'test'
+  ...
+# Subtest: AND to OR and back preserves siblings, nested groups, boundaries and ordering
+ok 2 - AND to OR and back preserves siblings, nested groups, boundaries and ordering
+  ---
+  duration_ms: 0.9969
+  type: 'test'
+  ...
+# Subtest: number wrapping and repeated group changes retain the configured answer
+ok 3 - number wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.5463
+  type: 'test'
+  ...
+# Subtest: single wrapping and repeated group changes retain the configured answer
+ok 4 - single wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.3716
+  type: 'test'
+  ...
+# Subtest: multi wrapping and repeated group changes retain the configured answer
+ok 5 - multi wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.4762
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 964.5431

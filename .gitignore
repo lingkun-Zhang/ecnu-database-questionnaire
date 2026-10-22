@@ -1,0 +1,21 @@
+.env
+.env.*
+!.env.example
+.venv/
+.runtime/
+/提交包/
+frontend/node_modules/
+frontend/dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+docs/evidence/*.tmp
+~$*
+
+# Identified reports and private runtime evidence stay local
+docs/*.pdf
+docs/*.docx
+docs/evidence/*.png
+docs/evidence/*.jpg
+docs/evidence/*.csv

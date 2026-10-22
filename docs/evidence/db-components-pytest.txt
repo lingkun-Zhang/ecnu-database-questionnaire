@@ -1,0 +1,16 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0 -- PROJECT_ROOT\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: PROJECT_ROOT
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 5 items
+
+tests/test_database.py::test_init_is_repeatable_and_empty_draft_is_valid PASSED [ 20%]
+tests/test_database.py::test_six_samples_are_counted_by_mongodb PASSED   [ 40%]
+tests/test_database.py::test_fixed_sequence_and_empty_statistics PASSED  [ 60%]
+tests/test_database.py::test_response_schema_rejects_invalid_bson PASSED [ 80%]
+tests/test_database.py::test_unique_keys_and_partial_one_time_index PASSED [100%]
+
+============================== 5 passed in 2.52s ==============================

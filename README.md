@@ -9,7 +9,7 @@
 | 内容 | 入口 |
 |---|---|
 | 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
-| 增强功能、实现与实测结果 | [增强项检查表](docs/highlights.md)；下方也列出主要内容 |
+| 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
 | 测试范围、原始结果与需求对应 | [测试报告](docs/test-report.md)、[需求追踪](docs/requirements.md) |
 | 接口参数 | [API说明](docs/api.md)、[OpenAPI快照](docs/api-openapi.json)；运行后也可打开 `/docs` |
@@ -83,14 +83,14 @@ Set-Location ..
 
 ## 主要增强内容
 
-以下是基础流程之外的设计与实现，具体评分由课程标准决定。每项的代码、测试与结果入口集中在[增强项检查表](docs/highlights.md)。
+以下是基础流程之外的设计与实现，具体评分由课程标准决定。每项的代码、测试与结果入口集中在[功能说明与测试](docs/功能说明.md)。
 
 | 增强内容 | 说明与证据 |
 |---|---|
 | 数据库约束与真实索引实验 | 四集合BSON校验器、唯一/部分索引；1,000份问卷、20,000份合成答卷，五类查询对照默认计划、指定索引和全表扫描；[实验说明](docs/index-experiment.md)、[完整执行计划](docs/evidence/index-experiment-20261021.json) |
 | 不可变发布版本与并发冲突处理 | 草稿修订、发布预期检查、旧版本答卷解释与历史复制；[版本协议](docs/protocol.md)、[并发发布回归](tests/test_publish_version_cas.py) |
 | 事务、幂等与限次政策协调 | 重复提交恢复、关闭/截止与提交的顺序、失败回滚；[提交边界测试](tests/test_submission_boundaries.py)、[政策竞争测试](tests/test_policy_race.py)、[事务恢复测试](tests/test_transaction_recovery.py) |
-| 规则编辑与设计检查 | 嵌套且/或、优先级、路径外答案清理、可定位错误和五类非阻断设计提示；[规则协议](docs/protocol.md)、[8组单选/多选实例结果](docs/evidence/report-rule-examples-20261022.json) |
+| 规则编辑与设计检查 | 嵌套且/或、优先级、路径外答案清理、可定位错误和五类非阻断设计提示；[规则协议](docs/protocol.md)、[8组单选/多选实例结果](docs/evidence/routing-examples-20261022.json) |
 | 固定范围统计与隐私 | 按发布版本、题目及匿名/实名筛选；统计、分页、CSV使用相同序号范围；[统计组件实测](docs/evidence/db-components-report.md)、[筛选回归](tests/test_anonymity_filter.py) |
 | 编辑与交付可靠性 | 保存/发布等待期间锁定编辑、防迟到响应覆盖；独立安装与安全启停；[编辑保护摘要](docs/evidence/editor-lock-results-20261022.json)、[启停测试](tests/test_runner_control.py) |
 
@@ -115,4 +115,4 @@ docs/              设计、报告、需求追踪、AI记录与实测结果
 requirements.txt   锁定的Python依赖
 ```
 
-详细开发历史保留在 `docs/checkpoint*.md` 和 [测试报告](docs/test-report.md)。第二阶段需求尚未实施。
+详细开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段需求尚未实施。

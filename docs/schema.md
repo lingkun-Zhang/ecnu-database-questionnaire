@@ -28,7 +28,7 @@
 
 注册和登录共用用户名规范化。密码本身不去空白、不更改字符。public_user 只返回 id、username、createdAt；令牌不包含密码哈希。
 
-注册直接插入由服务端生成的新文档，最终以usernameKey上的真实唯一索引uq_users_username_key仲裁竞争；不能只靠“先查重、再插入”保证唯一。第十五轮验证两组8个不同UUID、相同规范查找键同时准备插入，每组只有1个新账号、其余409/USERNAME_EXISTS；不是由相同_id误触发冲突。保存的展示名、注册时间及密码属于实际胜者，败者密码不能登录，既有账号与问卷/版本/答卷全文不变。4个不同规范查找键并发均成功，说明没有把不同账号错误合并。见[checkpoint-15.md](checkpoint-15.md)；本轮只验证既有索引与实现，没有修改Schema。
+注册直接插入由服务端生成的新文档，最终以usernameKey上的真实唯一索引uq_users_username_key仲裁竞争；不能只靠“先查重、再插入”保证唯一。第十五轮验证两组8个不同UUID、相同规范查找键同时准备插入，每组只有1个新账号、其余409/USERNAME_EXISTS；不是由相同_id误触发冲突。保存的展示名、注册时间及密码属于实际胜者，败者密码不能登录，既有账号与问卷/版本/答卷全文不变。4个不同规范查找键并发均成功，说明没有把不同账号错误合并。见[15-并发注册.md](开发记录/15-并发注册.md)；本轮只验证既有索引与实现，没有修改Schema。
 
 ## 3. surveys
 
@@ -63,7 +63,7 @@ expired 是 API 根据服务端时间计算出的展示状态，不写入 status
 
 发布事务内再次读取归属、draftRevision 和 currentVersionId，检查完整定义，插入新版本，再有条件切换主问卷指针。两次写入在同一事务中；失败不能留下一个已切换却不存在的目标版本。事务回调可能重跑。
 
-第十六轮独立核对：draftRevision始终为1、定义不变，四种当前版本预期不符均409，users/surveys/survey_versions/responses完整文档不变；两个事务都通过原V1检查并准备插入V2，再同时放行真实插入，结果仅一个V2成功，另一方409/PUBLISH_CONFLICT且没有其publishKey对应的孤立快照。更新当前版本后，失败方沿用自己的key可发布V3，编号为1/2/3，原V1/V2与实名答卷全文不变。每次成功只新增目标版本并更新问卷的currentVersionId、lastVersionNo、updatedAt。见[checkpoint-16.md](checkpoint-16.md)；只验证既有事务与索引，没有修改MongoDB Schema。
+第十六轮独立核对：draftRevision始终为1、定义不变，四种当前版本预期不符均409，users/surveys/survey_versions/responses完整文档不变；两个事务都通过原V1检查并准备插入V2，再同时放行真实插入，结果仅一个V2成功，另一方409/PUBLISH_CONFLICT且没有其publishKey对应的孤立快照。更新当前版本后，失败方沿用自己的key可发布V3，编号为1/2/3，原V1/V2与实名答卷全文不变。每次成功只新增目标版本并更新问卷的currentVersionId、lastVersionNo、updatedAt。见[16-并发发布.md](开发记录/16-并发发布.md)；只验证既有事务与索引，没有修改MongoDB Schema。
 
 版本不可变由仓储边界和 API 权限实现，不是普通 JSON Schema 自带的“不可修改”能力。当前仓储提供 insert_version，没有版本更新或删除接口。复制历史定义应形成新草稿及后续新版本。
 
@@ -104,7 +104,7 @@ expired 是 API 根据服务端时间计算出的展示状态，不写入 status
 
 第十七轮直接在隔离库核对实际strict/error选项，绕过HTTP/领域校验，但不绕过MongoDB validator。四集合60个必要字段路径在缺字段插入、缺字段替换、$unset三种形式下180次被121拒绝；其他三集合19种错误结构三形式57次拒绝。每次失败都比较四集合完整文档，替换/更新同时携带的合法标记修改也没有部分生效。字段可为null不等于可以缺失：surveys的currentVersionId、deadlineAt省略被拒，合法草稿克隆保留null可写入。
 
-实名identity及其子字段删除被拒；真实匿名答卷克隆可以省略identity、oneTimeParticipantKey，也可以携带等于participantKey的可选一次性字段。数字0分别以BSON double和long成功保存，并读回核对类型。各集合合法插入/替换/更新的正向例只作用于新克隆，删除自建克隆后原四集合全文恢复；不代表业务接口提供改答、版本改写或Schema迁移。17项专项及内部237次拒绝的范围见[checkpoint-17.md](checkpoint-17.md)，本轮没有修改Schema。
+实名identity及其子字段删除被拒；真实匿名答卷克隆可以省略identity、oneTimeParticipantKey，也可以携带等于participantKey的可选一次性字段。数字0分别以BSON double和long成功保存，并读回核对类型。各集合合法插入/替换/更新的正向例只作用于新克隆，删除自建克隆后原四集合全文恢复；不代表业务接口提供改答、版本改写或Schema迁移。17项专项及内部237次拒绝的范围见[17-数据库字段约束.md](开发记录/17-数据库字段约束.md)，本轮没有修改Schema。
 
 responses 另有 `$expr`：答案 questionId 不重复；答案 ID 是 path 的子集；oneTimeParticipantKey 要么不存在，要么等于 participantKey。path 非空、最多 100 项且唯一。数字答案的 BSON 类型只允许 int/long/double，明确排除 bool，并具有安全范围边界。
 

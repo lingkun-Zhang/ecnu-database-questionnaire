@@ -54,7 +54,7 @@
 
 登录结果包含accessToken、expiresAt、tokenType="bearer"及user。user仅含id、username、createdAt，没有密码哈希。
 
-同一规范化用户名并发注册时只创建一个账号；其余返回409/USERNAME_EXISTS，不覆盖成功账号的密码、展示名或注册时间。展示名保留胜者输入经过NFKC和去首尾空白后的结果；casefold仅用于内部查找键。例如Straße_1与STRASSE_1具有相同查找键。等价用户名可使用胜者密码登录，失败注册请求各自不同的密码返回401/INVALID_CREDENTIALS。两组8请求及4个不同规范名并发的真实结果见[checkpoint-15.md](checkpoint-15.md)，接口和OpenAPI未变化。
+同一规范化用户名并发注册时只创建一个账号；其余返回409/USERNAME_EXISTS，不覆盖成功账号的密码、展示名或注册时间。展示名保留胜者输入经过NFKC和去首尾空白后的结果；casefold仅用于内部查找键。例如Straße_1与STRASSE_1具有相同查找键。等价用户名可使用胜者密码登录，失败注册请求各自不同的密码返回401/INVALID_CREDENTIALS。两组8请求及4个不同规范名并发的真实结果见[15-并发注册.md](开发记录/15-并发注册.md)，接口和OpenAPI未变化。
 
 问卷响应包含id、publicId、draft、draftRevision、currentVersionId、lastVersionNo、status、deadlineAt、allowMultiple、policyLocked、settingsRevision、submitSequence、createdAt、updatedAt。创建时草稿为空、draftRevision/settingsRevision/submitSequence均0、allowMultiple=false。
 
@@ -89,7 +89,7 @@
 
 后续发布必须提交当前发布ID；旧草稿修订或旧当前版本预期不符时409/PUBLISH_CONFLICT。同publishKey和相同预期参数重放返回原版本，Idempotent-Replay=true；同键改变参数则409/IDEMPOTENCY_CONFLICT。
 
-草稿修订正确也不能忽略expectedCurrentVersionId：当前已为V2时，传旧V1、过期null、不存在ID或其他问卷的版本ID，新发布均409/PUBLISH_CONFLICT且不写入。失败尝试没有占用publishKey，更正当前版本预期后可沿用该key正常发布；已有成功记录的key则绑定原预期参数，更改参数409/IDEMPOTENCY_CONFLICT。两个不同key竞争同一发布基线时只新增一个版本，失败方刷新后可继续；后续版本发布不影响旧成功key按原参数恢复原快照。实际测试和完整文档核对见[checkpoint-16.md](checkpoint-16.md)，本轮接口及OpenAPI不变。
+草稿修订正确也不能忽略expectedCurrentVersionId：当前已为V2时，传旧V1、过期null、不存在ID或其他问卷的版本ID，新发布均409/PUBLISH_CONFLICT且不写入。失败尝试没有占用publishKey，更正当前版本预期后可沿用该key正常发布；已有成功记录的key则绑定原预期参数，更改参数409/IDEMPOTENCY_CONFLICT。两个不同key竞争同一发布基线时只新增一个版本，失败方刷新后可继续；后续版本发布不影响旧成功key按原参数恢复原快照。实际测试和完整文档核对见[16-并发发布.md](开发记录/16-并发发布.md)，本轮接口及OpenAPI不变。
 
 草稿可以保存未完成题目，但预览、发布要通过完整定义检查。预览请求可使用当前未保存的definition；不等于正式发布或持久化答卷。
 
@@ -101,7 +101,7 @@
 
 五种code为 `unreachable_question`（结构不可达）、`duplicate_rule_condition`（规范化后重复）、`shadowed_rule`（完全遮蔽）、`overlapping_rules`（部分重叠）、`unsatisfiable_rule`（有效答案范围无解）。规则按优先级分析，field仍采用原定义数组索引；`relatedRuleIds`只引用实际先匹配且有效的前规则。适用范围见protocol.md。`warnings=[]`仅表示在支持范围内未发现提示。
 
-提示不进入 `errors`，不改变HTTP状态、路由或发布成功条件。非法定义仍422/INVALID_DEFINITION及fieldErrors；鉴权仍先于分析。公开元信息、start、填写evaluate、submit及发布回执不新增warnings；草稿、版本和答卷不存储它。接口数量仍为21操作/20路径。现有OpenAPI未声明预览响应模型，因此该JSON快照的路径/模型无需改变，不能把它当作包含输出字段的完整契约；本节和真实专项证据补充说明响应。详见[checkpoint-11.md](checkpoint-11.md)。
+提示不进入 `errors`，不改变HTTP状态、路由或发布成功条件。非法定义仍422/INVALID_DEFINITION及fieldErrors；鉴权仍先于分析。公开元信息、start、填写evaluate、submit及发布回执不新增warnings；草稿、版本和答卷不存储它。接口数量仍为21操作/20路径。现有OpenAPI未声明预览响应模型，因此该JSON快照的路径/模型无需改变，不能把它当作包含输出字段的完整契约；本节和真实专项证据补充说明响应。详见[11-规则设计检查.md](开发记录/11-规则设计检查.md)。
 
 ## 5 填写与可靠提交
 
@@ -129,7 +129,7 @@ evaluate请求为`{"versionId":"<versionId>","answers":{"q_age":18}}`，结果�
 
 第十三轮实测进一步核对：即使V1/V2的定义完全一样，versionId不同也不能复用原成功标识，返回409/IDEMPOTENCY_CONFLICT；同标识改有效答案或将它变成缺必答、非法数值等无效内容，也不会覆盖原答卷。请求结构校验仍在服务恢复逻辑之前，不能据此认为任意非法JSON都返回409。
 
-等价恢复只针对有效提交语义：原本空白未答的选填可用空串/null/省略表示，已回答的选填改成未答则冲突；多选换顺序可恢复，换集合或重复选项不行；路径外缓存须属于卷内已知题。仍需有效登录认证，能够缺失/过期的是填写凭据。11项专项与完整文档核对见[checkpoint-13.md](checkpoint-13.md)，本轮未改变接口。
+等价恢复只针对有效提交语义：原本空白未答的选填可用空串/null/省略表示，已回答的选填改成未答则冲突；多选换顺序可恢复，换集合或重复选项不行；路径外缓存须属于卷内已知题。仍需有效登录认证，能够缺失/过期的是填写凭据。11项专项与完整文档核对见[13-重复提交与内容冲突.md](开发记录/13-重复提交与内容冲突.md)，本轮未改变接口。
 
 收到SUBMISSION_OUTCOME_UNKNOWN或网络确认失败时，保留原key、原body和填写凭据，重新登录后重发原请求。已有成功记录的恢复优先于新填写凭据和收集状态检查，因此已关闭、凭据过期或缺失也可恢复原成功；这不允许创建新的过期答卷。不要为确认同一次提交更换key，否则属于另一次尝试。
 
@@ -145,7 +145,7 @@ evaluate请求为`{"versionId":"<versionId>","answers":{"q_age":18}}`，结果�
 
 deadlineAt=null清除截止；省略表示不修改。allowMultiple必须是真正布尔值，显式null不合法。首次正式答卷后多填政策锁定，不能由修改政策绕过既有跨版本限次。关闭请求使用当前expectedSettingsRevision；目前不支持重开。关闭问卷后可以保存草稿、形成新版本，但不会恢复收集。
 
-首次提交已持有事务gate时，并发的allowMultiple修改不会抢先改写该次提交所用的政策：提交成功后修改返回409/POLICY_LOCKED，settingsRevision不因这次失败递增；若提交因截止回滚，原先未锁定的政策修改可成功，提交序号和政策锁不残留。带allowMultiple及deadlineAt的混合修改被拒时，两字段均不改；政策锁定后，合法的仅deadlineAt修改仍可成功。两种原政策、回滚与后续限次的实测见[checkpoint-14.md](checkpoint-14.md)，本轮接口及OpenAPI未变化。
+首次提交已持有事务gate时，并发的allowMultiple修改不会抢先改写该次提交所用的政策：提交成功后修改返回409/POLICY_LOCKED，settingsRevision不因这次失败递增；若提交因截止回滚，原先未锁定的政策修改可成功，提交序号和政策锁不残留。带allowMultiple及deadlineAt的混合修改被拒时，两字段均不改；政策锁定后，合法的仅deadlineAt修改仍可成功。两种原政策、回滚与后续限次的实测见[14-首次提交与多填设置.md](开发记录/14-首次提交与多填设置.md)，本轮接口及OpenAPI未变化。
 
 新提交必须在服务端接受时间严格早于截止时成功；恰好到达截止也拒绝。settingsRevision与draftRevision用途不同，不能混用。
 
@@ -155,7 +155,7 @@ deadlineAt=null清除截止；省略表示不修改。allowMultiple必须是真�
 
 三个查询统一支持respondentType=all（默认全部）、anonymous（仅匿名）、named（仅实名），其他值返回422/INVALID_REQUEST。在MongoDB读取和聚合前，使用相同的问卷、版本、序号上界及anonymous布尔条件过滤；不能只在前端隐藏明细行。stats与responses回传respondentType。页面切换填写方式保留当前序号范围，点击“刷新范围”才纳入新答卷。
 
-stats返回surveyId、versionId、versionNo、respondentType、asOfSeq、totalResponses、uniqueParticipants、anonymousResponses、namedResponses和questions。逐题使用R（筛选集合内答卷数）、V（到达）、A（已答）、U（到达未答）、S（跳过），另有answeredResponses、answeredParticipants和uniqueParticipants；选择题有选项次数、独立人数、百分比及totalSelections，数字题有sum/avg。空数字集合avg=null，0是有效值；详细字段与公式见[schema.md](schema.md)及[design-v4.md](design-v4.md)第八节。
+stats返回surveyId、versionId、versionNo、respondentType、asOfSeq、totalResponses、uniqueParticipants、anonymousResponses、namedResponses和questions。逐题使用R（筛选集合内答卷数）、V（到达）、A（已答）、U（到达未答）、S（跳过），另有answeredResponses、answeredParticipants和uniqueParticipants；选择题有选项次数、独立人数、百分比及totalSelections，数字题有sum/avg。空数字集合avg=null，0是有效值；详细字段与公式见[schema.md](schema.md)及[系统设计.md](系统设计.md)第八节。
 
 所有计数、分母、均值和独立人数都在当前填写方式集合内计算。匿名份数和实名份数可相加得到全部份数，但独立人数不可直接相加：同一个账号可能同时提交过匿名与实名答卷。asOfSeq仍是全问卷序号，不变成筛选后的份数。
 
@@ -175,7 +175,7 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 
 领域fieldErrors可包含code/message/questionId/ruleId/field；请求模型错误采用field/message/code。正常中间件响应包含X-Request-ID，API响应设置Cache-Control:no-store。请求体上限：draft/preview为512KiB，其他POST/PUT/PATCH为1MiB。
 
-编辑器对预览/发布INVALID_DEFINITION中的字段错误提供定位、聚焦和关联说明；定义变化后旧错误失效，无可视化控件时转JSON高级编辑。该行为不新增接口；没有fieldErrors的通用保存错误仍只显示普通说明。完整页面验证及范围见[checkpoint-10.md](checkpoint-10.md)。
+编辑器对预览/发布INVALID_DEFINITION中的字段错误提供定位、聚焦和关联说明；定义变化后旧错误失效，无可视化控件时转JSON高级编辑。该行为不新增接口；没有fieldErrors的通用保存错误仍只显示普通说明。完整页面验证及范围见[10-编辑错误定位.md](开发记录/10-编辑错误定位.md)。
 
 | HTTP | 常见code | 处理方式 |
 |---|---|---|

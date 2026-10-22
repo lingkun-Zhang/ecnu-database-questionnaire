@@ -2,9 +2,9 @@
 
 本表把任务书需求连接到当前代码和 V4 的 T01—T25 验收编号。T 编号是稳定的验收标识，不等于已经执行通过的测试名称；实现存在、自动用例存在、实际执行通过、人工核验完成必须分别记录。
 
-当前状态（2026年10月22日）：第一阶段主要业务、干净目录安装、连续演示、正式报告及索引执行计划实验均已完成。正式报告见Word版（本地完整材料）及[文本版](phase1-report.md)，安装与演示见[demo.md](demo.md)，索引实验见[index-experiment.md](index-experiment.md)。10月22日报告补充单选、多选跳转的8组实例，已由现有领域函数核对，见evidence/report-rule-examples-20261022.json（本地完整材料）。第二阶段未实施，文件仅在本地整理，未对外提交。
+当前状态（2026年10月22日）：第一阶段主要业务、干净目录安装、连续演示、正式报告及索引执行计划实验均已完成。正式报告见Word版（本地完整材料）及[文本版](phase1-report.md)，安装与演示见[demo.md](demo.md)，索引实验见[index-experiment.md](index-experiment.md)。10月22日报告补充单选、多选跳转的8组实例，已由现有领域函数核对，见[report-rule-examples-20261022.json](evidence/report-rule-examples-20261022.json)。第二阶段未实施。代码、测试及脱敏文档已上传GitHub；正式PDF留待课程平台提交。
 
-10月21日最终回归批次为后端162通过、3项权限相关跳过、251个subtest通过；前端43通过，类型检查和构建通过。对应原始结果见evidence/final-results-20261021.json（本地完整材料）和[test-report.md](test-report.md)。后续专项结果单列，不与这批数量相加。下文保留各轮证据来源，历史轮次中的未测范围只描述当时状态；当前完成情况以各需求行及[acceptance-status.md](acceptance-status.md)为准。
+10月21日最终回归批次为后端162通过、3项权限相关跳过、251个subtest通过；前端43通过，类型检查和构建通过。对应原始结果见[final-results-20261021.json](evidence/final-results-20261021.json)和[test-report.md](test-report.md)。后续专项结果单列，不与这批数量相加。下文保留各轮证据来源，历史轮次中的未测范围只描述当时状态；当前完成情况以各需求行及[acceptance-status.md](acceptance-status.md)为准。
 
 10月22日补充保存/发布等待期间的编辑保护：编辑区锁定到写入及必要读回全部结束，重复操作和导航增加忙碌守卫，新增15项前端回归后合计58项全部通过。本轮执行结果及原生控件浏览器检查状态见[test-report.md](test-report.md)文末，不混入10月21日批次。
 

@@ -1,0 +1,17 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.7.0 -- PROJECT_ROOT\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: PROJECT_ROOT
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 3 items
+
+tests/test_transaction_recovery.py::test_transient_error_retries_body_without_consuming_sequence {"case": "transient_body_retry", "injectedTransientErrors": 1, "gateSequences": [1, 1], "responseInserts": [1], "finalSequence": 1, "documents": 1, "replayedReceiptMatches": true}
+PASSED
+tests/test_transaction_recovery.py::test_transient_retry_rechecks_clock_and_rolls_back_expired_submission {"case": "retry_crosses_deadline", "injectedTransientErrors": 1, "gateSequences": [1, 1], "gateTimeRelativeToDeadline": ["before", "after"], "httpStatus": 409, "errorCode": "SURVEY_EXPIRED", "finalSequence": 0, "policyLocked": false, "documents": 0}
+PASSED
+tests/test_transaction_recovery.py::test_unknown_commit_result_retries_commit_without_rerunning_body {"case": "unknown_commit_result", "commitCalls": 2, "bodyGateCalls": 1, "bodyInsertCalls": 1, "documentsVisibleBeforeInjection": 1, "finalSequence": 1, "documents": 1, "replayedReceiptMatches": true, "faultKind": "synthetic_driver_boundary_error_after_successful_commit"}
+PASSED
+
+============================== 3 passed in 1.75s ==============================

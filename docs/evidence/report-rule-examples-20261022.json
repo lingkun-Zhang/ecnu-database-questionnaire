@@ -1,0 +1,306 @@
+{
+  "date": "2026-10-22",
+  "kind": "report examples evaluated by production domain",
+  "databaseUsed": false,
+  "businessCodeChanged": false,
+  "independentExamples": 8,
+  "sourceSha256": "13813d06e06b54bac4d3ed527eeb8d73d40de7d916a30340f32eee49e3a0ee87",
+  "definitions": {
+    "single": {
+      "title": "单选跳转说明",
+      "description": "",
+      "allowAnonymous": true,
+      "entryQuestionId": "q_identity",
+      "questions": [
+        {
+          "id": "q_identity",
+          "kind": "single",
+          "title": "你的身份",
+          "required": true,
+          "config": {
+            "options": [
+              {
+                "id": "student",
+                "label": "学生"
+              },
+              {
+                "id": "worker",
+                "label": "工作人士"
+              }
+            ]
+          },
+          "defaultTarget": "q_work",
+          "rules": [
+            {
+              "id": "r_student",
+              "priority": 10,
+              "condition": {
+                "operator": "eqOption",
+                "value": "student"
+              },
+              "target": "q_study"
+            }
+          ]
+        },
+        {
+          "id": "q_study",
+          "kind": "text",
+          "title": "学习情况",
+          "required": false,
+          "config": {},
+          "defaultTarget": "END",
+          "rules": []
+        },
+        {
+          "id": "q_work",
+          "kind": "text",
+          "title": "工作情况",
+          "required": false,
+          "config": {},
+          "defaultTarget": "END",
+          "rules": []
+        }
+      ]
+    },
+    "multi": {
+      "title": "多选跳转说明",
+      "description": "",
+      "allowAnonymous": true,
+      "entryQuestionId": "q_interest",
+      "questions": [
+        {
+          "id": "q_interest",
+          "kind": "multi",
+          "title": "兴趣",
+          "required": true,
+          "config": {
+            "options": [
+              {
+                "id": "read",
+                "label": "阅读"
+              },
+              {
+                "id": "sport",
+                "label": "运动"
+              },
+              {
+                "id": "music",
+                "label": "音乐"
+              }
+            ],
+            "minSelected": 1,
+            "maxSelected": 2
+          },
+          "defaultTarget": "q_other",
+          "rules": [
+            {
+              "id": "r_combo",
+              "priority": 10,
+              "condition": {
+                "operator": "containsAll",
+                "value": [
+                  "read",
+                  "sport"
+                ]
+              },
+              "target": "q_combo"
+            },
+            {
+              "id": "r_read",
+              "priority": 20,
+              "condition": {
+                "operator": "containsAny",
+                "value": [
+                  "read"
+                ]
+              },
+              "target": "q_read"
+            }
+          ]
+        },
+        {
+          "id": "q_combo",
+          "kind": "text",
+          "title": "综合活动",
+          "required": false,
+          "config": {},
+          "defaultTarget": "END",
+          "rules": []
+        },
+        {
+          "id": "q_read",
+          "kind": "text",
+          "title": "阅读习惯",
+          "required": false,
+          "config": {},
+          "defaultTarget": "END",
+          "rules": []
+        },
+        {
+          "id": "q_other",
+          "kind": "text",
+          "title": "其他兴趣",
+          "required": false,
+          "config": {},
+          "defaultTarget": "END",
+          "rules": []
+        }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "definition": "single",
+      "answers": {
+        "q_identity": "student"
+      },
+      "expectedPath": [
+        "q_identity",
+        "q_study"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_identity",
+        "q_study"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "single",
+      "answers": {
+        "q_identity": "worker"
+      },
+      "expectedPath": [
+        "q_identity",
+        "q_work"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_identity",
+        "q_work"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "read",
+          "sport"
+        ]
+      },
+      "expectedPath": [
+        "q_interest",
+        "q_combo"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_interest",
+        "q_combo"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "sport",
+          "read"
+        ]
+      },
+      "expectedPath": [
+        "q_interest",
+        "q_combo"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_interest",
+        "q_combo"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "read"
+        ]
+      },
+      "expectedPath": [
+        "q_interest",
+        "q_read"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_interest",
+        "q_read"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "music"
+        ]
+      },
+      "expectedPath": [
+        "q_interest",
+        "q_other"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_interest",
+        "q_other"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "read",
+          "music"
+        ]
+      },
+      "expectedPath": [
+        "q_interest",
+        "q_read"
+      ],
+      "expectedError": null,
+      "actualPath": [
+        "q_interest",
+        "q_read"
+      ],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "definition": "multi",
+      "answers": {
+        "q_interest": [
+          "read",
+          "sport",
+          "music"
+        ]
+      },
+      "expectedPath": null,
+      "expectedError": "choice_count",
+      "actualPath": [
+        "q_interest",
+        "q_other"
+      ],
+      "actualErrors": [
+        "choice_count"
+      ],
+      "passed": true
+    }
+  ],
+  "backendRegressionCountUnchanged": 162
+}

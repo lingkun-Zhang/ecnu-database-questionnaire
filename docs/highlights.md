@@ -1,0 +1,32 @@
+# 第一阶段增强项与材料入口
+
+这里汇总已实现、已有对应测试或实测结果的增强内容，方便从设计直接找到代码与证据。它不是教师另列的加分表，也不承诺每项单独加分。阶段范围以任务书为准。
+
+## 对应文件
+
+| 内容 | 实现 | 测试、实测与说明 |
+|---|---|---|
+| 四集合建模、严格BSON结构校验、唯一与部分索引 | [database.py](../backend/app/database.py) | [schema.md](schema.md)、[集合约束测试](../tests/test_collection_constraints.py)、[数据库组件测试](../tests/test_database.py)、[约束专项原始输出](evidence/constraints-tests-20261021.txt) |
+| 五类查询的索引执行计划对照 | [index_experiment.py](../scripts/index_experiment.py) | [实验报告](index-experiment.md)、[完整explain与重复计时](evidence/index-experiment-20261021.json)、[核对摘要](evidence/index-verification-20261021.json) |
+| 发布快照、历史版本与并发发布冲突 | [services.py](../backend/app/services.py)、[repositories.py](../backend/app/repositories.py) | [业务协议](protocol.md)、[并发发布测试](../tests/test_publish_version_cas.py)、[原始结果](evidence/publish-cas-tests-20261021.txt)、[历史操作记录](checkpoint-18.md) |
+| 提交幂等、回执恢复和不同内容冲突 | [services.py](../backend/app/services.py)、[security.py](../backend/app/security.py) | [提交边界测试](../tests/test_submission_boundaries.py)、[原始结果](evidence/submission-tests-20261021.txt)、[页面恢复过程](checkpoint-07.md) |
+| 同人限次、设置/关闭/截止与提交的事务协调 | [repositories.py](../backend/app/repositories.py) | [政策竞争测试](../tests/test_policy_race.py)、[API测试](../tests/test_api.py)、[政策测试输出](evidence/policy-tests-20261021.txt) |
+| 真实事务写入上的受控重试与提交确认异常 | [repositories.py](../backend/app/repositories.py) | [事务恢复测试](../tests/test_transaction_recovery.py)、[方法与观察结果](evidence/db-components-report.md)、[原始输出](evidence/db-components-transaction-recovery.txt) |
+| 嵌套组合条件、优先级与有效路径答案 | [domain.py](../backend/app/domain.py)、[ConditionEditor.vue](../frontend/src/components/ConditionEditor.vue) | [领域测试](../tests/test_domain.py)、[组件测试](../frontend/tests/conditionEditor.test.cjs)、[8组实例定义/输入/预期/实际结果](evidence/report-rule-examples-20261022.json)、[组合编辑专项](checkpoint-20.md) |
+| 不可达、重复、无解、遮蔽和重叠等设计提示 | [design_checks.py](../backend/app/design_checks.py) | [分析测试](../tests/test_design_checks.py)、[真实API测试](../tests/test_design_checks_api.py)、[输出](evidence/design-checks-api-20261020.xml)、[设计检查过程](checkpoint-11.md) |
+| 固定统计范围、分页、匿名筛选与CSV一致性 | [statistics.py](../backend/app/statistics.py) | [筛选回归](../tests/test_anonymity_filter.py)、[数据库组件实测](evidence/db-components-report.md)、[多页核对](checkpoint-19.md)、[六份样例核算](evidence/final-sample-checks-20261021.json) |
+| 会话隔离、迟到响应、编辑等待保护 | [App.vue](../frontend/src/App.vue) | [前端回归](../frontend/tests/session.test.cjs)、[58项原始结果](evidence/editor-lock-frontend-tests-20261022.txt)、[控件禁用与恢复摘要](evidence/editor-lock-results-20261022.json) |
+| 可复现安装、依赖锁定、安全启动与停止 | [安装脚本](../scripts/install.ps1)、[启停控制](../scripts/lifecycle.ps1) | [干净目录验收](evidence/final-clean-install-20261021.json)、[启停控制测试](../tests/test_runner_control.py)、[启停脚本测试](../tests/test_lifecycle_scripts.py)、[演示步骤](demo.md) |
+| 设计取舍、需求映射与AI使用可追溯 | [报告正文](phase1-report.md)、[数据库设计](schema.md)、[需求追踪](requirements.md) | [AI记录索引](ai-use-summary.md)、[真实提示与修改日志](ai-log.md)、[测试报告](test-report.md) |
+
+## 实测结果怎样读
+
+- 后端全量结果为2026年10月21日162通过、251个subtest通过、3项Windows符号链接权限相关跳过，见[汇总](evidence/final-results-20261021.json)与[JUnit](evidence/final-tests-20261021.xml)。subtest不重复算作独立pytest用例。
+- 2026年10月22日前端58项通过、类型检查及构建通过，见[摘要](evidence/editor-lock-results-20261022.json)及原始测试输出；没有因此重记后端全量结果。
+- 索引实验使用合成数据、五类查询、三种计划方式、每种七次计时，不能当成生产负载或API吞吐证明。
+- 事务异常用例在真实MongoDB事务上注入驱动边界异常；没有声称执行了TCP断网或主节点切换。
+- 单选/多选8组报告实例由现有领域引擎求值，包含定义、答案、预期和实际结果；不把它计入新增的后端全量测试数量。
+
+## 公开范围
+
+上述代码、说明、测试和结果文件均随仓库提供。新增公开的验收摘要来自原本地记录；删除了本机环境/业务数据摘要指纹等无关字段，测试结果与观察值未修改。正式带身份信息的PDF、Word、原始页面截图及运行数据保留在本地，详见[PRIVACY.md](../PRIVACY.md)。

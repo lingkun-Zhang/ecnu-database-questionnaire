@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-21",
+  "initialAbsent": [
+    ".env",
+    ".venv",
+    ".runtime",
+    "frontend/node_modules",
+    "frontend/dist"
+  ],
+  "newVirtualEnvironment": true,
+  "dependenciesInstalledFromLocks": true,
+  "freshSecretsGenerated": true,
+  "isolatedNewDatabase": true,
+  "pipCheckPassed": true,
+  "typecheckPassed": true,
+  "buildPassed": true,
+  "buildSeconds": 1.23,
+  "pythonVersion": "3.12.14",
+  "nodeVersion": "24.18.0",
+  "mongoVersion": "6.0.29",
+  "scope": "New directory, environment, configuration, build and logical database on the same host; installed runtimes and normal package caches were reused.",
+  "browserCreatedFromBlank": true,
+  "browserFormalSubmissions": 2,
+  "sampleScriptSubmissions": 6,
+  "finalDatabaseCleaned": true,
+  "finalCodeMatchesCleanTestedCopy": true
+}

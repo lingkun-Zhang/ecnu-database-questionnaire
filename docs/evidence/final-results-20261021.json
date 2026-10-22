@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-21",
+  "stage": 1,
+  "backendPassed": 162,
+  "backendSkipped": 3,
+  "subtestsPassed": 251,
+  "backendSeconds": 42.32,
+  "junitTestsIncludingSubtests": 416,
+  "junitTestcaseElements": 165,
+  "frontendPassed": 43,
+  "frontendSeconds": 1.7691878,
+  "typecheckPassed": true,
+  "buildPassed": true,
+  "cleanInstallPassed": true,
+  "coreBrowserDemoPassed": true,
+  "demoUICheckpoints": 10,
+  "sampleStatsVerified": true,
+  "originalDemoAndEnvUnchanged": true,
+  "businessFeatureChangesThisFinalRound": false,
+  "utilityFixes": [
+    "Python and Node preflight plus explicit Python path",
+    "Direct local HTTP in the teaching sample importer"
+  ],
+  "limitations": [
+    "3 real symbolic-link tests skipped due to current Windows permissions",
+    "No clean OS, high availability, real TCP-disconnect or large-scale performance claim",
+    "Second-stage requirements not implemented"
+  ]
+}

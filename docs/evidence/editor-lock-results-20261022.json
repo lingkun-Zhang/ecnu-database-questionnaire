@@ -1,0 +1,265 @@
+{
+  "date": "2026-10-22",
+  "stage": 1,
+  "frontendPassed": 58,
+  "newFrontendTests": 15,
+  "frontendSkipped": 0,
+  "frontendFailed": 0,
+  "frontendMilliseconds": 2434.3082,
+  "typecheckPassed": true,
+  "buildPassed": true,
+  "viteSeconds": 1.27,
+  "backendRegression": "Unchanged backend; 162 passed / 3 skipped / 251 subtests refer to 2026-10-21",
+  "browserMethod": "Real current production build and app with isolated MongoDB; only delivery of real HTTP responses delayed, no successful response fabricated",
+  "browserHttpGates": [
+    "save-write",
+    "save-read",
+    "save-versions",
+    "json-save",
+    "publish-write",
+    "publish-read",
+    "publish-versions"
+  ],
+  "browserObservedCheckpoints": 10,
+  "domObservations": [
+    {
+      "stage": "save-write-held",
+      "controls": [
+        {
+          "disabled": true,
+          "label": "版本历史",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "处理中…",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "发布新版本",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "编辑题目",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "填写预览",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "收集设置",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "检查设计",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "保存保护验证 A"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "TEXTAREA",
+          "value": "仅用于等待响应时的页面验证"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "on"
+        },
+        {
+          "disabled": true,
+          "label": "题目与规则",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "流程概览",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "JSON 高级编辑",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "01年龄数字填空 ",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "＋ 单选题",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "＋ 多选题",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "＋ 文本填空",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "＋ 数字填空",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "上移题目",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "下移题目",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": "删除题目",
+          "tag": "BUTTON",
+          "value": ""
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "年龄"
+        },
+        {
+          "disabled": true,
+          "label": "单选题多选题文本填空数字填空",
+          "tag": "SELECT",
+          "value": "number"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "on"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "0"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "120"
+        },
+        {
+          "disabled": true,
+          "label": null,
+          "tag": "INPUT",
+          "value": "on"
+        },
+        {
+          "disabled": true,
+          "label": "结束问卷",
+          "tag": "SELECT",
+          "value": "END"
+        },
+        {
+          "disabled": true,
+          "label": "＋ 添加条件跳转",
+          "tag": "BUTTON",
+          "value": ""
+        }
+      ],
+      "dashboardEnabled": false
+    },
+    {
+      "stage": "save-read-held",
+      "titleEnabled": false,
+      "title": "保存保护验证 A"
+    },
+    {
+      "stage": "save-versions-held",
+      "titleEnabled": false,
+      "title": "保存保护验证 A"
+    },
+    {
+      "stage": "save-complete",
+      "titleEnabled": true
+    },
+    {
+      "stage": "json-save-held",
+      "jsonEnabled": false,
+      "applyEnabled": false
+    },
+    {
+      "stage": "json-save-complete",
+      "jsonEnabled": true
+    },
+    {
+      "stage": "publish-write-held",
+      "jsonEnabled": false,
+      "titleEnabled": false
+    },
+    {
+      "stage": "publish-read-held",
+      "titleEnabled": false
+    },
+    {
+      "stage": "publish-versions-held",
+      "titleEnabled": false
+    },
+    {
+      "stage": "publish-complete",
+      "titleEnabled": true,
+      "jsonEnabled": true,
+      "notice": true
+    }
+  ],
+  "fixtureFinal": {
+    "title": "保存保护验证 B",
+    "draftRevision": 3,
+    "versionCount": 1,
+    "responseCount": 0
+  },
+  "ownedFixtureRemoved": true,
+  "ownedFixtureAbsentAfterCleanup": true,
+  "cleanupMethod": "Recovered exact owned fixture after runner interruption; UUID, sole owner, counts and version definition verified before cleanup",
+  "originalDemoAndEnvUnchanged": true,
+  "sourceHashes": {
+    "frontend/src/App.vue": "31d2298a88016cb75b7630c209e3b5c79f4fa94bdc5cffb52c693797b4b191ed",
+    "frontend/src/style.css": "c0e0d0bfc89d0a384d1834c0701a90073b47096eee99a266c87a20d6547156b5",
+    "frontend/tests/session.test.cjs": "c74ab2386f270e712a93defad7c19abd634835e8c02625d265497146283438ae"
+  },
+  "externalSubmissionPerformed": false,
+  "publicCopyNote": "Local environment and business-data fingerprints/counts omitted; test results and isolated fixture observations unchanged."
+}

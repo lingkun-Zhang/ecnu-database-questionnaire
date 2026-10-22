@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "responses6": true,
+    "participants5": true,
+    "anonymous3": true,
+    "scoreSum28": true,
+    "scoreAverage5_6": true,
+    "zeroCounted": true,
+    "multiOptionCounts3": true
+  },
+  "observed": {
+    "responses": 6,
+    "participants": 5,
+    "anonymous": 3,
+    "scoreSum": 28,
+    "scoreAverage": 5.6
+  }
+}

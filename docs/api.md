@@ -1,6 +1,6 @@
 # 第一阶段 API 说明
 
-本文依据2026年10月20日的backend/app/main.py、services.py、statistics.py及实际请求模型整理，供离线查阅。当前有21个API操作、20条路径。机器可读快照见[api-openapi.json](api-openapi.json)，运行中的交互文档为http://127.0.0.1:8000/docs。
+本文保留第一阶段21个API操作、20条路径的接口说明。第二阶段新增6个题目与版本操作，输入、输出及错误语义见[独立题目与版本](phase2-question-versions.md)。机器可读[OpenAPI快照](api-openapi.json)随当前应用更新，运行中的交互文档为http://127.0.0.1:8000/docs；以下第一阶段历史批次中的接口数量不包含新增操作。
 
 下文JSON是契约示例，尖括号内为调用时替换的值，不冒充实际HTTP运行记录。真实执行结果见[test-report.md](test-report.md)及evidence/。OpenAPI快照由实际应用生成，但部分响应没有声明response_model，动态201/200和业务错误应结合本文阅读。
 

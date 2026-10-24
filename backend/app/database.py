@@ -279,6 +279,74 @@ INDEXES: dict[str, list[IndexModel]] = {
 }
 
 
+# Phase 2 adds independent entities; the four phase-1 contracts above stay intact.
+QUESTION_ITEM_SCHEMA = _object(
+    {
+        "_id": STRING_ID, "ownerId": STRING_ID,
+        "creationKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
+        "currentVersionId": STRING_ID, "lastVersionNo": POSITIVE,
+        "createdAt": DATE, "updatedAt": DATE, "schemaVersion": POSITIVE,
+    },
+    ["_id", "ownerId", "creationKey", "currentVersionId", "lastVersionNo",
+     "createdAt", "updatedAt", "schemaVersion"],
+)
+
+
+def _question_content_schema():
+    # Structural guarantees per kind; cross-field meaning remains domain logic.
+    variants = []
+    fields = {"single": ["options"], "multi": ["options", "minSelected", "maxSelected"],
+              "text": ["minLength", "maxLength"], "number": ["min", "max", "integerOnly"]}
+    config_properties = QUESTION_SCHEMA["properties"]["config"]["properties"]
+    for kind, names in fields.items():
+        properties = {name: deepcopy(config_properties[name]) for name in names}
+        if "options" in properties:
+            properties["options"]["minItems"] = 1
+        variants.append(_object({
+            "kind": {"enum": [kind]},
+            "title": {"bsonType": "string", "minLength": 1, "maxLength": 500},
+            "config": _object(properties, names),
+        }, ["kind", "title", "config"]))
+    return {"oneOf": variants}
+
+
+QUESTION_VERSION_SCHEMA = _object(
+    {
+        "_id": STRING_ID, "questionId": STRING_ID, "versionNo": POSITIVE,
+        "parentVersionId": {"bsonType": ["string", "null"], "minLength": 1, "maxLength": 160},
+        "content": _question_content_schema(),
+        "requestKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
+        "requestDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
+        "createdAt": DATE, "schemaVersion": POSITIVE,
+    },
+    ["_id", "questionId", "versionNo", "parentVersionId", "content",
+     "requestKey", "requestDigest", "createdAt", "schemaVersion"],
+)
+QUESTION_VERSION_SCHEMA["oneOf"] = [
+    {"properties": {"versionNo": {"enum": [1]}, "parentVersionId": {"bsonType": "null"}}},
+    {"properties": {"versionNo": {"minimum": 2}, "parentVersionId": STRING_ID}},
+]
+
+VALIDATORS.update({
+    "questions": {"$jsonSchema": QUESTION_ITEM_SCHEMA},
+    "question_versions": {"$jsonSchema": QUESTION_VERSION_SCHEMA},
+})
+INDEXES.update({
+    "questions": [
+        IndexModel([("ownerId", ASCENDING), ("creationKey", ASCENDING)], unique=True,
+                   name="uq_questions_owner_creation"),
+        IndexModel([("ownerId", ASCENDING), ("createdAt", DESCENDING), ("_id", DESCENDING)],
+                   name="ix_questions_owner_created"),
+    ],
+    "question_versions": [
+        IndexModel([("questionId", ASCENDING), ("versionNo", ASCENDING)], unique=True,
+                   name="uq_question_versions_number"),
+        IndexModel([("questionId", ASCENDING), ("requestKey", ASCENDING)], unique=True,
+                   name="uq_question_versions_request"),
+    ],
+})
+
+
 async def init_database(db: Any) -> None:
     """Create or update contracts without dropping collections or business data.
 

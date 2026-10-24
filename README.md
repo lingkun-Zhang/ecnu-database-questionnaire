@@ -1,13 +1,14 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程第一阶段项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。
+华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段在第一阶段基础上逐步扩展，目前完成独立私有题目与不可变内容版本的后端基础。
 
-仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。本仓库只包含第一阶段实现。
+仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
 
 ## 先看哪些文件
 
 | 内容 | 入口 |
 |---|---|
+| 第二阶段当前进展与验证 | [独立题目与版本](docs/phase2-question-versions.md)，含模型、API、兼容边界及本轮AI记录；尚未接入问卷复用和前端 |
 | 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
@@ -73,7 +74,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-已保存的实际结果如下，两个日期属于不同批次；本次README整理没有重新执行这些测试。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段本轮回归的日期、范围和实际结果见[独立题目与版本](docs/phase2-question-versions.md)。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|
@@ -115,4 +116,4 @@ docs/              设计、报告、需求追踪、AI记录与实测结果
 requirements.txt   锁定的Python依赖
 ```
 
-详细开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段需求尚未实施。
+第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段本轮范围、实际结果和待完成项见[独立题目与版本](docs/phase2-question-versions.md)。

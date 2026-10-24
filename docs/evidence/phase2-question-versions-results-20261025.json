@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-25",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "branch": "phase2-question-versions",
+  "scope": "Independent private questions and immutable content versions; no questionnaire references or frontend changes",
+  "environment": {
+    "python": "3.12.14",
+    "pymongo": "4.19.0",
+    "pytest": "9.1.1",
+    "mongodb": "6.0.29",
+    "replicaSet": "phase2test",
+    "host": "127.0.0.1",
+    "port": 27227,
+    "businessDatabaseUsed": false,
+    "secrets": "temporary test-only process environment; not recorded"
+  },
+  "command": "python -m pytest -q --junitxml=.runtime/phase2-tests-final-20261025.xml",
+  "databaseEnvironmentVariables": [
+    "MONGO_URI",
+    "MONGODB_URI"
+  ],
+  "final": {
+    "passed": 257,
+    "skipped": 3,
+    "failed": 0,
+    "subtestsPassed": 251,
+    "seconds": 93.27,
+    "newContentTests": 56,
+    "newMongoApiTests": 39,
+    "newTestsPassed": 95,
+    "junitTestcaseElements": 260
+  },
+  "skippedReason": "Three existing Windows real symlink cases lack OS permission",
+  "attempts": [
+    {
+      "scope": "legacy database component tests",
+      "result": "5 connection setup errors",
+      "reason": "MONGODB_URI alias was missing; corrected test environment, no business data writes"
+    },
+    {
+      "scope": "initial full run",
+      "passed": 255,
+      "failed": 2,
+      "skipped": 3,
+      "subtestsPassed": 251,
+      "seconds": 96.24,
+      "reason": "Two new tests compared HTTP ISO timestamp strings against native datetime; corrected expected serialization, kept full persisted snapshots"
+    },
+    {
+      "scope": "corrected two tests",
+      "passed": 2,
+      "deselected": 37,
+      "seconds": 1.3
+    }
+  ],
+  "faultInjectionBoundary": "Explicit synthetic service/driver-boundary errors around real MongoDB transactions, not a real network outage",
+  "compatibility": {
+    "oldCollectionValidatorsComparedToBaseline": true,
+    "oldCollectionsComparedAsFullDocuments": true,
+    "originalDesktopFilesRechecked": 163,
+    "originalDesktopFilesChanged": 0,
+    "oldApiPathsUnchanged": 20,
+    "oldApiModelsUnchanged": 11,
+    "realConfigAndRuntimeRead": false
+  },
+  "notExecuted": [
+    "frontend build",
+    "frontend tests",
+    "browser end-to-end",
+    "business data migration",
+    "production load benchmark"
+  ],
+  "notImplemented": [
+    "survey question-version references",
+    "sharing",
+    "question bank groups",
+    "restore action",
+    "usage lookup",
+    "cross-survey statistics"
+  ],
+  "gitHubPushed": false,
+  "coursePlatformSubmitted": false,
+  "testServerStopped": true,
+  "testDatabasesRemaining": 0
+}

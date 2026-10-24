@@ -26,6 +26,7 @@ from .database import init_database
 from .security import decode_token, utcnow
 from .services import Services, ServiceError, public_user, survey_view, version_view, response_view
 from .statistics import get_stats, StatsError, RespondentType, build_response_scope
+from .questions import QuestionServices, question_view, question_version_view
 
 log = logging.getLogger("survey")
 bearer = HTTPBearer(auto_error=False)
@@ -99,6 +100,15 @@ class Submit(Fill):
     anonymous: bool
 
 
+class NewQuestion(StrictModel):
+    content: dict[str, Any]
+
+
+class NewQuestionVersion(NewQuestion):
+    parentVersionId: str = Field(min_length=1, max_length=160)
+    expectedCurrentVersionId: str = Field(min_length=1, max_length=160)
+
+
 async def current_user(request: Request, authorization: HTTPAuthorizationCredentials | None = Depends(bearer)):
     if not authorization or authorization.scheme.lower() != "bearer":
         raise ServiceError("UNAUTHENTICATED", "请先登录", 401)
@@ -115,6 +125,11 @@ async def current_user(request: Request, authorization: HTTPAuthorizationCredent
 def service(request: Request):
     return Services(request.app.state.db, request.app.state.settings,
                     request.app.state.clock, request.app.state.hooks)
+
+
+def question_service(request: Request):
+    return QuestionServices(request.app.state.db, request.app.state.settings,
+                            request.app.state.clock, request.app.state.hooks)
 
 
 def create_app(settings=None):
@@ -213,6 +228,48 @@ def create_app(settings=None):
     @api.get("/auth/me")
     async def me(user=Depends(current_user)):
         return public_user(user)
+
+    @api.post("/questions")
+    async def create_question(body: NewQuestion, user=Depends(current_user), svc=Depends(question_service),
+                              idempotency_key: str = Header(min_length=1, max_length=128)):
+        result, replayed = await svc.create(user, body.content, idempotency_key)
+        return JSONResponse(status_code=200 if replayed else 201, content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.get("/questions")
+    async def list_questions(limit: int = Query(30, ge=1, le=100), offset: int = Query(0, ge=0, le=100000),
+                             user=Depends(current_user), svc=Depends(question_service)):
+        items = await svc.db.questions.find({"ownerId": user["_id"]}).sort(
+            [("createdAt", -1), ("_id", -1)]).skip(offset).limit(limit).to_list(length=limit)
+        return {"items": [question_view(item) for item in items], "offset": offset, "limit": limit}
+
+    @api.get("/questions/{question_id}")
+    async def question_detail(question_id: str, user=Depends(current_user), svc=Depends(question_service)):
+        return question_view(await svc.owned(question_id, user))
+
+    @api.post("/questions/{question_id}/versions")
+    async def create_question_version(question_id: str, body: NewQuestionVersion, user=Depends(current_user),
+                                      svc=Depends(question_service),
+                                      idempotency_key: str = Header(min_length=1, max_length=128)):
+        result, replayed = await svc.derive(user, question_id, body.parentVersionId,
+                                          body.expectedCurrentVersionId, body.content, idempotency_key)
+        return JSONResponse(status_code=200 if replayed else 201, content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.get("/questions/{question_id}/versions")
+    async def question_versions(question_id: str, limit: int = Query(30, ge=1, le=100),
+                                offset: int = Query(0, ge=0, le=100000),
+                                user=Depends(current_user), svc=Depends(question_service)):
+        await svc.owned(question_id, user)
+        items = await svc.db.question_versions.find({"questionId": question_id}).sort(
+            "versionNo", -1).skip(offset).limit(limit).to_list(length=limit)
+        return {"items": [question_version_view(item) for item in items], "offset": offset, "limit": limit}
+
+    @api.get("/questions/{question_id}/versions/{version_id}")
+    async def question_version(question_id: str, version_id: str, user=Depends(current_user),
+                               svc=Depends(question_service)):
+        await svc.owned(question_id, user)
+        return question_version_view(await svc.version(question_id, version_id))
 
     @api.post("/surveys", status_code=201)
     async def create_survey(body: NewSurvey, user=Depends(current_user), svc=Depends(service)):

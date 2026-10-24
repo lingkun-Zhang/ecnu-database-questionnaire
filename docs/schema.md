@@ -2,6 +2,8 @@
 
 本文件根据 `backend/app/database.py`、`repositories.py`、`services.py`、`security.py`、`statistics.py` 与 `main.py` 的实际实现编写。初始化创建真实校验器和索引；是否已在指定环境成功执行、并发正确性和性能结论，需要对应运行证据，不能由本文替代。
 
+正文保留第一阶段四集合的结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；新增结构、索引、事务与兼容说明见[独立题目与版本](phase2-question-versions.md)。原四集合字段与校验器不变，不需要将旧数据的 `schemaVersion` 改成2。
+
 ## 1. 集合与生命周期
 
 | 集合 | 保存内容 | 生命周期与主要访问 |

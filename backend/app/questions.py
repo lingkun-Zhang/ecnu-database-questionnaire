@@ -9,6 +9,8 @@ from uuid import uuid4
 from pymongo.errors import PyMongoError
 
 from .question_content import canonical_question_content, validate_question_content
+from .question_usage import (DRAFT_USAGE_PROJECTION, draft_usage_filter,
+                             matching_instances, published_usage_pipeline)
 from .repositories import Repository
 from .security import digest, utcnow
 from .services import ServiceError
@@ -46,6 +48,36 @@ class QuestionServices:
         if not document:
             raise ServiceError("QUESTION_VERSION_NOT_FOUND", "题目版本不存在", 404)
         return document
+
+    async def usages(self, user, question_id, scope, version_id=None, limit=30, after_id=None):
+        await self.owned(question_id, user)
+        if version_id is not None:
+            await self.version(question_id, version_id)
+        if scope == "draft":
+            rows = await self.db.surveys.find(
+                draft_usage_filter(user["_id"], question_id, version_id, after_id),
+                DRAFT_USAGE_PROJECTION).sort("_id", 1).limit(limit + 1).max_time_ms(10000).to_list(length=limit + 1)
+        else:
+            cursor = await self.db.survey_versions.aggregate(
+                published_usage_pipeline(user["_id"], question_id, version_id, after_id, limit),
+                maxTimeMS=10000)
+            rows = await cursor.to_list(length=limit + 1)
+        items = []
+        for row in rows[:limit]:
+            if scope == "draft":
+                item = {"surveyId": row["_id"], "surveyTitle": row["draft"]["title"],
+                        "surveyStatus": row["status"], "draftRevision": row["draftRevision"],
+                        "instances": matching_instances(row["draftQuestionSources"], question_id, version_id)}
+            else:
+                item = {"surveyId": row["surveyId"], "surveyTitle": row["definition"]["title"],
+                        "surveyStatus": row["surveyStatus"], "surveyVersionId": row["_id"],
+                        "versionNo": row["versionNo"], "publishedAt": row["publishedAt"],
+                        "isCurrent": row["isCurrent"],
+                        "instances": matching_instances(row["questionSources"], question_id, version_id)}
+            items.append(item)
+        return {"questionId": question_id, "questionVersionId": version_id, "scope": scope,
+                "limit": limit, "items": items,
+                "nextAfterId": rows[limit - 1]["_id"] if len(rows) > limit else None}
 
     def content(self, raw):
         errors = validate_question_content(raw)

@@ -1,0 +1,4 @@
+{"case": "draft_series", "equal": true, "cursorDocsExamined": {"auto": 31, "index": 31, "collection_scan": 1000}}
+{"case": "draft_version", "equal": true, "cursorDocsExamined": {"auto": 8, "index": 8, "collection_scan": 1000, "series_index": 42}}
+{"case": "published_series", "equal": true, "cursorDocsExamined": {"auto": 340, "index": 340, "collection_scan": 2000}}
+{"case": "published_version", "equal": true, "cursorDocsExamined": {"auto": 8, "index": 8, "collection_scan": 2000, "series_index": 340}}

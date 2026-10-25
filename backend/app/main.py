@@ -262,6 +262,14 @@ def create_app(settings=None):
     async def question_detail(question_id: str, user=Depends(current_user), svc=Depends(question_service)):
         return question_view(await svc.owned(question_id, user))
 
+    @api.get("/questions/{question_id}/usages")
+    async def question_usages(question_id: str, scope: Literal["draft", "published"] = "draft",
+                              questionVersionId: str | None = Query(None, min_length=1, max_length=160),
+                              limit: int = Query(30, ge=1, le=100),
+                              afterId: str | None = Query(None, min_length=1, max_length=160),
+                              user=Depends(current_user), svc=Depends(question_service)):
+        return await svc.usages(user, question_id, scope, questionVersionId, limit, afterId)
+
     @api.post("/questions/{question_id}/versions")
     async def create_question_version(question_id: str, body: NewQuestionVersion, user=Depends(current_user),
                                       svc=Depends(question_service),

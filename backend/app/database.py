@@ -272,10 +272,22 @@ INDEXES: dict[str, list[IndexModel]] = {
     "surveys": [
         IndexModel([("publicId", ASCENDING)], unique=True, name="uq_surveys_public_id"),
         IndexModel([("ownerId", ASCENDING), ("createdAt", DESCENDING), ("_id", DESCENDING)], name="ix_surveys_owner_created"),
+        # Series and exact-version usage have different equality prefixes; keep
+        # _id after those prefixes for container keyset pagination.
+        IndexModel([("ownerId", ASCENDING), ("draftQuestionSources.questionId", ASCENDING),
+                    ("_id", ASCENDING)], name="ix_surveys_question_usage"),
+        IndexModel([("ownerId", ASCENDING), ("draftQuestionSources.questionId", ASCENDING),
+                    ("draftQuestionSources.questionVersionId", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_surveys_question_version_usage"),
     ],
     "survey_versions": [
         IndexModel([("surveyId", ASCENDING), ("versionNo", ASCENDING)], unique=True, name="uq_versions_survey_number"),
         IndexModel([("surveyId", ASCENDING), ("publishKey", ASCENDING)], unique=True, name="uq_versions_publish_key"),
+        IndexModel([("questionSources.questionId", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_versions_question_usage"),
+        IndexModel([("questionSources.questionId", ASCENDING),
+                    ("questionSources.questionVersionId", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_versions_question_version_usage"),
     ],
     "responses": [
         IndexModel([("surveyId", ASCENDING), ("participantKey", ASCENDING), ("submissionKey", ASCENDING)], unique=True, name="uq_responses_submission"),

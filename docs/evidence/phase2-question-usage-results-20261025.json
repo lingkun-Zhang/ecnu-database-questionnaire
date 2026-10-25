@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-25",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "stepBaseCommit": "1576433",
+  "branch": "phase2-question-versions",
+  "scope": "Private question usage lookup across owned drafts and published snapshots; no editor or sharing workflow",
+  "environment": {
+    "python": "3.12.14",
+    "pymongo": "4.19.0",
+    "mongodb": "6.0.29",
+    "pytest": "9.1.1",
+    "businessDatabaseUsed": false,
+    "realConfigurationRead": false
+  },
+  "backend": {
+    "command": "python -m pytest -q --junitxml=.runtime/phase2-usage-tests-20261025.xml",
+    "passed": 291,
+    "failed": 0,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 128.46,
+    "newTestsPassed": 18,
+    "junitTestcaseElements": 294,
+    "junitTestsAttributeIncludingSubtests": 545,
+    "skipReason": "Three existing Windows real symlink cases lack OS permission"
+  },
+  "targeted": {
+    "command": "python -m pytest -q tests/test_question_usage.py --maxfail=3",
+    "passed": 18,
+    "failed": 0,
+    "seconds": 14.92,
+    "includedAgainInFullRun": true
+  },
+  "queryExperiment": {
+    "command": "python scripts/question_usage_experiment.py --mongo-uri <isolated-test-uri> --output .runtime/question-usage-plans-20261025.json",
+    "datasetCounts": {
+      "users": 4,
+      "questions": 21,
+      "question_versions": 42,
+      "surveys": 1000,
+      "survey_versions": 2000,
+      "responses": 0
+    },
+    "caseCount": 4,
+    "executionsWithIndependentExpectedChecks": 14,
+    "passed": true,
+    "summary": [
+      {
+        "id": "draft_series",
+        "resultsIncludingSentinel": 31,
+        "cursorDocsExamined": {
+          "auto": 31,
+          "index": 31,
+          "collection_scan": 1000
+        },
+        "automaticIndexes": [
+          "ix_surveys_question_usage"
+        ],
+        "automaticBlockingSort": false,
+        "lookup": []
+      },
+      {
+        "id": "draft_version",
+        "resultsIncludingSentinel": 8,
+        "cursorDocsExamined": {
+          "auto": 8,
+          "index": 8,
+          "collection_scan": 1000,
+          "series_index": 42
+        },
+        "automaticIndexes": [
+          "ix_surveys_question_version_usage"
+        ],
+        "automaticBlockingSort": false,
+        "lookup": []
+      },
+      {
+        "id": "published_series",
+        "resultsIncludingSentinel": 31,
+        "cursorDocsExamined": {
+          "auto": 340,
+          "index": 340,
+          "collection_scan": 2000
+        },
+        "automaticIndexes": [
+          "ix_versions_question_usage"
+        ],
+        "automaticBlockingSort": false,
+        "lookup": [
+          {
+            "totalDocsExamined": 125,
+            "totalKeysExamined": 125,
+            "collectionScans": 0,
+            "indexesUsed": [
+              "_id_"
+            ],
+            "nReturned": 31
+          }
+        ]
+      },
+      {
+        "id": "published_version",
+        "resultsIncludingSentinel": 8,
+        "cursorDocsExamined": {
+          "auto": 8,
+          "index": 8,
+          "collection_scan": 2000,
+          "series_index": 340
+        },
+        "automaticIndexes": [
+          "ix_versions_question_version_usage"
+        ],
+        "automaticBlockingSort": false,
+        "lookup": [
+          {
+            "totalDocsExamined": 7,
+            "totalKeysExamined": 7,
+            "collectionScans": 0,
+            "indexesUsed": [
+              "_id_"
+            ],
+            "nReturned": 8
+          }
+        ]
+      }
+    ],
+    "sourceChecksumsMatchCurrentFiles": true,
+    "lookupCountsSeparateFromSourceCursor": true,
+    "productionThroughputBenchmark": false,
+    "cleanup": {
+      "ownershipVerified": true,
+      "databaseDropped": true
+    }
+  },
+  "openapi": {
+    "matchesApplication": true,
+    "paths": 25,
+    "operations": 28,
+    "newPaths": 1,
+    "previousPathsAndModelsUnchanged": true
+  },
+  "compatibility": {
+    "collectionValidatorsUnchangedFromStepBase": true,
+    "onlyFourIndexesAdded": true,
+    "noBusinessFieldsAdded": true,
+    "usageReadsPreserveAllSixCollectionsAsFullDocuments": true,
+    "noBackfillOrSchemaVersionChange": true,
+    "originalDesktopFilesRechecked": 163,
+    "originalDesktopFilesChanged": 0
+  },
+  "pagination": {
+    "containerKeyset": "_id ascending, exclusive afterId",
+    "draftRows": "one per survey",
+    "publishedRows": "one per survey snapshot, not distinct survey count",
+    "totalCountProvided": false,
+    "crossPageSnapshotGuaranteed": false,
+    "ownerFilteringBeforePageLimit": true
+  },
+  "notExecuted": [
+    "frontend tests/build (no frontend changes; previous 64-test batch remains separate)",
+    "browser end-to-end",
+    "business data migration",
+    "index storage or write-latency measurement",
+    "production load benchmark"
+  ],
+  "remaining": [
+    "sharing and permitted cross-owner usage metadata",
+    "editing impact UI and version creation choice",
+    "question restoration",
+    "question bank management",
+    "cross-survey statistics"
+  ],
+  "testServerStopped": true,
+  "testDatabasesRemaining": 0,
+  "gitHubPushed": false,
+  "coursePlatformSubmitted": false
+}

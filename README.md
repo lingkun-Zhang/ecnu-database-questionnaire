@@ -1,6 +1,6 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已实现私有题目与内容版本、问卷固定引用和发布冻结，并支持查询这些题目的使用情况；题库界面仍待接入。
+华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已实现私有题目与内容版本、问卷固定引用和发布冻结，并支持使用情况查询与恢复旧版；题库界面仍待接入。
 
 仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
 
@@ -8,7 +8,7 @@
 
 | 内容 | 入口 |
 |---|---|
-| 第二阶段当前进展与验证 | [题目使用情况查询](docs/phase2-question-usage.md)，含权限、分页、索引与验证；前两步见[固定使用题目版本](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
+| 第二阶段当前进展与验证 | [恢复题目旧版本](docs/phase2-question-restore.md)，含来源、事务、重试与旧格式验证；前置能力见[使用情况查询](docs/phase2-question-usage.md)、[固定使用题目版本](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
 | 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
@@ -74,7 +74,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段当前回归的日期、范围和实际结果见[题目使用情况查询](docs/phase2-question-usage.md)。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段当前回归的日期、范围和实际结果见[恢复题目旧版本](docs/phase2-question-restore.md)。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|
@@ -116,4 +116,4 @@ docs/              设计、报告、需求追踪、AI记录与实测结果
 requirements.txt   锁定的Python依赖
 ```
 
-第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段当前范围、实际结果和待完成项见[题目使用情况查询](docs/phase2-question-usage.md)。
+第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段当前范围、实际结果和待完成项见[恢复题目旧版本](docs/phase2-question-restore.md)。

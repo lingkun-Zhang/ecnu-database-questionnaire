@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-25",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "stepBaseCommit": "93a54eb",
+  "branch": "phase2-question-versions",
+  "scope": "Owner-only server-sourced question restoration as a new immutable version with provenance; no automatic survey upgrade",
+  "environment": {
+    "python": "3.12.14",
+    "pymongo": "4.19.0",
+    "pytest": "9.1.1",
+    "mongodb": "6.0.29",
+    "businessDatabaseUsed": false,
+    "realConfigurationRead": false,
+    "repositoryEnvFilePresent": false,
+    "secrets": "temporary test-only process environment; not recorded"
+  },
+  "backend": {
+    "command": "python -m pytest -q --junitxml=.runtime/phase2-restore-tests-20261025.xml",
+    "passed": 310,
+    "failed": 0,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 84.68,
+    "newTestsPassed": 19,
+    "junitTestcaseElements": 313,
+    "junitTestsAttributeIncludingSubtests": 564,
+    "skipReason": "Three existing Windows real symlink cases lack OS permission"
+  },
+  "targeted": {
+    "command": "python -m pytest -q tests/test_question_restore.py --maxfail=3",
+    "passed": 19,
+    "failed": 0,
+    "seconds": 9.27,
+    "includedAgainInFullRun": true
+  },
+  "verified": {
+    "v1RestoredAfterV3CreatesV4": true,
+    "contentReadFromTargetInsideSameTransaction": true,
+    "parentIsContentSource": true,
+    "previousCurrentVersionRecorded": true,
+    "fourQuestionKinds": true,
+    "currentOrEqualContentCanCreateRestoreVersion": true,
+    "requestCannotSupplyContentOrMetadata": true,
+    "sameKeyReplayAfterHeadAdvancesDoesNotMoveHead": true,
+    "deriveAndRestoreKeysCannotBeInterchanged": true,
+    "sameKeyAndCompetingKeyConcurrency": true,
+    "restoreVersusDeriveConcurrency": true,
+    "rollbackAndTransientTransactionRetry": true,
+    "realCommitThenLostServiceReturnRecovery": true,
+    "unknownWriteWithFailedRecoveryReturns503": true,
+    "oldQuestionVersionsAndBusinessDocumentsUnchanged": true,
+    "oldFillStillSubmitsToOriginalSurveyVersion": true,
+    "usageDoesNotAutomaticallyPointToRestoredVersion": true,
+    "explicitSurveyCanUseAndSubmitRestoredContent": true,
+    "pairedMetadataAndNoRestoreV1EnforcedByMongo": true,
+    "repeatedInitDoesNotBackfill": true
+  },
+  "faultInjectionBoundary": "Service hooks and controlled driver-boundary errors around real MongoDB transactions; not an actual network outage",
+  "openapi": {
+    "matchesApplication": true,
+    "paths": 26,
+    "operations": 29,
+    "newPaths": 1,
+    "newInputModels": 1,
+    "previousPathsAndModelsUnchanged": true
+  },
+  "compatibility": {
+    "onlyTwoOptionalQuestionVersionMetadataFieldsAdded": true,
+    "metadataMustBeAbsentOrACompleteRestorePair": true,
+    "originalQuestionVersionConstraintsRetained": true,
+    "otherFiveCollectionValidatorsUnchanged": true,
+    "indexesAndCollectionCountUnchanged": true,
+    "oldCreateAndDeriveResponseShapesUnchanged": true,
+    "schemaVersionNotChanged": true,
+    "noBackfill": true,
+    "originalDesktopFilesRechecked": 163,
+    "originalDesktopFilesChanged": 0,
+    "oldBackendWithRestoreRecordsSupportedWithoutCoordinatedRollback": false
+  },
+  "notExecuted": [
+    "frontend tests/build (no frontend changes; previous batch remains separate)",
+    "browser end-to-end",
+    "business data migration",
+    "old-program rollback rehearsal",
+    "query-plan experiment rerun (query builders and indexes unchanged)",
+    "production load benchmark"
+  ],
+  "remaining": [
+    "personal question and survey picker UI",
+    "sharing and question bank management",
+    "cross-survey statistics",
+    "migration rehearsal where required"
+  ],
+  "testServerStopped": true,
+  "testDatabasesRemaining": 0,
+  "gitHubPushed": false,
+  "coursePlatformSubmitted": false
+}

@@ -22,8 +22,11 @@ def question_view(document):
 
 
 def question_version_view(document):
-    return {"id": document["_id"], **{key: document[key] for key in
-            ("questionId", "versionNo", "parentVersionId", "content", "createdAt")}}
+    result = {"id": document["_id"], **{key: document[key] for key in
+              ("questionId", "versionNo", "parentVersionId", "content", "createdAt")}}
+    # Missing metadata stays missing: do not invent actions for legacy versions.
+    result.update({key: document[key] for key in ("operation", "previousCurrentVersionId") if key in document})
+    return result
 
 
 class QuestionServices:
@@ -133,6 +136,19 @@ class QuestionServices:
         request_digest = digest({"operation": "derive_question_version", "questionId": question_id,
                                  "parentVersionId": parent_id, "expectedCurrentVersionId": expected_current,
                                  "content": content})
+        return await self._append_version(user, question, parent_id, expected_current, key,
+                                          request_digest, content=content)
+
+    async def restore(self, user, question_id, target_id, expected_current, key):
+        question = await self.owned(question_id, user)
+        request_digest = digest({"operation": "restore_question_version", "questionId": question_id,
+                                 "targetVersionId": target_id, "expectedCurrentVersionId": expected_current})
+        return await self._append_version(user, question, target_id, expected_current, key,
+                                          request_digest, restoring=True)
+
+    async def _append_version(self, user, question, parent_id, expected_current, key,
+                              request_digest, *, content=None, restoring=False):
+        question_id = question["_id"]
 
         async def recover():
             document = await self.db.question_versions.find_one({"questionId": question_id, "requestKey": key})
@@ -148,12 +164,15 @@ class QuestionServices:
             current = await self.owned(question_id, user, session)
             if current["currentVersionId"] != expected_current:
                 raise ServiceError("QUESTION_VERSION_CONFLICT", "题目的当前版本已变化，请刷新后确认")
-            await self.version(question_id, parent_id, session)
+            parent = await self.version(question_id, parent_id, session)
             now = self.clock()
             document = {"_id": str(uuid4()), "questionId": question_id,
                         "versionNo": current["lastVersionNo"] + 1, "parentVersionId": parent_id,
-                        "content": deepcopy(content), "requestKey": key, "requestDigest": request_digest,
+                        "content": deepcopy(parent["content"] if restoring else content),
+                        "requestKey": key, "requestDigest": request_digest,
                         "createdAt": now, "schemaVersion": 1}
+            if restoring:
+                document.update({"operation": "restore", "previousCurrentVersionId": current["currentVersionId"]})
             await self.db.question_versions.insert_one(document, session=session)
             await self.hook("after_question_version_insert", document=document)
             result = await self.db.questions.update_one(

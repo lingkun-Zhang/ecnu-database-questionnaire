@@ -1,0 +1,11 @@
+.......................................................... [ 18%]
+................................ [ 28%]
+..................................... [ 40%]
+........................................................................ [ 63%]
+........................................................................ [ 86%]
+..................sss.....................             [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_runner_control.py:231: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:240: Symlinks unavailable: OSError
+SKIPPED [1] tests\test_runner_control.py:248: Symlinks unavailable: OSError
+310 passed, 3 skipped, 251 subtests passed in 84.68s (0:01:24)

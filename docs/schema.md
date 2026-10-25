@@ -2,7 +2,7 @@
 
 本文件根据 `backend/app/database.py`、`repositories.py`、`services.py`、`security.py`、`statistics.py` 与 `main.py` 的实际实现编写。初始化创建真实校验器和索引；是否已在指定环境成功执行、并发正确性和性能结论，需要对应运行证据，不能由本文替代。
 
-正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。使用情况查询再给草稿和发布集合各增加两个复合多键索引，不增加业务字段或使用关系集合；设计与实际计划见[题目使用情况查询](phase2-question-usage.md)。
+正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。使用情况查询再给草稿和发布集合各增加两个复合多键索引，不增加业务字段或使用关系集合；设计与实际计划见[题目使用情况查询](phase2-question-usage.md)。恢复功能再为 `question_versions`增加成对可选的 `operation/previousCurrentVersionId`，不增集合、索引或回填；约束和旧格式说明见[恢复题目旧版本](phase2-question-restore.md)。
 
 ## 1. 集合与生命周期
 

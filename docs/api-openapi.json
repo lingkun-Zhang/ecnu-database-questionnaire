@@ -497,6 +497,69 @@
         }
       }
     },
+    "/api/questions/{question_id}/restore": {
+      "post": {
+        "summary": "Restore Question Version",
+        "operationId": "restore_question_version_api_questions__question_id__restore_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Question Id"
+            }
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreQuestionVersion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/questions/{question_id}/versions/{version_id}": {
       "get": {
         "summary": "Question Version",
@@ -1901,6 +1964,29 @@
           "questionVersionId"
         ],
         "title": "QuestionSource"
+      },
+      "RestoreQuestionVersion": {
+        "properties": {
+          "targetVersionId": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Targetversionid"
+          },
+          "expectedCurrentVersionId": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Expectedcurrentversionid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "targetVersionId",
+          "expectedCurrentVersionId"
+        ],
+        "title": "RestoreQuestionVersion"
       },
       "Submit": {
         "properties": {

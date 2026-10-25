@@ -339,6 +339,8 @@ QUESTION_VERSION_SCHEMA = _object(
     {
         "_id": STRING_ID, "questionId": STRING_ID, "versionNo": POSITIVE,
         "parentVersionId": {"bsonType": ["string", "null"], "minLength": 1, "maxLength": 160},
+        "operation": {"enum": ["restore"]},
+        "previousCurrentVersionId": STRING_ID,
         "content": _question_content_schema(),
         "requestKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
         "requestDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
@@ -351,6 +353,13 @@ QUESTION_VERSION_SCHEMA["oneOf"] = [
     {"properties": {"versionNo": {"enum": [1]}, "parentVersionId": {"bsonType": "null"}}},
     {"properties": {"versionNo": {"minimum": 2}, "parentVersionId": STRING_ID}},
 ]
+# Optional restore metadata is a complete pair; legacy versions omit both.
+# Cross-document ownership and lineage remain service constraints.
+QUESTION_VERSION_SCHEMA["allOf"] = [{"oneOf": [
+    {"not": {"anyOf": [{"required": ["operation"]}, {"required": ["previousCurrentVersionId"]}]}},
+    {"required": ["operation", "previousCurrentVersionId"],
+     "properties": {"versionNo": {"minimum": 2}}},
+]}]
 
 VALIDATORS.update({
     "questions": {"$jsonSchema": QUESTION_ITEM_SCHEMA},

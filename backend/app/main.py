@@ -124,6 +124,11 @@ class NewQuestionVersion(NewQuestion):
     expectedCurrentVersionId: str = Field(min_length=1, max_length=160)
 
 
+class RestoreQuestionVersion(StrictModel):
+    targetVersionId: str = Field(min_length=1, max_length=160)
+    expectedCurrentVersionId: str = Field(min_length=1, max_length=160)
+
+
 async def current_user(request: Request, authorization: HTTPAuthorizationCredentials | None = Depends(bearer)):
     if not authorization or authorization.scheme.lower() != "bearer":
         raise ServiceError("UNAUTHENTICATED", "请先登录", 401)
@@ -287,6 +292,15 @@ def create_app(settings=None):
         items = await svc.db.question_versions.find({"questionId": question_id}).sort(
             "versionNo", -1).skip(offset).limit(limit).to_list(length=limit)
         return {"items": [question_version_view(item) for item in items], "offset": offset, "limit": limit}
+
+    @api.post("/questions/{question_id}/restore")
+    async def restore_question_version(question_id: str, body: RestoreQuestionVersion,
+                                       user=Depends(current_user), svc=Depends(question_service),
+                                       idempotency_key: str = Header(min_length=1, max_length=128)):
+        result, replayed = await svc.restore(user, question_id, body.targetVersionId,
+                                           body.expectedCurrentVersionId, idempotency_key)
+        return JSONResponse(status_code=200 if replayed else 201, content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
 
     @api.get("/questions/{question_id}/versions/{version_id}")
     async def question_version(question_id: str, version_id: str, user=Depends(current_user),

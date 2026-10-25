@@ -8,8 +8,9 @@ export interface Rule { id: string; priority: number; condition: Condition; targ
 export interface Question { id: string; kind: Kind; title: string; required: boolean; config: { options?: Option[]; minSelected?: number | null; maxSelected?: number | null; minLength?: number | null; maxLength?: number | null; min?: number | null; max?: number | null; integerOnly?: boolean }; defaultTarget: string; rules: Rule[] }
 export interface Definition { title: string; description: string; allowAnonymous: boolean; entryQuestionId: string | null; questions: Question[] }
 export interface User { id: string; username: string; createdAt: string }
-export interface Survey { id: string; publicId: string; draft: Definition; draftRevision: number; currentVersionId: string | null; lastVersionNo: number; status: string; deadlineAt: string | null; allowMultiple: boolean; policyLocked: boolean; settingsRevision: number; createdAt: string; updatedAt?: string }
-export interface Version { id: string; versionNo: number; sourceDraftRevision: number; publishedAt: string; definition: Definition }
+export interface QuestionSource { instanceId: string; questionId: string; questionVersionId: string }
+export interface Survey { id: string; publicId: string; draft: Definition; draftQuestionSources?: QuestionSource[]; draftRevision: number; currentVersionId: string | null; lastVersionNo: number; status: string; deadlineAt: string | null; allowMultiple: boolean; policyLocked: boolean; settingsRevision: number; createdAt: string; updatedAt?: string }
+export interface Version { id: string; versionNo: number; sourceDraftRevision: number; publishedAt: string; definition: Definition; questionSources?: QuestionSource[] }
 export interface Evaluation { path: string[]; activeAnswers: Answers; trace: Array<Record<string, unknown>>; errors: FieldError[]; blockedAt: string | null; complete: boolean; provisional: boolean; warnings?: DesignWarning[] }
 export interface FieldError { questionId?: string; ruleId?: string; field?: string; code?: string; message: string }
 export interface DesignWarning extends FieldError { relatedRuleIds?: string[] }

@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 from uuid import uuid4
 import asyncio
 import csv
@@ -16,6 +16,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
 import jwt
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic.json_schema import SkipJsonSchema
 from pymongo import AsyncMongoClient, ReadPreference
 from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
@@ -45,9 +46,23 @@ class NewSurvey(StrictModel):
     title: str = Field(default="未命名问卷", min_length=1, max_length=200)
 
 
+class QuestionSource(StrictModel):
+    instanceId: str = Field(min_length=1, max_length=64)
+    questionId: str = Field(min_length=1, max_length=160)
+    questionVersionId: str = Field(min_length=1, max_length=160)
+
+
 class Draft(StrictModel):
     definition: dict[str, Any]
     expectedDraftRevision: int = Field(ge=0)
+    questionSources: Annotated[list[QuestionSource], Field(max_length=100)] | SkipJsonSchema[None] = None
+
+    @field_validator("questionSources")
+    @classmethod
+    def explicit_sources_are_not_null(cls, value):
+        if value is None:
+            raise ValueError("questionSources不能为null，解除全部引用请传空数组")
+        return value
 
 
 class Preview(StrictModel):
@@ -288,7 +303,8 @@ def create_app(settings=None):
 
     @api.put("/surveys/{survey_id}/draft")
     async def save_draft(survey_id: str, body: Draft, user=Depends(current_user), svc=Depends(service)):
-        return await svc.save_draft(user, survey_id, body.expectedDraftRevision, body.definition)
+        sources = None if body.questionSources is None else [item.model_dump() for item in body.questionSources]
+        return await svc.save_draft(user, survey_id, body.expectedDraftRevision, body.definition, sources)
 
     @api.post("/surveys/{survey_id}/preview")
     async def preview(survey_id: str, body: Preview, user=Depends(current_user), svc=Depends(service)):

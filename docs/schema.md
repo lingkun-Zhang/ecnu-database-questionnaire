@@ -2,7 +2,7 @@
 
 本文件根据 `backend/app/database.py`、`repositories.py`、`services.py`、`security.py`、`statistics.py` 与 `main.py` 的实际实现编写。初始化创建真实校验器和索引；是否已在指定环境成功执行、并发正确性和性能结论，需要对应运行证据，不能由本文替代。
 
-正文保留第一阶段四集合的结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；新增结构、索引、事务与兼容说明见[独立题目与版本](phase2-question-versions.md)。原四集合字段与校验器不变，不需要将旧数据的 `schemaVersion` 改成2。
+正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。
 
 ## 1. 集合与生命周期
 

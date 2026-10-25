@@ -709,7 +709,17 @@ async def test_question_operations_and_repeated_init_preserve_all_phase1_data_an
         for collection in OLD_COLLECTIONS:
             options = await context.db[collection].options()
             assert options["validationLevel"] == "strict" and options["validationAction"] == "error"
-            canonical = json.dumps(options["validator"], sort_keys=True, separators=(",", ":"))
+            validator = deepcopy(options["validator"])
+            # Step 2 intentionally adds optional provenance, without weakening
+            # any phase-1 field or constraint. Keep the original fingerprints.
+            extra = {"surveys": "draftQuestionSources", "survey_versions": "questionSources"}.get(collection)
+            if extra:
+                schema = validator["$jsonSchema"]
+                assert extra not in schema["required"]
+                source_schema = schema["properties"].pop(extra)
+                assert source_schema["bsonType"] == "array" and source_schema["maxItems"] == 100
+                assert set(source_schema["items"]["required"]) == {"instanceId", "questionId", "questionVersionId"}
+            canonical = json.dumps(validator, sort_keys=True, separators=(",", ":"))
             assert hashlib.sha256(canonical.encode()).hexdigest() == BASELINE_VALIDATOR_HASHES[collection]
 
     await assert_old_contracts()

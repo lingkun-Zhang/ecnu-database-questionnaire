@@ -7,7 +7,8 @@ import jwt
 from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError, PyMongoError
 
-from .domain import evaluate, validate_definition
+from .domain import evaluate, validate_definition, _valid_id
+from .question_content import canonical_question_content, validate_question_content
 from .design_checks import analyze_definition
 from .repositories import Repository
 from .security import (utcnow, normalize_username, PASSWORDS, verify_password, token,
@@ -28,12 +29,18 @@ def survey_view(survey):
     allowed = ["publicId", "draft", "draftRevision", "currentVersionId", "lastVersionNo", "status",
                "deadlineAt", "allowMultiple", "policyLocked", "settingsRevision", "submitSequence",
                "createdAt", "updatedAt"]
-    return {"id": survey["_id"], **{key: survey[key] for key in allowed}}
+    result = {"id": survey["_id"], **{key: survey[key] for key in allowed}}
+    if survey.get("draftQuestionSources"):
+        result["draftQuestionSources"] = survey["draftQuestionSources"]
+    return result
 
 
 def version_view(version):
-    return {"id": version["_id"], **{key: version[key] for key in
-            ["surveyId", "versionNo", "sourceDraftRevision", "definition", "publishedAt"]}}
+    result = {"id": version["_id"], **{key: version[key] for key in
+              ["surveyId", "versionNo", "sourceDraftRevision", "definition", "publishedAt"]}}
+    if version.get("questionSources"):
+        result["questionSources"] = version["questionSources"]
+    return result
 
 
 def receipt(document):
@@ -117,8 +124,71 @@ class Services:
         await self.db.surveys.insert_one(document)
         return survey_view(document)
 
-    async def save_draft(self, user, survey_id, revision, definition):
-        await self.owned(survey_id, user)
+    async def checked_question_sources(self, user, definition, sources, session=None):
+        """Resolve explicit provenance, never infer identity from equal wording.
+
+        A source version supplies content only. Local IDs, requiredness and
+        routing remain in the executable questionnaire definition.
+        """
+        def invalid(message, field, instance_id=None):
+            raise ServiceError("INVALID_QUESTION_SOURCE", message, 422,
+                               [{"code": "invalid_question_source", "message": message,
+                                 "questionId": instance_id, "ruleId": None, "field": field}])
+
+        if type(sources) is not list or len(sources) > 100:
+            invalid("题目来源必须是最多100项的数组", "questionSources")
+        if not sources:
+            return []
+        instances = {}
+        for index, question in enumerate(definition.get("questions", [])):
+            if type(question) is dict and type(question.get("id")) is str:
+                instances.setdefault(question["id"], []).append((index, question))
+        seen = set()
+        for index, source in enumerate(sources):
+            field = f"questionSources[{index}]"
+            if (type(source) is not dict or set(source) != {"instanceId", "questionId", "questionVersionId"}
+                    or any(type(value) is not str or not 1 <= len(value) <= 160 for value in source.values())):
+                invalid("请提供完整且合法的题目来源标识", field)
+            instance_id = source["instanceId"]
+            if not _valid_id(instance_id) or instance_id in seen or len(instances.get(instance_id, [])) != 1:
+                invalid("来源必须指向唯一且存在的卷内题目实例", field + ".instanceId", instance_id)
+            seen.add(instance_id)
+
+        # At most two bounded reads, even if the same version is used repeatedly.
+        question_ids = list({source["questionId"] for source in sources})
+        owned = await self.db.questions.find(
+            {"_id": {"$in": question_ids}, "ownerId": user["_id"]}, session=session).to_list(length=100)
+        if len(owned) != len(question_ids):
+            raise ServiceError("NOT_FOUND", "引用的题目不存在或当前不可使用", 404)
+        versions = await self.db.question_versions.find(
+            {"_id": {"$in": list({source["questionVersionId"] for source in sources})},
+             "questionId": {"$in": question_ids}}, session=session).to_list(length=100)
+        versions = {version["_id"]: version for version in versions}
+        for index, source in enumerate(sources):
+            version = versions.get(source["questionVersionId"])
+            if not version or version["questionId"] != source["questionId"]:
+                raise ServiceError("QUESTION_VERSION_NOT_FOUND", "引用的版本不属于指定题目或不存在", 404)
+            position, question = instances[source["instanceId"]][0]
+            content = {key: question.get(key) for key in ("kind", "title", "config")}
+            errors = validate_question_content(content)
+            if errors:
+                errors = [{**error, "questionId": source["instanceId"],
+                           "field": error["field"].replace("content", f"questions[{position}]", 1)}
+                          for error in errors]
+                raise ServiceError("INVALID_QUESTION_SOURCE", "引用题目的内容不合法，请检查题型和约束", 422, errors)
+            canonical = canonical_question_content(content)
+            if canonical != version["content"]:
+                changed = next(key for key in ("kind", "title", "config") if canonical[key] != version["content"][key])
+                invalid("题目内容与引用版本不一致，请选择对应版本或明确解除引用后修改",
+                        f"questions[{position}].{changed}", source["instanceId"])
+        return deepcopy(sorted(sources, key=lambda source: instances[source["instanceId"]][0][0]))
+
+    async def save_draft(self, user, survey_id, revision, definition, question_sources=None):
+        survey = await self.owned(survey_id, user)
+        if survey["draftRevision"] != revision:
+            raise ServiceError("DRAFT_CONFLICT", "草稿已在其他页面修改，请刷新后比较")
+        if question_sources is None and survey.get("draftQuestionSources"):
+            raise ServiceError("QUESTION_SOURCES_REQUIRED", "当前草稿含题目引用，请明确提交来源列表；解除全部引用请传空数组")
         # Incomplete drafts are allowed, but bounded and with a known envelope.
         if set(definition) - {"title", "description", "allowAnonymous", "entryQuestionId", "questions"}:
             raise ServiceError("INVALID_DEFINITION", "草稿包含未知字段", 422)
@@ -126,7 +196,12 @@ class Services:
                 or len(definition["title"]) > 200 or not isinstance(definition.get("questions"), list)
                 or len(definition["questions"]) > 100):
             raise ServiceError("INVALID_DEFINITION", "请检查标题与题目数量", 422)
-        result = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock())
+        if question_sources is None:
+            result = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock())
+        else:
+            sources = await self.checked_question_sources(user, definition, question_sources)
+            result = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock(),
+                                                question_sources=sources)
         if not result:
             raise ServiceError("DRAFT_CONFLICT", "草稿已在其他页面修改，请刷新后比较")
         return survey_view(result)
@@ -164,6 +239,8 @@ class Services:
             errors = validate_definition(survey["draft"])
             if errors:
                 raise ServiceError("INVALID_DEFINITION", "发布检查未通过", 422, errors)
+            sources = await self.checked_question_sources(
+                user, survey["draft"], survey.get("draftQuestionSources", []), session)
             now = self.clock()
             if survey["status"] == "draft" and survey["deadlineAt"] and now >= survey["deadlineAt"]:
                 raise ServiceError("SURVEY_EXPIRED", "首次发布的截止时间必须在未来")
@@ -171,6 +248,8 @@ class Services:
                         "sourceDraftRevision": revision, "definition": deepcopy(survey["draft"]),
                         "publishKey": key, "publishRequestDigest": request_digest,
                         "publishedAt": now, "schemaVersion": 1}
+            if sources:
+                document["questionSources"] = deepcopy(sources)
             await self.repo.insert_version(document, session)
             await self.hook("after_version_insert", document=document)
             result = await self.repo.switch_version(survey, user["_id"], revision, expected_current,

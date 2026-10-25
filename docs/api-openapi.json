@@ -1594,6 +1594,14 @@
             "type": "integer",
             "minimum": 0.0,
             "title": "Expecteddraftrevision"
+          },
+          "questionSources": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionSource"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Questionsources"
           }
         },
         "additionalProperties": false,
@@ -1759,6 +1767,36 @@
           "publishKey"
         ],
         "title": "Publish"
+      },
+      "QuestionSource": {
+        "properties": {
+          "instanceId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Instanceid"
+          },
+          "questionId": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Questionid"
+          },
+          "questionVersionId": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Questionversionid"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "instanceId",
+          "questionId",
+          "questionVersionId"
+        ],
+        "title": "QuestionSource"
       },
       "Submit": {
         "properties": {

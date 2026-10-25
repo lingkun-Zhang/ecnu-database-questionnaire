@@ -221,6 +221,18 @@ RESPONSE_SCHEMA["oneOf"] = [
     {"properties": {"anonymous": {"enum": [False]}}, "required": ["identity"]},
 ]
 
+# Bounded provenance is separate from the unchanged executable definition.
+# Existing documents may omit it; cross-collection authenticity is a service rule.
+QUESTION_SOURCE_SCHEMA = _object(
+    {"instanceId": {**TOKEN_ID, "maxLength": 64}, "questionId": STRING_ID, "questionVersionId": STRING_ID},
+    ["instanceId", "questionId", "questionVersionId"],
+)
+QUESTION_SOURCES_SCHEMA = {
+    "bsonType": "array", "maxItems": 100, "uniqueItems": True, "items": QUESTION_SOURCE_SCHEMA,
+}
+SURVEY_SCHEMA["properties"]["draftQuestionSources"] = deepcopy(QUESTION_SOURCES_SCHEMA)
+VERSION_SCHEMA["properties"]["questionSources"] = deepcopy(QUESTION_SOURCES_SCHEMA)
+
 VALIDATORS: dict[str, dict[str, Any]] = {
     "users": {"$jsonSchema": USER_SCHEMA},
     "surveys": {"$jsonSchema": SURVEY_SCHEMA},
@@ -279,7 +291,8 @@ INDEXES: dict[str, list[IndexModel]] = {
 }
 
 
-# Phase 2 adds independent entities; the four phase-1 contracts above stay intact.
+# Independent entities follow; legacy fields above retain their constraints,
+# with only optional provenance added to surveys and survey_versions.
 QUESTION_ITEM_SCHEMA = _object(
     {
         "_id": STRING_ID, "ownerId": STRING_ID,

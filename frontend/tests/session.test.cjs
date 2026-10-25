@@ -333,7 +333,7 @@ test('copying a historical version stays busy until the refreshed draft is avail
   h.network.request = async (path, options) => {
     calls.push({ path, options })
     if (path.endsWith('/draft')) {
-      assert.deepEqual(JSON.parse(options.body), { definition: historical, expectedDraftRevision: 4 })
+      assert.deepEqual(JSON.parse(options.body), { definition: historical, expectedDraftRevision: 4, questionSources: [] })
       return write.promise
     }
     if (path.includes('/versions?')) return { items: [version] }
@@ -355,6 +355,87 @@ test('copying a historical version stays busy until the refreshed draft is avail
     write.resolve(refreshed); read.resolve(refreshed); await running; h.state.logout()
   }
 })
+
+for (const deletedIds of [[], ['q_note'], ['q_age', 'q_note']]) {
+  test(`saving a sourced draft keeps only sources for retained instances (${deletedIds.join(',') || 'no deletions'})`, async () => {
+    const h = component(), original = seedEditor(h), calls = []
+    const sources = [
+      { instanceId: 'q_age', questionId: 'library-age', questionVersionId: 'library-age-v1' },
+      { instanceId: 'q_note', questionId: 'library-note', questionVersionId: 'library-note-v2' },
+    ]
+    h.state.active.value.draftQuestionSources = plain(sources)
+    h.state.definition.value.questions = h.state.definition.value.questions.filter(q => !deletedIds.includes(q.id))
+    const submitted = plain(h.state.definition.value), retained = sources.filter(source => !deletedIds.includes(source.instanceId))
+    const refreshed = { ...original, draft: submitted, draftRevision: 5,
+      ...(retained.length ? { draftQuestionSources: retained } : {}) }
+    h.network.request = async (path, options) => {
+      calls.push(path)
+      if (path.endsWith('/draft')) {
+        assert.equal(options.method, 'PUT')
+        assert.deepEqual(JSON.parse(options.body), {
+          definition: submitted, expectedDraftRevision: 4, questionSources: retained,
+        })
+        assert.deepEqual(plain(h.state.active.value.draftQuestionSources), sources, 'filtering the request does not mutate the saved metadata')
+        return refreshed
+      }
+      return path.includes('/versions?') ? { items: [] } : refreshed
+    }
+    await h.state.saveDraft()
+    assert.equal(calls.length, 3)
+    assert.equal(h.state.error.value, null); assert.equal(h.state.dirty.value, false)
+    assert.deepEqual(plain(h.state.active.value.draftQuestionSources ?? []), retained)
+    h.state.logout()
+  })
+}
+
+test('editing a retained sourced instance preserves its source and local edits when the server rejects mismatched content', async () => {
+  const h = component(), original = seedEditor(h), calls = []
+  const sources = [{ instanceId: 'q_age', questionId: 'library-age', questionVersionId: 'library-age-v1' }]
+  h.state.active.value.draftQuestionSources = plain(sources)
+  h.state.definition.value.questions.find(q => q.id === 'q_age').title = '尚未另存为题目版本的修改'
+  const submitted = plain(h.state.definition.value), savedBefore = h.state.savedDefinition.value
+  h.network.request = async (path, options) => {
+    calls.push(path)
+    assert.deepEqual(JSON.parse(options.body), {
+      definition: submitted, expectedDraftRevision: 4, questionSources: sources,
+    })
+    throw new ApiError(422, 'INVALID_QUESTION_SOURCE', '题目内容与指定版本不一致')
+  }
+  await h.state.saveDraft()
+  assert.deepEqual(calls, ['/surveys/private-survey/draft'])
+  assert.equal(h.state.error.value.code, 'INVALID_QUESTION_SOURCE')
+  assert.deepEqual(plain(h.state.definition.value), submitted)
+  assert.deepEqual(plain(h.state.active.value), { ...original, draftQuestionSources: sources })
+  assert.equal(h.state.savedDefinition.value, savedBefore); assert.equal(h.state.dirty.value, true)
+  assert.equal(h.state.busy.value, false); assert.equal(h.state.notice.value, '')
+  h.state.logout()
+})
+
+for (const hasHistoricalSources of [true, false]) {
+  test(`copying history ${hasHistoricalSources ? 'restores its fixed sources' : 'explicitly clears the current sources when history has none'}`, async () => {
+    const h = component(), original = seedEditor(h), writes = []
+    const currentSources = [{ instanceId: 'q_age', questionId: 'library-age', questionVersionId: 'library-age-v2' }]
+    const historicalSources = [{ instanceId: 'q_age', questionId: 'library-age', questionVersionId: 'library-age-v1' }]
+    h.state.active.value.draftQuestionSources = plain(currentSources)
+    const historical = plain(original.draft); historical.title = '历史问卷与其当时来源'
+    const version = { ...editorVersion(historical), ...(hasHistoricalSources ? { questionSources: historicalSources } : {}) }
+    const expectedSources = hasHistoricalSources ? historicalSources : []
+    const refreshed = { ...original, draft: historical, draftRevision: 5,
+      ...(hasHistoricalSources ? { draftQuestionSources: historicalSources } : {}) }
+    h.network.request = async (path, options) => {
+      if (path.endsWith('/draft')) {
+        writes.push(JSON.parse(options.body))
+        return refreshed
+      }
+      return path.includes('/versions?') ? { items: [version] } : refreshed
+    }
+    await h.state.copyVersion(version)
+    assert.deepEqual(writes, [{ definition: historical, expectedDraftRevision: 4, questionSources: expectedSources }])
+    assert.deepEqual(plain(h.state.active.value.draftQuestionSources ?? []), expectedSources)
+    assert.equal(h.state.error.value, null); assert.equal(h.state.dirty.value, false)
+    h.state.logout()
+  })
+}
 
 for (const [code, status] of [['SURVEY_CLOSED', 'closed'], ['SURVEY_EXPIRED', 'expired']]) {
   test(`submit preflight preserves ${code} and the answer without creating a recovery key or POST submission`, async () => {

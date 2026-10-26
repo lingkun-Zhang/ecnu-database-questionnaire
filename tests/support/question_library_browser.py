@@ -59,6 +59,15 @@ def survey_definition(definition):
             for item in definition.get("questions", [])]
 
 
+def numeric_answers(responses):
+    """Keep numeric-question values, including BSON Int64, but never booleans."""
+    return [{"instanceId": answer["questionId"], "value": answer["value"]}
+            for response in responses for answer in response.get("answers", [])
+            if answer.get("kind") == "number"
+            and isinstance(answer.get("value"), (int, float))
+            and not isinstance(answer["value"], bool)]
+
+
 async def safe_summary(db):
     """A read transaction keeps each observation internally consistent."""
     async def observe(session):
@@ -90,14 +99,11 @@ async def safe_summary(db):
                 if item["surveyId"] != survey["_id"]:
                     continue
                 answers = [row for row in responses if row["surveyId"] == survey["_id"] and row["versionId"] == item["_id"]]
-                numbers = [{"instanceId": answer["questionId"], "value": answer["value"]}
-                           for row in answers for answer in row.get("answers", [])
-                           if answer.get("kind") == "number" and type(answer.get("value")) in (int, float)]
                 history.append({"id": item["_id"], "versionNo": item["versionNo"],
                                 "title": item["definition"]["title"],
                                 "questionSources": deepcopy(item.get("questionSources", [])),
                                 "questions": survey_definition(item["definition"]),
-                                "responseCount": len(answers), "numericAnswers": numbers})
+                                "responseCount": len(answers), "numericAnswers": numeric_answers(answers)})
             survey_rows.append({"id": survey["_id"], "title": survey["draft"]["title"],
                                 "status": survey["status"], "draftRevision": survey["draftRevision"],
                                 "currentVersionId": survey["currentVersionId"],

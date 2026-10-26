@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-26",
+  "baseCommit": "ebf64d2",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "scope": "Browser acceptance follow-up for explicit fixed-version reuse and detaching; BSON integer audit fix",
+  "applicationCodeChanged": false,
+  "realConfigurationRead": false,
+  "businessDatabaseUsed": false,
+  "browser": {
+    "interactions": "Cua automation against the real built UI and API; no business records seeded",
+    "initialCountsAllZero": true,
+    "successfulAuditedWrites": 12,
+    "finalCounts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 3,
+      "responses": 3
+    },
+    "verified": [
+      "A and B independently choose question V1 [0,7] integers, save and publish",
+      "A explicitly allows multiple submissions before any response, B keeps its default policy",
+      "An already-started A survey V1 fill remains open across A upgrading to question V2 [1,5] and publishing survey V2",
+      "Old A fill submits 0 successfully with survey V1 receipt after the newer publication",
+      "New A fill shows V2 and blocks continuation on 0 with the range error; changing to 3 allows successful V2 submission",
+      "B submits 0 successfully and remains survey V1",
+      "UI per-version statistics and details match A V1: count1/mean0/sum0; A V2: count1/mean3/sum3; B V1: count1/mean0/sum0",
+      "A detaches without content edits; save becomes enabled, revision3 persists and content controls stay editable after reopening",
+      "Usage: draft series only B; published series A V1/A V2/B V1; published question V2 only A V2; draft question V2 no records"
+    ],
+    "notClaimed": [
+      "Invalid value 0 was not sent to submit; this is continuation/evaluation evidence, not a new POST rejection test",
+      "Raw audit does not capture request bodies; explicit empty-array request semantics remain supported by prior direct tests",
+      "No pagination, other three question-type controls, sharing, banks or cross-survey statistics acceptance this run"
+    ],
+    "screenshots": "Private workspace only; not committed"
+  },
+  "auditTool": {
+    "problem": "Exact type check excluded BSON Int64 even though it is an int subclass; integer values were omitted from numericAnswers",
+    "fix": "numeric_answers accepts int subclasses/floats, excludes bool and non-number questions, emits only instanceId/value",
+    "liveRunUsedOldTool": true,
+    "rawAuditPreserved": true,
+    "supplementalSnapshotReadOnly": true,
+    "supplementalOwnershipVerified": true,
+    "rawAndSupplementalMatchExceptDocumentedNumericOmission": true,
+    "unitTests": {
+      "command": "python -m pytest --noconftest tests/test_browser_audit.py -q -p no:cacheprovider",
+      "passed": 14,
+      "failed": 0,
+      "seconds": 0.41,
+      "rawOutputSavedToFile": false,
+      "resultSource": "Actual test-agent tool execution; original output retained in conversation tool history"
+    },
+    "syntaxChecksPassed": true
+  },
+  "databaseReadAssertions": {
+    "aDetachedDraftFullDefinitionEqualsCurrentPublication": true,
+    "aDetachedSourceStoredAsAbsent": true,
+    "bDraftFullDefinitionEqualsItsPublication": true,
+    "aAllowsMultipleBeforeFirstSubmission": true,
+    "bDefaultOneSubmissionPolicyRetained": true,
+    "aAndBVersionsAndThreeNumericAnswersMatched": true,
+    "detachOnlyChangesRevisionAndSourcesInAudit": true,
+    "publishedSourceRecordsRetained": true
+  },
+  "applicationRegression": {
+    "frontendSuiteRerun": false,
+    "backendFullSuiteRerun": false,
+    "productionBuildRerun": false,
+    "reason": "Only audit support code, its tests and documentation changed"
+  },
+  "cleanup": {
+    "databaseAbsentAfterCleanup": true,
+    "exactMarkerVerified": true,
+    "testDatabasesRemaining": 0,
+    "ownedMongoVerified": true,
+    "mongoShutdownCommandIssued": true,
+    "mongoProcessExitVerified": true,
+    "browserServerProcessExitVerified": true,
+    "listeningPortsAbsent": true,
+    "mongoLogExitCode": 0,
+    "temporaryBrowserTabsClosed": 4
+  },
+  "desktopOriginal": {
+    "filesRechecked": 163,
+    "changed": 0
+  },
+  "githubPushed": false,
+  "courseSubmitted": false
+}

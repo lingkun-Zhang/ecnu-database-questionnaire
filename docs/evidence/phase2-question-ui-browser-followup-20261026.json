@@ -1,0 +1,2069 @@
+{
+  "runner": "question-library-browser",
+  "runnerAutomatesBrowser": false,
+  "businessDataSeeded": false,
+  "events": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/questions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": []
+      }
+    },
+    {
+      "number": 2,
+      "method": "PUT",
+      "path": "/api/surveys/457aa83d-eebe-484e-819b-0f96e8ef8e45/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ]
+      }
+    },
+    {
+      "number": 3,
+      "method": "POST",
+      "path": "/api/surveys/457aa83d-eebe-484e-819b-0f96e8ef8e45/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 4,
+      "method": "PUT",
+      "path": "/api/surveys/fef942f6-ebc9-43ae-8f16-3ad0a57dea65/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 1,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ]
+      }
+    },
+    {
+      "number": 5,
+      "method": "POST",
+      "path": "/api/surveys/fef942f6-ebc9-43ae-8f16-3ad0a57dea65/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 6,
+      "method": "POST",
+      "path": "/api/questions/7db7b40a-7134-422c-b575-b20c104073fc/versions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 7,
+      "method": "PUT",
+      "path": "/api/surveys/457aa83d-eebe-484e-819b-0f96e8ef8e45/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 8,
+      "method": "POST",
+      "path": "/api/surveys/457aa83d-eebe-484e-819b-0f96e8ef8e45/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 3,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              },
+              {
+                "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+                "versionNo": 2,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 9,
+      "method": "POST",
+      "path": "/api/survey/9547a22b8ea543498fbb12e06d6742e2/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 3,
+          "responses": 1
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              },
+              {
+                "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+                "versionNo": 2,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 10,
+      "method": "POST",
+      "path": "/api/survey/9547a22b8ea543498fbb12e06d6742e2/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 3,
+          "responses": 2
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              },
+              {
+                "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+                "versionNo": 2,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 11,
+      "method": "POST",
+      "path": "/api/survey/bad38f929d1e4262b159e6522cde41a6/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 3,
+          "responses": 3
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              },
+              {
+                "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+                "versionNo": 2,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 12,
+      "method": "PUT",
+      "path": "/api/surveys/457aa83d-eebe-484e-819b-0f96e8ef8e45/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 3,
+          "responses": 3
+        },
+        "questions": [
+          {
+            "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+                "versionNo": 2,
+                "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+            "title": "验收问卷A",
+            "status": "open",
+            "draftRevision": 3,
+            "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "draftQuestionSources": [],
+            "draftQuestions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+                "versionNo": 1,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              },
+              {
+                "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+                "versionNo": 2,
+                "title": "验收问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_1e999f8efdf6",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+            "title": "验收问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+                "versionNo": 1,
+                "title": "验收问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                    "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d0f70692af4d",
+                    "kind": "number",
+                    "title": "一周运动天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "cleanedUp": true,
+  "initial": {
+    "counts": {
+      "users": 0,
+      "questions": 0,
+      "question_versions": 0,
+      "surveys": 0,
+      "survey_versions": 0,
+      "responses": 0
+    },
+    "questions": [],
+    "surveys": []
+  },
+  "latest": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 3,
+      "responses": 3
+    },
+    "questions": [
+      {
+        "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+        "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+        "lastVersionNo": 2,
+        "versions": [
+          {
+            "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "versionNo": 2,
+            "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+        "title": "验收问卷A",
+        "status": "open",
+        "draftRevision": 3,
+        "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+        "draftQuestionSources": [],
+        "draftQuestions": [
+          {
+            "instanceId": "q_1e999f8efdf6",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "versionNo": 1,
+            "title": "验收问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          },
+          {
+            "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "versionNo": 2,
+            "title": "验收问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          }
+        ]
+      },
+      {
+        "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+        "title": "验收问卷B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_d0f70692af4d",
+            "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_d0f70692af4d",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "versionNo": 1,
+            "title": "验收问卷B",
+            "questionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ]
+  },
+  "final": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 3,
+      "responses": 3
+    },
+    "questions": [
+      {
+        "id": "7db7b40a-7134-422c-b575-b20c104073fc",
+        "currentVersionId": "e9543aab-a19c-401c-a7af-583f3168463c",
+        "lastVersionNo": 2,
+        "versions": [
+          {
+            "id": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "e9543aab-a19c-401c-a7af-583f3168463c",
+            "versionNo": 2,
+            "parentVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "457aa83d-eebe-484e-819b-0f96e8ef8e45",
+        "title": "验收问卷A",
+        "status": "open",
+        "draftRevision": 3,
+        "currentVersionId": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+        "draftQuestionSources": [],
+        "draftQuestions": [
+          {
+            "instanceId": "q_1e999f8efdf6",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "23846154-2e09-44ce-b67a-3b95460f7772",
+            "versionNo": 1,
+            "title": "验收问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          },
+          {
+            "id": "3600f2dd-5409-4f71-98d1-d28cc471ad5b",
+            "versionNo": 2,
+            "title": "验收问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e9543aab-a19c-401c-a7af-583f3168463c"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_1e999f8efdf6",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          }
+        ]
+      },
+      {
+        "id": "fef942f6-ebc9-43ae-8f16-3ad0a57dea65",
+        "title": "验收问卷B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_d0f70692af4d",
+            "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+            "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_d0f70692af4d",
+            "kind": "number",
+            "title": "一周运动天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "c9d2bdfd-6507-4000-9181-68fd058edb24",
+            "versionNo": 1,
+            "title": "验收问卷B",
+            "questionSources": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "questionId": "7db7b40a-7134-422c-b575-b20c104073fc",
+                "questionVersionId": "e4fe7f08-a35c-43a7-96f8-cdfe6eb06233"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_d0f70692af4d",
+                "kind": "number",
+                "title": "一周运动天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ]
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

@@ -31,7 +31,7 @@ class ApiError extends Error {
 // copied into these assertions. Rendered controls are checked in the browser.
 function component(mode = 'manage', initialProps = {}) {
   const source = parse(readFileSync(resolve(root, 'src/components/QuestionLibrary.vue'), 'utf8')).descriptor.scriptSetup.content
-  const exposed = 'busy,failure,note,entries,listOffset,listMore,selectedRoot,history,historyOffset,historyMore,selectedVersionId,selectedVersion,editor,editBaseline,editParentVersionId,editExpectedHeadId,pendingWrite,refreshNeeded,conflictNeedsReview,usageScope,usageVersion,usageRows,usageNext,usageLoaded,loadQuestions,openQuestion,startCreate,startEdit,selectVersion,saveContent,restoreVersion,retryWrite,refreshSaved,reviewConflict,abandonPending,loadMoreHistory,loadUsage,chooseVersion,canLeave'
+  const exposed = 'collection,sharedCursors,ownerSelection,sharePanel,sharingBusy,operationBusy,onShareBusy,changeCollection,hasUnsavedChanges,busy,failure,note,entries,listOffset,listMore,selectedRoot,history,historyOffset,historyMore,selectedVersionId,selectedVersion,editor,editBaseline,editParentVersionId,editExpectedHeadId,pendingWrite,refreshNeeded,conflictNeedsReview,usageScope,usageVersion,usageRows,usageNext,usageLoaded,loadQuestions,openQuestion,startCreate,startEdit,selectVersion,saveContent,restoreVersion,retryWrite,refreshSaved,reviewConflict,abandonPending,loadMoreHistory,loadUsage,chooseVersion,canLeave'
   const mounted = [], unmounted = [], events = [], confirmations = [], windowEvents = new Map()
   let token = 'account-A-token', confirmResult = true
   const props = vue.reactive({ mode, ...initialProps })
@@ -469,4 +469,164 @@ test('an authorization failure notifies the parent only for the still current ac
     assert.equal(h.events.filter(item => item.name === 'unauthorized').length, 1)
     assert.ok(data.reads.length)
   } finally { h.dispose() }
+})
+
+
+// Shared discovery reuses saved version identity; no ownership is inferred from
+// a readable question. These checks execute setup logic, not rendered controls.
+function sharedFixture(h) {
+  const data = fixture(h), read = h.network.request, sharedReads = []
+  h.network.request = async path => {
+    if (!path.startsWith('/shared-questions?')) return read(path)
+    sharedReads.push(path)
+    const params = new URL(`http://test${path}`).searchParams
+    assert.equal(params.get('limit'), '20')
+    assert.equal(params.has('offset'), false)
+    const cursor = params.get('afterId')
+    assert.ok(cursor === null || cursor === 'grant-page-2&opaque')
+    return { items: [plain(data.roots.get(cursor ? 'q-b' : 'q-a'))], limit: 20,
+      nextAfterId: cursor ? null : 'grant-page-2&opaque' }
+  }
+  return { ...data, sharedReads }
+}
+
+test('shared question discovery follows opaque grant cursors and returns to a previous page', async () => {
+  const h = component(), data = sharedFixture(h)
+  try {
+    await h.state.changeCollection('shared')
+    assert.equal(h.state.collection.value, 'shared')
+    assert.equal(h.state.entries.value[0].root.id, 'q-a')
+    assert.equal(h.state.listMore.value, true, 'the server cursor matters even for a short page')
+    await h.state.loadQuestions(20)
+    assert.equal(h.state.entries.value[0].root.id, 'q-b')
+    assert.equal(h.state.listMore.value, false)
+    assert.equal(new URL(`http://test${data.sharedReads[1]}`).searchParams.get('afterId'), 'grant-page-2&opaque')
+    await h.state.loadQuestions(0)
+    assert.equal(h.state.entries.value[0].root.id, 'q-a')
+    assert.equal(new URL(`http://test${data.sharedReads[2]}`).searchParams.has('afterId'), false)
+    assert.ok(!data.reads.some(path => path.startsWith('/questions?')), 'no fallback to an owner list')
+  } finally { h.dispose() }
+})
+
+test('received shared questions can be inspected but cannot start any owner content write', async () => {
+  const h = component(), data = sharedFixture(h), writes = []
+  try {
+    await h.state.changeCollection('shared'); await h.state.openQuestion('q-a')
+    assert.equal(h.state.ownerSelection.value, false)
+    await h.state.startCreate('number'); await h.state.startEdit(); await h.state.restoreVersion()
+    assert.equal(h.state.editor.value, null)
+    h.state.editor.value = content('programmatic stale content')
+    h.network.post = async (...args) => { writes.push(args); throw new Error('A shared view must not write') }
+    await h.state.saveContent()
+    assert.equal(writes.length, 0)
+    assert.equal(h.state.selectedVersion.value.id, 'q-a-v2')
+    assert.ok(data.sharedReads.length)
+  } finally { h.dispose() }
+})
+
+test('the shared picker emits the exact selected historical version without creating a private copy', async () => {
+  const h = component('pick'), data = sharedFixture(h)
+  try {
+    await h.state.changeCollection('shared'); await h.state.openQuestion('q-a')
+    await h.state.selectVersion('q-a-v1'); h.state.chooseVersion()
+    const choice = h.events.find(event => event.name === 'choose')
+    assert.deepEqual(choice.args[0], data.versions.get('q-a')[1])
+    assert.equal(choice.args[0].questionId, 'q-a')
+    assert.equal(choice.args[0].id, 'q-a-v1')
+    assert.equal(h.state.ownerSelection.value, false)
+    await h.state.startCreate('number'); await h.state.startEdit(); await h.state.restoreVersion()
+    assert.equal(h.state.editor.value, null)
+  } finally { h.dispose() }
+})
+
+test('a readable detail outside the personal list never becomes an owner selection', async () => {
+  const h = component(), data = fixture(h)
+  try {
+    const read = h.network.request
+    h.network.request = async path => path.startsWith('/questions?')
+      ? { items: [plain(data.roots.get('q-a'))], offset: 0, limit: 20 } : read(path)
+    await h.state.loadQuestions(); await h.state.openQuestion('q-b')
+    assert.equal(h.state.selectedRoot.value.id, 'q-b')
+    assert.equal(h.state.ownerSelection.value, false)
+    await h.state.startEdit(); await h.state.restoreVersion()
+    assert.equal(h.state.editor.value, null)
+  } finally { h.dispose() }
+})
+
+test('a failed shared read clears the prior version so it cannot emit a stale choice', async () => {
+  const h = component('pick'), data = sharedFixture(h)
+  try {
+    await h.state.changeCollection('shared'); await h.state.openQuestion('q-a')
+    const read = h.network.request
+    h.network.request = async path => {
+      if (path === '/questions/q-b') throw new ApiError(404, 'NOT_FOUND', '当前不可读取')
+      return read(path)
+    }
+    await h.state.openQuestion('q-b'); h.state.chooseVersion()
+    assert.equal(h.state.selectedRoot.value, null)
+    assert.equal(h.state.selectedVersion.value, null)
+    assert.equal(h.events.filter(event => event.name === 'choose').length, 0)
+    assert.equal(h.state.failure.value.status, 404)
+    assert.equal(h.state.collection.value, 'shared')
+    assert.ok(data.sharedReads.length)
+  } finally { h.dispose() }
+})
+
+test('switching collection respects unsaved owner content instead of dropping it', async () => {
+  const h = component(), data = sharedFixture(h)
+  try {
+    await selected(h); await h.state.startEdit(); h.state.editor.value.title = '未保存的自有题目'
+    h.setConfirm(false)
+    await h.state.changeCollection('shared')
+    assert.equal(h.state.collection.value, 'owned')
+    assert.equal(h.state.editor.value.title, '未保存的自有题目')
+    assert.equal(data.sharedReads.length, 0)
+    h.setConfirm(true)
+    await h.state.changeCollection('shared')
+    assert.equal(h.state.collection.value, 'shared')
+    assert.equal(h.state.editor.value, null)
+    assert.equal(h.state.selectedRoot.value, null)
+  } finally { h.dispose() }
+})
+
+test('pending sharing decisions and sharing busy state participate in library navigation guards', async () => {
+  const h = component(), data = sharedFixture(h)
+  try {
+    await selected(h)
+    h.state.sharePanel.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+    assert.equal(h.state.hasUnsavedChanges(), true)
+    const reads = data.reads.length
+    await h.state.changeCollection('shared'); await h.state.openQuestion('q-b'); await h.state.loadQuestions()
+    assert.equal(data.reads.length, reads)
+    assert.equal(data.sharedReads.length, 0)
+    assert.equal(h.state.selectedRoot.value.id, 'q-a')
+    h.state.onShareBusy(true)
+    assert.equal(h.state.operationBusy.value, true)
+    assert.equal(h.state.canLeave(), false)
+    assert.equal(h.events.filter(event => event.name === 'busy-change').at(-1).args[0], true)
+    h.state.onShareBusy(false)
+    assert.equal(h.state.operationBusy.value, false)
+  } finally { h.dispose() }
+})
+
+
+test('a revoked shared history or usage read invalidates its previously selectable cache', async () => {
+  for (const action of ['usage', 'history']) {
+    const h = component('pick'), data = fixture(h)
+    try {
+      const original = h.network.request
+      h.network.request = async path => path.startsWith('/shared-questions?')
+        ? { items: plain([...data.roots.values()]), nextAfterId: null } : original(path)
+      await h.state.changeCollection('shared')
+      await h.state.openQuestion('q-a')
+      h.network.request = async path => { throw new ApiError(404, 'NOT_FOUND', '题目当前不可读取') }
+      if (action === 'usage') await h.state.loadUsage()
+      else { h.state.historyMore.value = true; await h.state.loadMoreHistory() }
+      assert.equal(h.state.failure.value.status, 404)
+      assert.equal(h.state.selectedRoot.value, null)
+      assert.deepEqual(plain(h.state.history.value), [])
+      h.state.chooseVersion()
+      assert.equal(h.events.filter(item => item.name === 'choose').length, 0)
+    } finally { h.dispose() }
+  }
 })

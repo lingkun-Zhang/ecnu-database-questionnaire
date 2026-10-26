@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-26",
+  "baseCommit": "860e07c",
+  "scope": "Shared-question UI, controlled frontend regression and real browser acceptance",
+  "frontend": {
+    "testFiles": 6,
+    "passed": 118,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 3813.8123,
+    "controlledTestsDoNotMountDOM": true,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "viteVersion": "7.1.12",
+    "buildSeconds": 1.32
+  },
+  "auditHelper": {
+    "passed": 14,
+    "durationSeconds": 0.48,
+    "usesAppOrDatabase": false
+  },
+  "backendFullRerunThisBatch": false,
+  "browser": {
+    "businessDataSeeded": false,
+    "events": 15,
+    "counts": {
+      "users": 2,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 3,
+      "responses": 1,
+      "question_shares": 1
+    },
+    "shareWriteRevisions": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "finalActive": true,
+    "keptOldReferencePublishAndFillVerified": true,
+    "revokedNewSurveyPickerEmptyVerified": true,
+    "reactivatedNewVersionPickAndPublishVerified": true,
+    "inPageConfirmationAndCancelVerified": true,
+    "faultInjectionInRealBrowser": false,
+    "crossPageBrowserVerification": false
+  },
+  "cleanup": {
+    "date": "2026-10-26",
+    "browserEvents": 15,
+    "runnerOwnershipVerified": true,
+    "databaseAbsentAfterCleanup": true,
+    "mongoOnlySystemDatabasesBeforeShutdown": true,
+    "mongoProcessOwnershipVerified": true,
+    "mongoNormalExitCode": 0,
+    "runnerProcessAbsent": true,
+    "mongoProcessAbsent": true,
+    "appPortClosed": true,
+    "mongoPortClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true
+  },
+  "limitations": [
+    "Question banks not implemented",
+    "Cross-survey single-question statistics not implemented",
+    "Usage impact and minimum cross-user disclosure require further requirements review",
+    "Share-write unknown-result recovery not injected at backend boundary in this batch",
+    "Final phase-two migration rehearsal and full regression remain"
+  ],
+  "pushedToGitHub": false,
+  "submittedToCoursePlatform": false
+}

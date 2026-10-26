@@ -1,6 +1,6 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已加入指定账号的题目共享使用授权后端；共享界面、题库管理与跨问卷统计仍待推进。
+华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库管理、跨问卷统计和最终交付整理仍待推进。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
 
 仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
 
@@ -8,7 +8,7 @@
 
 | 内容 | 入口 |
 |---|---|
-| 第二阶段当前进展与验证 | [共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
+| 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
 | 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
@@ -49,7 +49,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 完整手工流程见[demo.md](docs/demo.md)：注册 → 创建 → 添加四种题型 → 配置年龄跳转 → 保存并发布 → 匿名/实名填写 → 查看统计。
 
-第二阶段可从“个人题目”创建或打开题目，查看历史、基于选定版编辑、恢复或查询使用情况；再到问卷编辑器“从个人题目选用”，选择具体版本并保存、发布。引用题可更换同系列版本或解除引用，均先改草稿，发布后才供新填写使用。恢复和题目更新不会自动改变已有问卷；操作说明与本轮实际验证范围见[选题界面说明](docs/phase2-question-ui.md)。
+第二阶段可从“题目管理”的“我的题目”创建或打开题目，查看历史、编辑、恢复、查询本人使用情况并按用户名共享；接收者可在“共享给我的”只读查看。问卷编辑器通过“从已保存题目选用”选择本人或共享题目的具体版本，再保存、发布。引用题可更换同系列版本或解除引用，均先改草稿，发布后才供新填写使用。恢复和题目更新不会自动改变已有问卷；操作说明与本轮实际验证范围见[选题界面说明](docs/phase2-question-ui.md)。
 
 也可在应用启动后，从根目录导入六份教学样例：
 
@@ -71,12 +71,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 ```powershell
 Set-Location frontend
-node --test tests/conditionEditor.test.cjs tests/session.test.cjs tests/editorErrors.test.cjs tests/questionReuse.test.cjs tests/questionLibrary.test.cjs
+node --test tests/conditionEditor.test.cjs tests/session.test.cjs tests/editorErrors.test.cjs tests/questionReuse.test.cjs tests/questionLibrary.test.cjs tests/questionSharing.test.cjs
 npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段当前前端回归与浏览器检查见[选题界面说明](docs/phase2-question-ui.md)；最近一次后端全量仍为[恢复旧版本批次](docs/phase2-question-restore.md)，不写作本轮重跑。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近前端118项及浏览器检查见[共享界面说明](docs/phase2-sharing-ui.md)；最近后端全量353项见[共享后端批次](docs/phase2-question-sharing.md)，两个批次分别记录。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|
@@ -118,4 +118,4 @@ docs/              设计、报告、需求追踪、AI记录与实测结果
 requirements.txt   锁定的Python依赖
 ```
 
-第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段当前范围、实际结果和待完成项见[个人题目与问卷选题界面](docs/phase2-question-ui.md)。
+第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段当前范围、实际结果和待完成项见[进度与待办](docs/phase2-progress.md)及[共享界面说明](docs/phase2-sharing-ui.md)。

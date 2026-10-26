@@ -1,0 +1,211 @@
+{
+  "date": "2026-10-26",
+  "ownershipVerified": true,
+  "latestAuditMatchesReadTransaction": true,
+  "ownerBoundariesVerified": true,
+  "shareWriteRevisions": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "cancelProducedNoExtraShareWrite": true,
+  "events": 15,
+  "business": {
+    "counts": {
+      "users": 2,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 3,
+      "responses": 1,
+      "question_shares": 1
+    },
+    "questions": [
+      {
+        "id": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+        "currentVersionId": "4fe332aa-8f5c-41e2-b3f8-cd6a568eb04c",
+        "lastVersionNo": 2,
+        "versions": [
+          {
+            "id": "2f0f7f91-5bb2-46dc-bce9-2701027f352a",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "4fe332aa-8f5c-41e2-b3f8-cd6a568eb04c",
+            "versionNo": 2,
+            "parentVersionId": "2f0f7f91-5bb2-46dc-bce9-2701027f352a",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "302b1176-3a1f-4f53-b6fe-5cd8d692292b",
+        "title": "共享题目验收A",
+        "status": "open",
+        "draftRevision": 2,
+        "currentVersionId": "4475f11b-517b-47f4-972f-87466da20088",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_0970906090bf",
+            "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+            "questionVersionId": "2f0f7f91-5bb2-46dc-bce9-2701027f352a"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_0970906090bf",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "62765451-4afd-448f-8355-1758b33076b5",
+            "versionNo": 1,
+            "title": "共享题目验收A",
+            "questionSources": [
+              {
+                "instanceId": "q_0970906090bf",
+                "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+                "questionVersionId": "2f0f7f91-5bb2-46dc-bce9-2701027f352a"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_0970906090bf",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          },
+          {
+            "id": "4475f11b-517b-47f4-972f-87466da20088",
+            "versionNo": 2,
+            "title": "共享题目验收A",
+            "questionSources": [
+              {
+                "instanceId": "q_0970906090bf",
+                "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+                "questionVersionId": "2f0f7f91-5bb2-46dc-bce9-2701027f352a"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_0970906090bf",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_0970906090bf",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "a13691ba-5b75-4faf-adb9-d706e05940a7",
+        "title": "共享题目验收B",
+        "status": "open",
+        "draftRevision": 2,
+        "currentVersionId": "084a3663-afe0-4b6a-bb8e-163272f310c8",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_b4984d09707a",
+            "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+            "questionVersionId": "4fe332aa-8f5c-41e2-b3f8-cd6a568eb04c"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_b4984d09707a",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "084a3663-afe0-4b6a-bb8e-163272f310c8",
+            "versionNo": 1,
+            "title": "共享题目验收B",
+            "questionSources": [
+              {
+                "instanceId": "q_b4984d09707a",
+                "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+                "questionVersionId": "4fe332aa-8f5c-41e2-b3f8-cd6a568eb04c"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_b4984d09707a",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ],
+    "shares": [
+      {
+        "id": "8cb95e8b-bcde-4d9f-b716-b4f13217d7e2",
+        "questionId": "f3162d4a-15f6-44f4-afba-29e9d508e39b",
+        "active": true,
+        "revision": 5,
+        "permission": "use",
+        "versionScope": "series",
+        "useSequence": 2
+      }
+    ]
+  }
+}

@@ -34,6 +34,7 @@ MARKER = "browser_runner_ownership"
 WRITE_PATHS = (
     ("POST", re.compile(r"^/api/questions(?:/[^/]+/(?:versions|restore))?$")),
     ("PUT", re.compile(r"^/api/surveys/[^/]+/draft$")),
+    ("PUT", re.compile(r"^/api/questions/[^/]+/shares$")),
     ("POST", re.compile(r"^/api/surveys/[^/]+/publish$")),
     ("POST", re.compile(r"^/api/survey/[^/]+/submit$")),
 )
@@ -77,9 +78,11 @@ async def safe_summary(db):
         publications = await db.survey_versions.find({}, {"publishKey": 0, "publishRequestDigest": 0}, session=session).sort("versionNo", 1).to_list(length=None)
         responses = await db.responses.find({}, {"surveyId": 1, "versionId": 1, "answers.questionId": 1,
                                                "answers.kind": 1, "answers.value": 1}, session=session).to_list(length=None)
+        shares = await db.question_shares.find({}, {"questionId": 1, "active": 1, "revision": 1,
+                  "permission": 1, "versionScope": 1, "useSequence": 1}, session=session).sort("_id", 1).to_list(length=None)
         counts = {"users": await db.users.count_documents({}, session=session),
                   "questions": len(roots), "question_versions": len(versions), "surveys": len(surveys),
-                  "survey_versions": len(publications), "responses": len(responses)}
+                  "survey_versions": len(publications), "responses": len(responses), "question_shares": len(shares)}
         question_rows = []
         for root in roots:
             history = []
@@ -109,7 +112,9 @@ async def safe_summary(db):
                                 "currentVersionId": survey["currentVersionId"],
                                 "draftQuestionSources": deepcopy(survey.get("draftQuestionSources", [])),
                                 "draftQuestions": survey_definition(survey["draft"]), "versions": history})
-        return {"counts": counts, "questions": question_rows, "surveys": survey_rows}
+        sharing_rows = [{"id": row["_id"], **{key: row[key] for key in
+                        ("questionId", "active", "revision", "permission", "versionScope", "useSequence")}} for row in shares]
+        return {"counts": counts, "questions": question_rows, "surveys": survey_rows, "shares": sharing_rows}
 
     async with db.client.start_session() as session:
         return await session.with_transaction(observe, read_concern=ReadConcern("snapshot"), max_commit_time_ms=5000)

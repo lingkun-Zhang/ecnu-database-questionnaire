@@ -6,7 +6,7 @@
 
 `GET /api/questions/{questionId}/usages`按题目系列或指定版本查询本人草稿、发布快照，参数与输出口径见[题目使用情况查询](phase2-question-usage.md)。
 
-`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。当前共29个API操作、26条路径。
+`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。恢复功能完成时共29个API操作、26条路径；共享与题库接入后当前共39个API操作、32条路径，以本次生成的OpenAPI为准。
 
 下文JSON是契约示例，尖括号内为调用时替换的值，不冒充实际HTTP运行记录。真实执行结果见[test-report.md](test-report.md)及evidence/。OpenAPI快照由实际应用生成，但部分响应没有声明response_model，动态201/200和业务错误应结合本文阅读。
 
@@ -216,3 +216,21 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 既有题目详情、版本列表/详情和本人使用查询允许当前有效接收者读取；派生、恢复和转授权仍仅题目所有者。使用查询继续只返回调用者自己的问卷；统计、明细及实际`/export`接口继续检查问卷所有权。
 
 撤销阻止新增来源和换版，服务器当前已保存的同问卷/同实例/同题目版本绑定可继续保存和发布；解绑保存后资格消失。已发布快照、旧填写和答卷不受追溯修改。新增错误包括422`INVALID_SHARE_RECIPIENT`、404`RECIPIENT_NOT_FOUND/SHARE_NOT_FOUND`、409`QUESTION_SHARE_CONFLICT`和503`QUESTION_SHARE_WRITE_OUTCOME_UNKNOWN`。用户名非法仍422`INVALID_USERNAME`，模型或分页非法仍422`INVALID_REQUEST`。不明结果保留原请求与预期修订重试，冲突后先读取当前状态再决定。
+
+## 第二阶段：题库与固定版本成员
+
+新增7个登录API操作、4条路径，详细请求、白名单及权限矩阵见[题库后端说明](phase2-question-banks.md)。
+
+| 方法与路径 | 作用 |
+|---|---|
+| `POST /api/question-banks` | 提交`name/description`和`Idempotency-Key`创建私有题库；首次201，重放200 |
+| `GET /api/question-banks` | 本人题库，`archived=false`或true分别筛选未归档/归档；`limit/afterId`游标分页 |
+| `GET /api/question-banks/{bankId}` | 本人题库白名单视图 |
+| `PUT /api/question-banks/{bankId}` | `name/description/archived/expectedRevision`整体设置元信息，说明省略时清空 |
+| `GET /api/question-banks/{bankId}/questions` | 固定版本成员，返回一致快照的`bank/items/limit/nextAfterId` |
+| `PUT /api/question-banks/{bankId}/questions/{questionId}` | `questionVersionId/expectedRevision`收录或明确换版 |
+| `DELETE /api/question-banks/{bankId}/questions/{questionId}` | 查询参数`expectedRevision`移除成员；不删题目或问卷引用 |
+
+新库修订为0；元信息和成员决定统一使用该库revision，每次成功明确决定加1。后续变更只支持当前最后一次成功请求的有限重放，响应均为题库视图并含`Idempotent-Replay`；创建身份则按创建键永久去重并返回同库当前视图。旧移除或换版不能覆盖后续决定。
+
+成员的版本仍由现有`questionSources`保存到问卷；真正保存继续检查来源及当前使用权。题库不授权，撤销后已有成员返回`available=false`，仅保留整理指针和时间，不返回内容或head。归档保留本人读取和恢复、禁止成员变更，不影响独立题目使用权。题库冲突为409`BANK_CONFLICT`，归档成员变更409`BANK_ARCHIVED`，不存在成员404`BANK_ITEM_NOT_FOUND`，不明写入结果503`BANK_WRITE_OUTCOME_UNKNOWN`；旧的401/404/422边界继续适用。

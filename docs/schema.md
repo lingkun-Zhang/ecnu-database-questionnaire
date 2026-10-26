@@ -2,7 +2,9 @@
 
 本文件根据 `backend/app/database.py`、`repositories.py`、`services.py`、`security.py`、`statistics.py` 与 `main.py` 的实际实现编写。初始化创建真实校验器和索引；是否已在指定环境成功执行、并发正确性和性能结论，需要对应运行证据，不能由本文替代。
 
-正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当前初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。使用情况查询再给草稿和发布集合各增加两个复合多键索引，不增加业务字段或使用关系集合；设计与实际计划见[题目使用情况查询](phase2-question-usage.md)。恢复功能再为 `question_versions`增加成对可选的 `operation/previousCurrentVersionId`，不增集合、索引或回填；约束和旧格式说明见[恢复题目旧版本](phase2-question-restore.md)。
+正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当时初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。使用情况查询再给草稿和发布集合各增加两个复合多键索引，不增加业务字段或使用关系集合；设计与实际计划见[题目使用情况查询](phase2-question-usage.md)。恢复功能再为 `question_versions`增加成对可选的 `operation/previousCurrentVersionId`，不增集合、索引或回填；约束和旧格式说明见[恢复题目旧版本](phase2-question-restore.md)。
+
+共享新增第七集合`question_shares`；本步再加入题库与成员，当前初始化共九集合。后续结构见本文第11、12节；第一阶段四集合正文和历史实验范围仍分别保留。
 
 ## 1. 集合与生命周期
 
@@ -169,10 +171,23 @@ MongoDB 聚合分别计算到达、已答、到达未答和跳过集合；多选
 | `_id/questionId/ownerId/recipientId` | 授权、题目及双方账号ID |
 | `permission/versionScope` | `use/series`，只允许读取及明确固定版本选用 |
 | `active/revision` | 是否有效及所有者变更时的比较修订 |
-| `useSequence` | 新绑定保存事务的真实写协调值，非题目使用数量 |
+| `useSequence` | 共享来源保存和题库收录/换版事务的真实授权写协调值，非问卷、成员或答卷数量 |
 | `requestDigest` | 当前最后成功授权请求的摘要，支持有限重放 |
 | `createdAt/updatedAt/schemaVersion` | 时间与结构标记 |
 
 唯一索引`(questionId,recipientId)`防止同一关系重复；另有`(questionId,ownerId,_id)`和`(recipientId,active,permission,versionScope,_id)`支持双方分页。授权不嵌入无限增长的题目数组。撤销保留记录及修订，禁止以旧激活请求恢复已撤销状态；不物理删除历史问卷、题目版本或答卷。
 
 新增共享引用时，来源检查和草稿CAS处于同一事务，并真实递增授权`useSequence`，与撤销修改同一文档协调。用户已确认服务器当前草稿的原实例/原题目/原版本绑定在撤销后仍可留用；新卷、新实例或换版必须重新具备有效授权。普通旧草稿不回填来源，初始化只新增授权集合与索引。完整契约及本轮实测见[共享使用授权](phase2-question-sharing.md)。
+
+## 12. 第二阶段题库与固定版本成员
+
+本步只新增`question_banks`、`question_bank_items`，原七集合校验器及已有业务文档格式保持不变；不回填旧题、不依据同名建立成员关系，`schemaVersion`仍按现有格式解释。完整契约和验证见[题库后端说明](phase2-question-banks.md)。
+
+| 集合 | 字段与关系 |
+|---|---|
+| `question_banks` | `_id/ownerId`、`name/description/archived`、统一非负`revision`、不可变创建身份`creationKey/creationDigest`、可选`lastRequestDigest`、时间与`schemaVersion` |
+| `question_bank_items` | `_id/bankId/questionId/questionVersionId`、时间与`schemaVersion`；每个系列在一库一个成员，版本固定，题干与约束仍来自不可变题目版本 |
+
+新增唯一索引`uq_question_banks_creation(ownerId,creationKey)`及`uq_question_bank_items_question(bankId,questionId)`；分页索引`ix_question_banks_owner_page(ownerId,archived,_id)`、`ix_question_bank_items_page(bankId,_id)`。成员独立增长，不嵌入库根的无限数组；元信息、成员和授权门在同一事务提交，以库revision仲裁不同决定。成员移除只删整理关系，不删除题目、发布快照和答卷。
+
+收录或换版共享题时，对有效授权真实递增useSequence，与撤销写同一授权文档协调。序列含义扩展为依赖授权的写入顺序，未改变授权集合结构、用户决定修订或共享范围。成员读取在同一快照批量检查当前权限，失效仅返回自有整理指针，不把题库当成新的授权来源。归档库可读可恢复但禁止成员变更。

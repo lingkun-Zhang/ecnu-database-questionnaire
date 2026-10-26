@@ -29,6 +29,7 @@ from .services import Services, ServiceError, public_user, survey_view, version_
 from .statistics import get_stats, StatsError, RespondentType, build_response_scope
 from .questions import QuestionServices, question_view, question_version_view
 from .question_sharing import QuestionSharingServices
+from .question_banks import QuestionBankServices, bank_view
 
 log = logging.getLogger("survey")
 bearer = HTTPBearer(auto_error=False)
@@ -116,6 +117,29 @@ class Submit(Fill):
     anonymous: bool
 
 
+class NewQuestionBank(StrictModel):
+    name: str = Field(min_length=1, max_length=120)
+    description: str = Field(default="", max_length=2000)
+
+    @field_validator("name")
+    @classmethod
+    def nonblank_name(cls, value):
+        name = value.strip()
+        if not name:
+            raise ValueError("题库名称不能为空白")
+        return name
+
+
+class UpdateQuestionBank(NewQuestionBank):
+    archived: bool
+    expectedRevision: int = Field(ge=0)
+
+
+class BankQuestion(StrictModel):
+    questionVersionId: str = Field(min_length=1, max_length=160)
+    expectedRevision: int = Field(ge=0)
+
+
 class QuestionShare(StrictModel):
     recipientUsername: str = Field(min_length=1, max_length=128)
     active: bool
@@ -164,6 +188,11 @@ def question_sharing_service(request: Request):
                                    request.app.state.clock, request.app.state.hooks)
 
 
+def bank_service(request: Request):
+    return QuestionBankServices(request.app.state.db, request.app.state.settings,
+                                request.app.state.clock, request.app.state.bank_hooks)
+
+
 def create_app(settings=None):
     settings = settings or Settings.from_env()
 
@@ -190,6 +219,7 @@ def create_app(settings=None):
     app.state.settings = settings
     app.state.clock = utcnow
     app.state.hooks = {}
+    app.state.bank_hooks = {}
 
     def error_response(request, code, message, status, details=None):
         return JSONResponse(status_code=status, content=jsonable_encoder({
@@ -260,6 +290,53 @@ def create_app(settings=None):
     @api.get("/auth/me")
     async def me(user=Depends(current_user)):
         return public_user(user)
+
+    @api.post("/question-banks", status_code=201, responses={200: {"description": "Creation replay"}})
+    async def create_bank(body: NewQuestionBank, user=Depends(current_user), svc=Depends(bank_service),
+                          idempotency_key: str = Header(min_length=1, max_length=128)):
+        result, replayed = await svc.create(user, body.name, body.description, idempotency_key)
+        return JSONResponse(status_code=200 if replayed else 201, content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.get("/question-banks")
+    async def list_banks(archived: bool = False, limit: int = Query(30, ge=1, le=100),
+                         afterId: str | None = Query(None, min_length=1, max_length=160),
+                         user=Depends(current_user), svc=Depends(bank_service)):
+        return await svc.list(user, archived, limit, afterId)
+
+    @api.get("/question-banks/{bank_id}")
+    async def bank_detail(bank_id: str, user=Depends(current_user), svc=Depends(bank_service)):
+        return bank_view(await svc.owned(bank_id, user))
+
+    @api.put("/question-banks/{bank_id}")
+    async def update_bank(bank_id: str, body: UpdateQuestionBank,
+                          user=Depends(current_user), svc=Depends(bank_service)):
+        result, replayed = await svc.update(user, bank_id, body.name, body.description,
+                                            body.archived, body.expectedRevision)
+        return JSONResponse(content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.get("/question-banks/{bank_id}/questions")
+    async def bank_questions(bank_id: str, limit: int = Query(30, ge=1, le=100),
+                             afterId: str | None = Query(None, min_length=1, max_length=160),
+                             user=Depends(current_user), svc=Depends(bank_service)):
+        return await svc.items(user, bank_id, limit, afterId)
+
+    @api.put("/question-banks/{bank_id}/questions/{question_id}")
+    async def set_bank_question(bank_id: str, question_id: str, body: BankQuestion,
+                                user=Depends(current_user), svc=Depends(bank_service)):
+        result, replayed = await svc.set_item(user, bank_id, question_id, body.questionVersionId,
+                                              body.expectedRevision)
+        return JSONResponse(content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.delete("/question-banks/{bank_id}/questions/{question_id}")
+    async def remove_bank_question(bank_id: str, question_id: str,
+                                   expectedRevision: int = Query(ge=0),
+                                   user=Depends(current_user), svc=Depends(bank_service)):
+        result, replayed = await svc.remove_item(user, bank_id, question_id, expectedRevision)
+        return JSONResponse(content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
 
     @api.post("/questions")
     async def create_question(body: NewQuestion, user=Depends(current_user), svc=Depends(question_service),

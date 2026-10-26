@@ -1,6 +1,6 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库管理、跨问卷统计和最终交付整理仍待推进。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
+华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库后端已支持私有库、固定版本成员与显式更新；题库界面、跨问卷统计和最终交付整理仍待推进。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
 
 仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
 
@@ -8,7 +8,7 @@
 
 | 内容 | 入口 |
 |---|---|
-| 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
+| 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
 | 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
@@ -76,7 +76,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近前端118项及浏览器检查见[共享界面说明](docs/phase2-sharing-ui.md)；最近后端全量353项见[共享后端批次](docs/phase2-question-sharing.md)，两个批次分别记录。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近前端118项及浏览器检查见[共享界面说明](docs/phase2-sharing-ui.md)；最近后端全量382项见[题库后端批次](docs/phase2-question-banks.md)，两个批次分别记录。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|

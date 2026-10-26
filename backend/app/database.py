@@ -382,7 +382,8 @@ INDEXES.update({
 
 
 # Independent, revocable use grants do not grow arrays on question roots.
-# revision orders owner decisions; useSequence orders new bindings against revocation.
+# revision orders owner decisions; useSequence orders authorized binding
+# and bank membership writes against revocation. It is not a usage count.
 QUESTION_SHARE_SCHEMA = _object(
     {"_id": STRING_ID, "questionId": STRING_ID, "ownerId": STRING_ID, "recipientId": STRING_ID,
      "active": {"bsonType": "bool"}, "revision": POSITIVE, "useSequence": NONNEGATIVE,
@@ -401,6 +402,44 @@ INDEXES["question_shares"] = [
     IndexModel([("recipientId", ASCENDING), ("active", ASCENDING), ("permission", ASCENDING),
                 ("versionScope", ASCENDING), ("_id", ASCENDING)], name="ix_question_shares_received"),
 ]
+
+
+# Bank membership can grow independently; only immutable version references are
+# stored here. Cross-document ownership and live share rights are service rules.
+QUESTION_BANK_SCHEMA = _object(
+    {"_id": STRING_ID, "ownerId": STRING_ID,
+     "creationKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
+     "creationDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
+     "lastRequestDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
+     "name": {"bsonType": "string", "minLength": 1, "maxLength": 120},
+     "description": {"bsonType": "string", "maxLength": 2000},
+     "archived": {"bsonType": "bool"}, "revision": NONNEGATIVE,
+     "createdAt": DATE, "updatedAt": DATE, "schemaVersion": POSITIVE},
+    ["_id", "ownerId", "creationKey", "creationDigest", "name", "description", "archived",
+     "revision", "createdAt", "updatedAt", "schemaVersion"],
+)
+QUESTION_BANK_ITEM_SCHEMA = _object(
+    {"_id": STRING_ID, "bankId": STRING_ID, "questionId": STRING_ID, "questionVersionId": STRING_ID,
+     "createdAt": DATE, "updatedAt": DATE, "schemaVersion": POSITIVE},
+    ["_id", "bankId", "questionId", "questionVersionId", "createdAt", "updatedAt", "schemaVersion"],
+)
+VALIDATORS.update({
+    "question_banks": {"$jsonSchema": QUESTION_BANK_SCHEMA},
+    "question_bank_items": {"$jsonSchema": QUESTION_BANK_ITEM_SCHEMA},
+})
+INDEXES.update({
+    "question_banks": [
+        IndexModel([("ownerId", ASCENDING), ("creationKey", ASCENDING)], unique=True,
+                   name="uq_question_banks_creation"),
+        IndexModel([("ownerId", ASCENDING), ("archived", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_question_banks_owner_page"),
+    ],
+    "question_bank_items": [
+        IndexModel([("bankId", ASCENDING), ("questionId", ASCENDING)], unique=True,
+                   name="uq_question_bank_items_question"),
+        IndexModel([("bankId", ASCENDING), ("_id", ASCENDING)], name="ix_question_bank_items_page"),
+    ],
+})
 
 
 async def init_database(db: Any) -> None:

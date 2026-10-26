@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-26",
+  "baseCommit": "e32b076",
+  "scope": "Private bank backend and fixed-version members",
+  "targeted": {
+    "passed": 29,
+    "seconds": 17.15,
+    "includedInFull": true
+  },
+  "full": {
+    "passed": 382,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 143.93,
+    "junitCaseNodes": 385,
+    "junitTestsAttribute": 636,
+    "skipReason": "Existing Windows symlink permission checks"
+  },
+  "initialFullRun": {
+    "passed": 376,
+    "failed": 1,
+    "errors": 5,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 160.94,
+    "causes": [
+      "Runner omitted MONGODB_URI required by five legacy database fixtures; default port refused the connection",
+      "Legacy exhaustive collection-name assertion still expected seven collections"
+    ],
+    "resolution": [
+      "Set both test URI environment variables to the owned replica set",
+      "Include the two new collection names while keeping original data and validator assertions"
+    ],
+    "rawLogRetainedPrivately": true
+  },
+  "environment": {
+    "mongo": "6.0.29",
+    "python": "3.12.14",
+    "pymongo": "4.19.0",
+    "replicaSet": true,
+    "syntheticRandomDatabases": true,
+    "wiredTigerCacheGiB": 0.5
+  },
+  "api": {
+    "newOperations": 7,
+    "newPaths": 4,
+    "totalOperations": 39,
+    "totalPaths": 32
+  },
+  "schema": {
+    "newCollections": 2,
+    "totalCollections": 9,
+    "newIndexes": 4,
+    "existingSevenValidatorsUnchanged": true,
+    "realBusinessDataMigrated": false
+  },
+  "verified": [
+    "Create and owner-filtered keyset pages",
+    "Pinned versions and explicit updates",
+    "Read bank item then save, publish and submit numeric zero through existing APIs",
+    "Old survey provenance, snapshots and responses unchanged after bank pin change/removal",
+    "Permanent creation identity and limited last-operation replay",
+    "Owner privacy and unavailable shared-item whitelist",
+    "Both orderings of real shared-grant revocation and bank membership transactions",
+    "Rollback of grant sequence, item and bank revision",
+    "Controlled service-return loss after real commit and failed recovery lookup",
+    "New validators and unique indexes; repeated initialization and legacy data compatibility"
+  ],
+  "limits": [
+    "No bank UI/browser acceptance this batch",
+    "No frontend tests or build rerun",
+    "No cross-survey statistics",
+    "No load or index-plan experiment",
+    "Controlled faults do not represent a physical network outage",
+    "Final phase-two migration and rollback rehearsal remains"
+  ],
+  "cleanup": {
+    "date": "2026-10-26",
+    "onlySystemDatabasesBeforeShutdown": true,
+    "mongoOwnershipVerified": true,
+    "mongoNormalExitCode": 0,
+    "processAbsent": true,
+    "portClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true
+  },
+  "pushedToGitHub": false,
+  "submittedToCoursePlatform": false
+}

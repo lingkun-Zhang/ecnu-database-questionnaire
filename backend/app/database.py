@@ -381,6 +381,28 @@ INDEXES.update({
 })
 
 
+# Independent, revocable use grants do not grow arrays on question roots.
+# revision orders owner decisions; useSequence orders new bindings against revocation.
+QUESTION_SHARE_SCHEMA = _object(
+    {"_id": STRING_ID, "questionId": STRING_ID, "ownerId": STRING_ID, "recipientId": STRING_ID,
+     "active": {"bsonType": "bool"}, "revision": POSITIVE, "useSequence": NONNEGATIVE,
+     "permission": {"enum": ["use"]}, "versionScope": {"enum": ["series"]},
+     "requestDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
+     "createdAt": DATE, "updatedAt": DATE, "schemaVersion": POSITIVE},
+    ["_id", "questionId", "ownerId", "recipientId", "active", "revision", "useSequence",
+     "permission", "versionScope", "requestDigest", "createdAt", "updatedAt", "schemaVersion"],
+)
+VALIDATORS["question_shares"] = {"$jsonSchema": QUESTION_SHARE_SCHEMA}
+INDEXES["question_shares"] = [
+    IndexModel([("questionId", ASCENDING), ("recipientId", ASCENDING)], unique=True,
+               name="uq_question_shares_recipient"),
+    IndexModel([("questionId", ASCENDING), ("ownerId", ASCENDING), ("_id", ASCENDING)],
+               name="ix_question_shares_owner_page"),
+    IndexModel([("recipientId", ASCENDING), ("active", ASCENDING), ("permission", ASCENDING),
+                ("versionScope", ASCENDING), ("_id", ASCENDING)], name="ix_question_shares_received"),
+]
+
+
 async def init_database(db: Any) -> None:
     """Create or update contracts without dropping collections or business data.
 

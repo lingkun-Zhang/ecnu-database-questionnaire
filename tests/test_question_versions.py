@@ -739,6 +739,6 @@ async def test_question_operations_and_repeated_init_preserve_all_phase1_data_an
         await unchanged(context, before, OLD_COLLECTIONS)
         await unchanged(context, new_before)
     collections = set(await context.db.list_collection_names())
-    assert collections == set(OLD_COLLECTIONS + NEW_COLLECTIONS)
+    assert collections == set(OLD_COLLECTIONS + NEW_COLLECTIONS) | {"question_shares"}
     assert (await context.client.get(f'/api/questions/{first["questionId"]}', headers=owner)).json()[
         "currentVersionId"] == second["id"]

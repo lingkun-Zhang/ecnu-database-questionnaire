@@ -159,3 +159,20 @@ MongoDB 聚合分别计算到达、已答、到达未答和跳过集合；多选
 `tests/test_database.py` 已定义真实 MongoDB 组件用例：重复初始化、空草稿、六份样例统计、固定序号/空统计、非法 BSON、唯一键和部分索引。它直接写受控组件样例，不等于经过注册、填写、提交服务的完整端到端流程。实际运行环境、通过/失败数量及证据以测试报告为准。
 
 领域与 BSON 边界已执行的 44 项 unittest 不连接数据库，不能用于宣称事务、集合校验器或查询计划已经通过真实验证。BSON 回归实际编码再解码大于 32 位的数字边界、条件和优先级，确保 Int64 作为 int 子类不会被误拒绝，同时继续排除 bool。
+
+## 11. 第二阶段题目共享使用授权
+
+共享关系新增独立的`question_shares`集合；既有六集合的BSON约束与来源三字段不变。授权关联题目、原所有者与接收者，固定`permission=use`、`versionScope=series`，不将题目复制为接收者所有，也不授予他人问卷或答卷权限。
+
+| 字段 | 存储含义 |
+|---|---|
+| `_id/questionId/ownerId/recipientId` | 授权、题目及双方账号ID |
+| `permission/versionScope` | `use/series`，只允许读取及明确固定版本选用 |
+| `active/revision` | 是否有效及所有者变更时的比较修订 |
+| `useSequence` | 新绑定保存事务的真实写协调值，非题目使用数量 |
+| `requestDigest` | 当前最后成功授权请求的摘要，支持有限重放 |
+| `createdAt/updatedAt/schemaVersion` | 时间与结构标记 |
+
+唯一索引`(questionId,recipientId)`防止同一关系重复；另有`(questionId,ownerId,_id)`和`(recipientId,active,permission,versionScope,_id)`支持双方分页。授权不嵌入无限增长的题目数组。撤销保留记录及修订，禁止以旧激活请求恢复已撤销状态；不物理删除历史问卷、题目版本或答卷。
+
+新增共享引用时，来源检查和草稿CAS处于同一事务，并真实递增授权`useSequence`，与撤销修改同一文档协调。用户已确认服务器当前草稿的原实例/原题目/原版本绑定在撤销后仍可留用；新卷、新实例或换版必须重新具备有效授权。普通旧草稿不回填来源，初始化只新增授权集合与索引。完整契约及本轮实测见[共享使用授权](phase2-question-sharing.md)。

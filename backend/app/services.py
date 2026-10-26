@@ -11,14 +11,10 @@ from .domain import evaluate, validate_definition, _valid_id
 from .question_content import canonical_question_content, validate_question_content
 from .design_checks import analyze_definition
 from .repositories import Repository
+from .errors import ServiceError
+from .question_sharing import grant_filter
 from .security import (utcnow, normalize_username, PASSWORDS, verify_password, token,
                        decode_token, participant_key, canonical_answers, submission_digest, digest)
-
-
-class ServiceError(Exception):
-    def __init__(self, code, message, status=409, errors=None):
-        self.code, self.message, self.status = code, message, status
-        self.errors = errors or []
 
 
 def public_user(user):
@@ -124,7 +120,7 @@ class Services:
         await self.db.surveys.insert_one(document)
         return survey_view(document)
 
-    async def checked_question_sources(self, user, definition, sources, session=None):
+    async def checked_question_sources(self, user, definition, sources, session=None, retained_sources=()):
         """Resolve explicit provenance, never infer identity from equal wording.
 
         A source version supplies content only. Local IDs, requiredness and
@@ -154,12 +150,29 @@ class Services:
                 invalid("来源必须指向唯一且存在的卷内题目实例", field + ".instanceId", instance_id)
             seen.add(instance_id)
 
-        # At most two bounded reads, even if the same version is used repeatedly.
         question_ids = list({source["questionId"] for source in sources})
-        owned = await self.db.questions.find(
-            {"_id": {"$in": question_ids}, "ownerId": user["_id"]}, session=session).to_list(length=100)
-        if len(owned) != len(question_ids):
+        questions = await self.db.questions.find(
+            {"_id": {"$in": question_ids}}, session=session).to_list(length=100)
+        if len(questions) != len(question_ids):
             raise ServiceError("NOT_FOUND", "引用的题目不存在或当前不可使用", 404)
+        # Only the server's currently persisted binding carries prior-use rights.
+        # Copying wording, a published snapshot or a client claim grants nothing.
+        retained = {(item["instanceId"], item["questionId"], item["questionVersionId"])
+                    for item in retained_sources}
+        questions = {item["_id"]: item for item in questions}
+        needs_grant = {source["questionId"] for source in sources
+                       if questions[source["questionId"]]["ownerId"] != user["_id"]
+                       and (source["instanceId"], source["questionId"], source["questionVersionId"]) not in retained}
+        for question_id in sorted(needs_grant):
+            if session is None:
+                raise ServiceError("DATA_INVARIANT", "新增共享引用必须在保存事务内核对权限", 500)
+            await self.hook("before_question_share_gate", question_id=question_id)
+            grant = await self.db.question_shares.find_one_and_update(
+                grant_filter(questions[question_id], user["_id"]), {"$inc": {"useSequence": 1}},
+                return_document=ReturnDocument.AFTER, session=session)
+            if not grant:
+                raise ServiceError("NOT_FOUND", "引用的题目不存在或当前不可使用", 404)
+            await self.hook("after_question_share_gate", question_id=question_id)
         versions = await self.db.question_versions.find(
             {"_id": {"$in": list({source["questionVersionId"] for source in sources})},
              "questionId": {"$in": question_ids}}, session=session).to_list(length=100)
@@ -199,9 +212,21 @@ class Services:
         if question_sources is None:
             result = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock())
         else:
-            sources = await self.checked_question_sources(user, definition, question_sources)
-            result = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock(),
-                                                question_sources=sources)
+            async def operation(session):
+                current = await self.repo.owner_survey(survey_id, user["_id"], session)
+                if not current:
+                    raise ServiceError("NOT_FOUND", "问卷不存在", 404)
+                if current["draftRevision"] != revision:
+                    raise ServiceError("DRAFT_CONFLICT", "草稿已在其他页面修改，请刷新后比较")
+                sources = await self.checked_question_sources(
+                    user, definition, question_sources, session,
+                    retained_sources=current.get("draftQuestionSources", []))
+                saved = await self.repo.save_draft(survey_id, user["_id"], revision, definition, self.clock(),
+                                                   question_sources=sources, session=session)
+                if not saved:
+                    raise ServiceError("DRAFT_CONFLICT", "草稿已在其他页面修改，请刷新后比较")
+                return saved
+            result = await self.repo.transaction(operation)
         if not result:
             raise ServiceError("DRAFT_CONFLICT", "草稿已在其他页面修改，请刷新后比较")
         return survey_view(result)
@@ -240,7 +265,8 @@ class Services:
             if errors:
                 raise ServiceError("INVALID_DEFINITION", "发布检查未通过", 422, errors)
             sources = await self.checked_question_sources(
-                user, survey["draft"], survey.get("draftQuestionSources", []), session)
+                user, survey["draft"], survey.get("draftQuestionSources", []), session,
+                retained_sources=survey.get("draftQuestionSources", []))
             now = self.clock()
             if survey["status"] == "draft" and survey["deadlineAt"] and now >= survey["deadlineAt"]:
                 raise ServiceError("SURVEY_EXPIRED", "首次发布的截止时间必须在未来")

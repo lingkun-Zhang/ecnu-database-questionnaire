@@ -1,4 +1,4 @@
-"""Private reusable questions and append-only content versions.
+"""Reusable questions and append-only content versions; management stays owner-only.
 
     Existing survey definitions, snapshots and responses are not changed here.
 """
@@ -9,6 +9,7 @@ from uuid import uuid4
 from pymongo.errors import PyMongoError
 
 from .question_content import canonical_question_content, validate_question_content
+from .question_sharing import readable_question
 from .question_usage import (DRAFT_USAGE_PROJECTION, draft_usage_filter,
                              matching_instances, published_usage_pipeline)
 from .repositories import Repository
@@ -45,6 +46,9 @@ class QuestionServices:
             raise ServiceError("NOT_FOUND", "题目不存在", 404)
         return question
 
+    async def readable(self, question_id, user, session=None):
+        return await readable_question(self.db, question_id, user, session)
+
     async def version(self, question_id, version_id, session=None):
         document = await self.db.question_versions.find_one(
             {"_id": version_id, "questionId": question_id}, session=session)
@@ -53,7 +57,7 @@ class QuestionServices:
         return document
 
     async def usages(self, user, question_id, scope, version_id=None, limit=30, after_id=None):
-        await self.owned(question_id, user)
+        await self.readable(question_id, user)
         if version_id is not None:
             await self.version(question_id, version_id)
         if scope == "draft":

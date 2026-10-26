@@ -28,6 +28,7 @@ from .security import decode_token, utcnow
 from .services import Services, ServiceError, public_user, survey_view, version_view, response_view
 from .statistics import get_stats, StatsError, RespondentType, build_response_scope
 from .questions import QuestionServices, question_view, question_version_view
+from .question_sharing import QuestionSharingServices
 
 log = logging.getLogger("survey")
 bearer = HTTPBearer(auto_error=False)
@@ -115,6 +116,12 @@ class Submit(Fill):
     anonymous: bool
 
 
+class QuestionShare(StrictModel):
+    recipientUsername: str = Field(min_length=1, max_length=128)
+    active: bool
+    expectedRevision: int = Field(ge=0)
+
+
 class NewQuestion(StrictModel):
     content: dict[str, Any]
 
@@ -150,6 +157,11 @@ def service(request: Request):
 def question_service(request: Request):
     return QuestionServices(request.app.state.db, request.app.state.settings,
                             request.app.state.clock, request.app.state.hooks)
+
+
+def question_sharing_service(request: Request):
+    return QuestionSharingServices(request.app.state.db, request.app.state.settings,
+                                   request.app.state.clock, request.app.state.hooks)
 
 
 def create_app(settings=None):
@@ -263,9 +275,31 @@ def create_app(settings=None):
             [("createdAt", -1), ("_id", -1)]).skip(offset).limit(limit).to_list(length=limit)
         return {"items": [question_view(item) for item in items], "offset": offset, "limit": limit}
 
+    @api.get("/shared-questions")
+    async def shared_questions(limit: int = Query(30, ge=1, le=100),
+                               afterId: str | None = Query(None, min_length=1, max_length=160),
+                               user=Depends(current_user), svc=Depends(question_sharing_service)):
+        result = await svc.received_questions(user, limit, afterId)
+        return {**result, "items": [question_view(item) for item in result["items"]]}
+
+    @api.put("/questions/{question_id}/shares", responses={201: {"description": "First use grant created"}})
+    async def set_question_share(question_id: str, body: QuestionShare, user=Depends(current_user),
+                                 svc=Depends(question_sharing_service)):
+        result, replayed = await svc.set_share(user, question_id, body.recipientUsername,
+                                               body.active, body.expectedRevision)
+        return JSONResponse(status_code=201 if result["revision"] == 1 and not replayed else 200,
+                            content=jsonable_encoder(result),
+                            headers={"Idempotent-Replay": str(replayed).lower()})
+
+    @api.get("/questions/{question_id}/shares")
+    async def list_question_shares(question_id: str, limit: int = Query(30, ge=1, le=100),
+                                   afterId: str | None = Query(None, min_length=1, max_length=160),
+                                   user=Depends(current_user), svc=Depends(question_sharing_service)):
+        return await svc.list_shares(user, question_id, limit, afterId)
+
     @api.get("/questions/{question_id}")
     async def question_detail(question_id: str, user=Depends(current_user), svc=Depends(question_service)):
-        return question_view(await svc.owned(question_id, user))
+        return question_view(await svc.readable(question_id, user))
 
     @api.get("/questions/{question_id}/usages")
     async def question_usages(question_id: str, scope: Literal["draft", "published"] = "draft",
@@ -288,7 +322,7 @@ def create_app(settings=None):
     async def question_versions(question_id: str, limit: int = Query(30, ge=1, le=100),
                                 offset: int = Query(0, ge=0, le=100000),
                                 user=Depends(current_user), svc=Depends(question_service)):
-        await svc.owned(question_id, user)
+        await svc.readable(question_id, user)
         items = await svc.db.question_versions.find({"questionId": question_id}).sort(
             "versionNo", -1).skip(offset).limit(limit).to_list(length=limit)
         return {"items": [question_version_view(item) for item in items], "offset": offset, "limit": limit}
@@ -305,7 +339,7 @@ def create_app(settings=None):
     @api.get("/questions/{question_id}/versions/{version_id}")
     async def question_version(question_id: str, version_id: str, user=Depends(current_user),
                                svc=Depends(question_service)):
-        await svc.owned(question_id, user)
+        await svc.readable(question_id, user)
         return question_version_view(await svc.version(question_id, version_id))
 
     @api.post("/surveys", status_code=201)

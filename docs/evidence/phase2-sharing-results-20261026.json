@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-26",
+  "stepBaseCommit": "e87277e",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "scope": "Owner-managed whole-series use grants and fixed-version reuse across users; no sharing UI or question banks yet",
+  "userConfirmedRevocationPolicy": "Keep the exact binding in the server current draft; deny new survey/instance/version selection after revocation",
+  "schema": {
+    "addedCollection": "question_shares",
+    "unchangedExistingValidators": 6,
+    "addedIndexes": 3,
+    "questionSourceFieldsUnchanged": true,
+    "businessDataMigrated": false
+  },
+  "environment": {
+    "python": "3.12.14",
+    "pymongo": "4.19.0",
+    "pytest": "9.1.1",
+    "mongodb": "6.0.29",
+    "realConfigurationRead": false,
+    "repositoryEnvPresent": false,
+    "businessDatabaseUsed": false,
+    "temporaryFilesOnD": true,
+    "wiredTigerCacheGiB": 0.5,
+    "secrets": "random temporary process environment, not logged"
+  },
+  "targeted": {
+    "passed": 29,
+    "failed": 0,
+    "seconds": 16.92,
+    "includedInFull": true
+  },
+  "fullBackend": {
+    "passed": 353,
+    "failed": 0,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 175.38,
+    "junitTestcaseElements": 356,
+    "junitDeclaredTestsIncludingSubtests": 607,
+    "skipReason": "Windows symlink permission unavailable"
+  },
+  "verified": [
+    "owner-only state management and latest-request replay without stale activation resurrection",
+    "shared read access to past and later immutable versions, fixed selected-version reuse",
+    "no permission to derive, restore, reshare or read others surveys/statistics/responses/CSV",
+    "per-caller usage lists and bounded sharing pagination",
+    "retained binding survives revocation; new survey/instance/version and rebind after detach fail",
+    "old published definitions, responses and outstanding fills retain their meaning",
+    "useSequence coordinates real save-versus-revoke conflicts and rolls back on failed content validation",
+    "same-revision concurrent owner changes have one winner",
+    "new validator/indexes and repeated initialization preserve legacy six-collection data/contracts"
+  ],
+  "notVerifiedThisStep": [
+    "sharing UI and browser flow",
+    "question banks",
+    "cross-survey question statistics",
+    "new share-write unknown outcome/recovery-error fault injection",
+    "production business migration",
+    "performance or load benchmark"
+  ],
+  "frontend": {
+    "changed": false,
+    "suiteRerun": false,
+    "buildRerun": false
+  },
+  "interruptedAttempts": [
+    "first test-output Tee lacked isatty; pytest initialization stopped, no tests counted",
+    "second attempt produced no completed result; C-drive diagnostic write failure terminated isolated Mongo",
+    "D-drive targeted and full results supersede neither raw interrupted log; both original private logs retained"
+  ],
+  "migration": {
+    "activeProject": "D:/DBLab/wenchuan-phase2",
+    "testDirectoriesOnD": 6,
+    "matchedFilesExcludingIndexCache": 687,
+    "gitIndexLogicalEntriesMatched": true,
+    "stagedAndUnstagedDiffMatched": true,
+    "cDriveWorkingCopyRetainedAsBackup": true,
+    "desktopOriginalMoved": false,
+    "dependenciesReusedViaOriginalEnvironmentAndJunction": true
+  },
+  "evidenceMetadata": {
+    "privatePathsNormalized": true,
+    "junitHostRedacted": true,
+    "resultsAndTestCasesUnchanged": true,
+    "fullOriginalLogSha256": "6870978c4a9ecda2c94d06295d9e4d82158269d1a061f7bb9352a062f3eea94f"
+  },
+  "desktopOriginal": {
+    "filesRechecked": 163,
+    "changed": 0
+  },
+  "cleanup": {
+    "date": "2026-10-26",
+    "mongodb": "6.0.29",
+    "testDatabasesRemaining": 0,
+    "dedicatedDDriveProcessVerified": true,
+    "configuredCacheGiB": 0.5,
+    "shutdownCommandIssued": true,
+    "businessDatabaseUsed": false,
+    "mongoLogExitCode": 0,
+    "processExitVerified": true,
+    "listeningPortAbsent": true
+  },
+  "githubPushed": false,
+  "courseSubmitted": false
+}

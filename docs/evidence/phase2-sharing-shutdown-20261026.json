@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-26",
+  "mongodb": "6.0.29",
+  "testDatabasesRemaining": 0,
+  "dedicatedDDriveProcessVerified": true,
+  "configuredCacheGiB": 0.5,
+  "shutdownCommandIssued": true,
+  "businessDatabaseUsed": false,
+  "mongoLogExitCode": 0,
+  "processExitVerified": true,
+  "listeningPortAbsent": true
+}

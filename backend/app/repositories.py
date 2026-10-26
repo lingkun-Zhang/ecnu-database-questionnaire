@@ -37,7 +37,7 @@ class Repository:
     async def prior_publish(self, survey_id, key):
         return await self.db.survey_versions.find_one({"surveyId": survey_id, "publishKey": key})
 
-    async def save_draft(self, survey_id, owner_id, revision, definition, now, question_sources=None):
+    async def save_draft(self, survey_id, owner_id, revision, definition, now, question_sources=None, session=None):
         changes = {"$set": {"draft": definition, "updatedAt": now}, "$inc": {"draftRevision": 1}}
         if question_sources is not None:
             if question_sources:
@@ -47,7 +47,7 @@ class Repository:
         return await self.db.surveys.find_one_and_update(
             {"_id": survey_id, "ownerId": owner_id, "draftRevision": revision},
             changes,
-            return_document=ReturnDocument.AFTER,
+            return_document=ReturnDocument.AFTER, session=session,
         )
 
     async def submission_gate(self, survey_id, now, session):

@@ -198,3 +198,21 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 | 500 | DATA_INVARIANT | 统计一致性检查失败，需检查数据与实现，不能展示为正确统计 |
 
 接口快照与本文在修改API后应一并更新。本文是实现说明，不新增接口，不改变现有运行数据。
+
+## 第二阶段：题目共享使用授权
+
+新增以下登录接口，完整权限矩阵、撤销与并发语义见[共享使用授权](phase2-question-sharing.md)。
+
+| 接口 | 请求与作用 |
+|---|---|
+| `PUT /api/questions/{questionId}/shares` | 所有者提交`recipientUsername/active/expectedRevision`。用户名按既有注册规则规范化；首次`active=true,expectedRevision=0`创建，201；后续状态更新或成功重放200 |
+| `GET /api/questions/{questionId}/shares` | 所有者读取授权列表，含当前状态及修订 |
+| `GET /api/shared-questions` | 接收者读取当前有效共享题目，条目为既有题目白名单视图 |
+
+两个列表使用`limit`（默认30，1—100）及可选`afterId`（非空、最多160字符）。`nextAfterId`是授权记录的分页标识，须原样传回，不拿题目ID替代；列表为实时读取，不保证跨页冻结快照。不存在或无权限的题目返回404；非所有者不能探查授权列表或收件账号。
+
+授权响应包含`id/questionId/recipientId/recipientUsername/active/revision/permission/versionScope/createdAt/updatedAt`，不返回ownerId、请求摘要或协调序号。`permission/versionScope`固定为`use/series`；请求拒绝额外权限字段。`Idempotent-Replay`表示是否恢复当前最后一次成功请求。摘要绑定规范化后接收账号、题目、所有者、目标状态及预期修订；后续状态变化后的旧激活请求409，不能复活授权，不承诺永久重放所有旧操作。
+
+既有题目详情、版本列表/详情和本人使用查询允许当前有效接收者读取；派生、恢复和转授权仍仅题目所有者。使用查询继续只返回调用者自己的问卷；统计、明细及实际`/export`接口继续检查问卷所有权。
+
+撤销阻止新增来源和换版，服务器当前已保存的同问卷/同实例/同题目版本绑定可继续保存和发布；解绑保存后资格消失。已发布快照、旧填写和答卷不受追溯修改。新增错误包括422`INVALID_SHARE_RECIPIENT`、404`RECIPIENT_NOT_FOUND/SHARE_NOT_FOUND`、409`QUESTION_SHARE_CONFLICT`和503`QUESTION_SHARE_WRITE_OUTCOME_UNKNOWN`。用户名非法仍422`INVALID_USERNAME`，模型或分页非法仍422`INVALID_REQUEST`。不明结果保留原请求与预期修订重试，冲突后先读取当前状态再决定。

@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-27",
+  "browserSuccessfulWrites": 16,
+  "bankWriteRevisions": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "cancelAndEscapeProducedNoExtraWrites": true,
+  "resumeOwnedSnapshotMatched": true,
+  "cleanupOwnershipVerified": true,
+  "databaseAbsentAfterCleanup": true,
+  "onlySystemDatabasesBeforeMongoShutdown": true,
+  "mongoProcessOwnershipVerified": true,
+  "resumedMongoNormalExitCode": 0,
+  "runnerProcessAbsent": true,
+  "mongoProcessAbsent": true,
+  "appPortClosed": true,
+  "mongoPortClosed": true,
+  "desktopBaselineFilesChecked": 163,
+  "desktopBaselineUnchanged": true
+}

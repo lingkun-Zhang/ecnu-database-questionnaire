@@ -63,7 +63,7 @@ function component(pathname = '/', sharedStorage = {}) {
     setToken: token => token ? localStorage.setItem('wenchuan_token', token) : localStorage.removeItem('wenchuan_token'),
     request: (...args) => network.request(...args), post: (...args) => network.post(...args), download: async () => {} }
   const module = { exports: {} }
-  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged'
+  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged,questionBanks,pickerLibrary,pickerBanks,pickerCollection,openBanks,changePickerCollection,closeQuestionPicker'
   vm.runInNewContext(compile(appSource + `\nmodule.exports={${exposed}}`), {
     module, exports: module.exports,
     require: name => {
@@ -1008,4 +1008,66 @@ test('the latest design check wins and failed checks cannot display a clean resu
   await h.state.runPreview()
   assert.equal(h.state.currentDesignWarnings.value, null, 'a response without an analysis result is not a clean check')
   h.state.logout()
+})
+
+
+test('bank pending work protects every workspace exit and page unload', async () => {
+  const h = component(); h.seedOwner(); h.state.page.value = 'banks'
+  h.state.questionBanks.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.network.request = async () => { throw new Error('A blocked bank exit must not read') }
+  h.network.post = async () => { throw new Error('A blocked bank exit must not write') }
+  await h.state.goDashboard(); await h.state.openSurvey('another'); await h.state.createSurvey()
+  h.state.openQuestions()
+  assert.equal(h.state.page.value, 'banks')
+  let prevented = false; h.state.beforeUnload({ preventDefault: () => { prevented = true } })
+  assert.equal(prevented, true)
+  h.state.questionBanks.value = null; h.state.logout()
+})
+
+test('opening banks checks question work then clears the old survey editing context', () => {
+  const h = component(); seedEditor(h, false); h.state.page.value = 'questions'
+  h.state.questionLibrary.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.openBanks(); assert.equal(h.state.page.value, 'questions')
+  h.state.questionLibrary.value = { canLeave: () => true, hasUnsavedChanges: () => false }
+  h.state.openBanks()
+  assert.equal(h.state.page.value, 'banks'); assert.equal(h.state.active.value, null)
+  assert.equal(h.state.definition.value, null); assert.equal(h.state.questionPicker.value, null)
+  h.state.logout()
+})
+
+test('bank navigation preserves an unsaved survey when leaving is declined', () => {
+  const h = component('/', { confirm: () => false }); seedEditor(h, false)
+  h.state.definition.value.description = '尚未保存的修改'
+  const before = JSON.stringify(h.state.definition.value)
+  h.state.openBanks()
+  assert.equal(h.state.page.value, 'editor'); assert.equal(JSON.stringify(h.state.definition.value), before)
+  h.state.logout()
+})
+
+test('picker source switches, close and escape respect active source work and busy state', () => {
+  const h = component(); seedEditor(h, false); h.state.openQuestionPicker()
+  h.state.pickerLibrary.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.changePickerCollection('banks'); h.state.closeQuestionPicker()
+  assert.equal(h.state.pickerCollection.value, 'questions'); assert.ok(h.state.questionPicker.value)
+  h.state.pickerLibrary.value = null; h.state.changePickerCollection('banks')
+  assert.equal(h.state.pickerCollection.value, 'banks')
+  h.state.questionBusy.value = true
+  h.state.changePickerCollection('questions'); h.state.escapeDialog({ key: 'Escape' })
+  assert.equal(h.state.pickerCollection.value, 'banks'); assert.ok(h.state.questionPicker.value)
+  h.state.questionBusy.value = false
+  h.state.pickerBanks.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.escapeDialog({ key: 'Escape' }); assert.ok(h.state.questionPicker.value)
+  h.state.pickerBanks.value = null; h.state.closeQuestionPicker()
+  assert.equal(h.state.questionPicker.value, null); h.state.logout()
+})
+
+test('bank expiry clears busy refs and picker source even when manual departure is blocked', () => {
+  const h = component('/', { confirm: () => false }); h.seedOwner(); h.state.page.value = 'banks'
+  h.state.questionBanks.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.pickerCollection.value = 'banks'; h.state.questionBusy.value = true
+  h.state.logout(); assert.equal(h.api.getToken(), 'token-A')
+  h.state.expireQuestionSession()
+  assert.equal(h.api.getToken(), ''); assert.equal(h.state.page.value, 'dashboard')
+  assert.equal(h.state.questionBanks.value, null); assert.equal(h.state.questionBusy.value, false)
+  assert.equal(h.state.pickerCollection.value, 'questions'); assert.equal(h.state.error.value.status, 401)
 })

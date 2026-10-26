@@ -1,0 +1,2168 @@
+{
+  "runner": "question-library-browser",
+  "runnerAutomatesBrowser": false,
+  "businessDataSeeded": false,
+  "events": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/questions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [],
+        "bankItems": []
+      }
+    },
+    {
+      "number": 2,
+      "method": "POST",
+      "path": "/api/question-banks",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 0
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "学习习惯常用题",
+            "archived": false,
+            "revision": 0
+          }
+        ],
+        "bankItems": []
+      }
+    },
+    {
+      "number": 3,
+      "method": "PUT",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3/questions/195abf4c-7981-456b-ae83-ebe921f71560",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "学习习惯常用题",
+            "archived": false,
+            "revision": 1
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 4,
+      "method": "PUT",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 2
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 5,
+      "method": "PUT",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": true,
+            "revision": 3
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 6,
+      "method": "PUT",
+      "path": "/api/surveys/2bdd7203-7071-4d74-9954-610d08d787c1/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [],
+            "draftQuestions": [],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": true,
+            "revision": 3
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 7,
+      "method": "PUT",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [],
+            "draftQuestions": [],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 4
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 8,
+      "method": "POST",
+      "path": "/api/questions/195abf4c-7981-456b-ae83-ebe921f71560/versions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [],
+            "draftQuestions": [],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 4
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 9,
+      "method": "PUT",
+      "path": "/api/surveys/2bdd7203-7071-4d74-9954-610d08d787c1/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "draft",
+            "draftRevision": 2,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 4
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 10,
+      "method": "POST",
+      "path": "/api/surveys/2bdd7203-7071-4d74-9954-610d08d787c1/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 4
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ]
+      }
+    },
+    {
+      "number": 11,
+      "method": "PUT",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3/questions/195abf4c-7981-456b-ae83-ebe921f71560",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 5
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ]
+      }
+    },
+    {
+      "number": 12,
+      "method": "PUT",
+      "path": "/api/surveys/645c3fc8-3ab5-4a28-af3d-8b74f8c9940f/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+            "title": "题库选题验收B",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 5
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ]
+      }
+    },
+    {
+      "number": 13,
+      "method": "POST",
+      "path": "/api/surveys/645c3fc8-3ab5-4a28-af3d-8b74f8c9940f/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+            "title": "题库选题验收B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+                "versionNo": 1,
+                "title": "题库选题验收B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 5
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ]
+      }
+    },
+    {
+      "number": 14,
+      "method": "POST",
+      "path": "/api/survey/37c9694f56254e21a82963cbe15a2fab/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 1,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+            "title": "题库选题验收B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+                "versionNo": 1,
+                "title": "题库选题验收B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 5
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ]
+      }
+    },
+    {
+      "number": 15,
+      "method": "POST",
+      "path": "/api/survey/76736ac528f746b8954127aacb3f3702/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 1
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+            "title": "题库选题验收B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+                "versionNo": 1,
+                "title": "题库选题验收B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 5
+          }
+        ],
+        "bankItems": [
+          {
+            "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+            "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ]
+      }
+    },
+    {
+      "number": 16,
+      "method": "DELETE",
+      "path": "/api/question-banks/7b6558e4-bc18-4655-91b1-2e06e447b6d3/questions/195abf4c-7981-456b-ae83-ebe921f71560",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 0,
+          "question_banks": 1,
+          "question_bank_items": 0
+        },
+        "questions": [
+          {
+            "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+                "versionNo": 2,
+                "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+            "title": "题库选题验收A",
+            "status": "open",
+            "draftRevision": 2,
+            "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+                "versionNo": 1,
+                "title": "题库选题验收A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_22a150c4c319",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+            "title": "题库选题验收B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+                "versionNo": 1,
+                "title": "题库选题验收B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                    "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "kind": "number",
+                    "title": "一周阅读天数",
+                    "content": {
+                      "min": 1,
+                      "max": 5,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_d7090c061be2",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [
+          {
+            "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+            "name": "课程问卷常用题",
+            "archived": false,
+            "revision": 6
+          }
+        ],
+        "bankItems": []
+      }
+    }
+  ],
+  "cleanedUp": true,
+  "initial": {
+    "counts": {
+      "users": 0,
+      "questions": 0,
+      "question_versions": 0,
+      "surveys": 0,
+      "survey_versions": 0,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 0,
+      "question_bank_items": 0
+    },
+    "questions": [],
+    "surveys": [],
+    "shares": [],
+    "banks": [],
+    "bankItems": []
+  },
+  "latest": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 2,
+      "question_shares": 0,
+      "question_banks": 1,
+      "question_bank_items": 0
+    },
+    "questions": [
+      {
+        "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+        "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+        "lastVersionNo": 2,
+        "versions": [
+          {
+            "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "versionNo": 2,
+            "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+        "title": "题库选题验收A",
+        "status": "open",
+        "draftRevision": 2,
+        "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_22a150c4c319",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_22a150c4c319",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "versionNo": 1,
+            "title": "题库选题验收A",
+            "questionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+        "title": "题库选题验收B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_d7090c061be2",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_d7090c061be2",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "versionNo": 1,
+            "title": "题库选题验收B",
+            "questionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shares": [],
+    "banks": [
+      {
+        "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+        "name": "课程问卷常用题",
+        "archived": false,
+        "revision": 6
+      }
+    ],
+    "bankItems": []
+  },
+  "resumedFromUncleanStop": true,
+  "resumedAtUtc": "2026-10-26T21:34:41.987937+00:00",
+  "resumeInitial": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 1,
+      "surveys": 1,
+      "survey_versions": 0,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 1,
+      "question_bank_items": 1
+    },
+    "questions": [
+      {
+        "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+        "currentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+        "lastVersionNo": 1,
+        "versions": [
+          {
+            "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+        "title": "题库选题验收A",
+        "status": "draft",
+        "draftRevision": 1,
+        "currentVersionId": null,
+        "draftQuestionSources": [],
+        "draftQuestions": [],
+        "versions": []
+      }
+    ],
+    "shares": [],
+    "banks": [
+      {
+        "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+        "name": "课程问卷常用题",
+        "archived": true,
+        "revision": 3
+      }
+    ],
+    "bankItems": [
+      {
+        "id": "d45affe6-d664-4691-a51f-aa37316bd95b",
+        "bankId": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+        "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+        "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+      }
+    ]
+  },
+  "resumeVerifiedAgainstLatest": true,
+  "final": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 2,
+      "question_shares": 0,
+      "question_banks": 1,
+      "question_bank_items": 0
+    },
+    "questions": [
+      {
+        "id": "195abf4c-7981-456b-ae83-ebe921f71560",
+        "currentVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+        "lastVersionNo": 2,
+        "versions": [
+          {
+            "id": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d",
+            "versionNo": 2,
+            "parentVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "2bdd7203-7071-4d74-9954-610d08d787c1",
+        "title": "题库选题验收A",
+        "status": "open",
+        "draftRevision": 2,
+        "currentVersionId": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_22a150c4c319",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_22a150c4c319",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "a596ab2c-01c5-4d76-9277-c9b09a1000b9",
+            "versionNo": 1,
+            "title": "题库选题验收A",
+            "questionSources": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "4d513fd9-dc94-4bbb-940e-62b876c1b0e2"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_22a150c4c319",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "645c3fc8-3ab5-4a28-af3d-8b74f8c9940f",
+        "title": "题库选题验收B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "226f0ac1-99a7-4ada-adee-4962f771a744",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_d7090c061be2",
+            "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+            "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_d7090c061be2",
+            "kind": "number",
+            "title": "一周阅读天数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "226f0ac1-99a7-4ada-adee-4962f771a744",
+            "versionNo": 1,
+            "title": "题库选题验收B",
+            "questionSources": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "questionId": "195abf4c-7981-456b-ae83-ebe921f71560",
+                "questionVersionId": "8ed6dd67-086c-4cdb-abaa-9ed62c2ff33d"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "kind": "number",
+                "title": "一周阅读天数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_d7090c061be2",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shares": [],
+    "banks": [
+      {
+        "id": "7b6558e4-bc18-4655-91b1-2e06e447b6d3",
+        "name": "课程问卷常用题",
+        "archived": false,
+        "revision": 6
+      }
+    ],
+    "bankItems": []
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

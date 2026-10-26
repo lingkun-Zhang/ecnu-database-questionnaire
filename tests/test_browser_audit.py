@@ -42,3 +42,33 @@ def test_numeric_audit_keeps_only_safe_fields_without_changing_responses():
     assert browser_runner.numeric_answers(responses) == [
         {"instanceId": "first", "value": 0}, {"instanceId": "second", "value": 3}]
     assert responses == original
+
+
+@pytest.mark.parametrize("method,path,expected", [
+    ("POST", "/api/question-banks", True),
+    ("PUT", "/api/question-banks/bank1", True),
+    ("PUT", "/api/question-banks/bank1/questions/question1", True),
+    ("DELETE", "/api/question-banks/bank1/questions/question1", True),
+    ("GET", "/api/question-banks/bank1/questions", False),
+    ("DELETE", "/api/question-banks/bank1", False),
+    ("POST", "/api/question-banks/bank1", False),
+    ("PUT", "/api/question-banks/bank1/shares", False),
+    ("POST", "/api/auth/register", False),
+])
+def test_bank_audit_monitors_only_the_successful_write_routes(method, path, expected):
+    assert any(method == wanted and pattern.fullmatch(path)
+               for wanted, pattern in browser_runner.WRITE_PATHS) is expected
+
+
+def test_bank_audit_whitelists_pointers_without_copying_owner_or_creation_secrets():
+    banks = [{"_id": "bank1", "name": "合成题库", "archived": False, "revision": 3,
+              "ownerId": "private account", "description": "must not copy", "creationKey": "private key",
+              "creationDigest": "private digest", "lastRequestDigest": "private digest"}]
+    members = [{"_id": "item1", "bankId": "bank1", "questionId": "question1", "questionVersionId": "version1",
+                "ownerId": "must not copy", "content": {"title": "must not copy"}}]
+    original = deepcopy((banks, members))
+    assert browser_runner.bank_records(banks, members) == {
+        "banks": [{"id": "bank1", "name": "合成题库", "archived": False, "revision": 3}],
+        "bankItems": [{"id": "item1", "bankId": "bank1", "questionId": "question1", "questionVersionId": "version1"}],
+    }
+    assert (banks, members) == original

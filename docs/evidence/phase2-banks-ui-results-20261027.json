@@ -1,0 +1,137 @@
+{
+  "dates": [
+    "2026-10-26",
+    "2026-10-27"
+  ],
+  "baseCommit": "e81056d",
+  "scope": "Question bank management and fixed-version picking UI",
+  "frontend": {
+    "files": 7,
+    "passed": 148,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 4181.5986,
+    "bankSetupTestsIncluded": 25,
+    "appStateNewTestsIncluded": 5,
+    "controlsHTTPAndLifecycle": true,
+    "mountsBrowserDOM": false,
+    "typecheckPassed": true,
+    "productionBuildPassed": true,
+    "viteVersion": "7.1.12",
+    "buildSeconds": 1.34
+  },
+  "auditHelper": {
+    "dateRun": "2026-10-26",
+    "passed": 24,
+    "seconds": 0.23,
+    "startsAppOrUsesDatabase": false
+  },
+  "fullBackendRerunThisBatch": false,
+  "historicalBackend": {
+    "passed": 382,
+    "subtestsPassed": 251,
+    "skipped": 3,
+    "batch": "phase2-banks-results-20261026"
+  },
+  "browser": {
+    "businessDataSeeded": false,
+    "createdViaRealUI": true,
+    "priorEventsResumed": 6,
+    "totalSuccessfulWrites": 16,
+    "bankWriteRevisions": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "finalCounts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 2,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 2,
+      "question_shares": 0,
+      "question_banks": 1,
+      "question_bank_items": 0
+    },
+    "archivedBankAbsentFromPicker": true,
+    "restoredPinnedVersionPreserved": true,
+    "questionHeadAdvanceDidNotChangeBankPin": true,
+    "surveyAQuestionVersion": 1,
+    "surveyBQuestionVersion": 2,
+    "surveyANumericAnswer": 0,
+    "surveyBNumericAnswer": 3,
+    "surveyBZeroBlockedAtContinue": true,
+    "cancelAndEscapeNoExtraWrites": true,
+    "removedItemWithoutChangingOldSevenCollections": true,
+    "statsA": {
+      "responses": 1,
+      "sum": 0,
+      "mean": 0
+    },
+    "statsB": {
+      "responses": 1,
+      "sum": 3,
+      "mean": 3
+    }
+  },
+  "resume": {
+    "date": "2026-10-27",
+    "ownershipVerified": true,
+    "onlyOwnedSyntheticAndSystemDatabases": true,
+    "preResumeAuditSha256": "2d54ab103727de4d1ce4df406d2a62ca1ec36cb18004956281bb958739e912cd",
+    "exactLatestSnapshotMatched": true,
+    "businessRecordsSeededOrChangedByResume": false,
+    "priorSuccessfulEvents": 6,
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 1,
+      "surveys": 1,
+      "survey_versions": 0,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 1,
+      "question_bank_items": 1
+    }
+  },
+  "cleanup": {
+    "date": "2026-10-27",
+    "browserSuccessfulWrites": 16,
+    "bankWriteRevisions": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "cancelAndEscapeProducedNoExtraWrites": true,
+    "resumeOwnedSnapshotMatched": true,
+    "cleanupOwnershipVerified": true,
+    "databaseAbsentAfterCleanup": true,
+    "onlySystemDatabasesBeforeMongoShutdown": true,
+    "mongoProcessOwnershipVerified": true,
+    "resumedMongoNormalExitCode": 0,
+    "runnerProcessAbsent": true,
+    "mongoProcessAbsent": true,
+    "appPortClosed": true,
+    "mongoPortClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true
+  },
+  "limitations": [
+    "Real browser used one synthetic account and numeric questions only",
+    "Network faults, 409, multiple pages, unavailable shares and late sessions were controlled frontend tests",
+    "No bank sharing or cross-survey statistics was added",
+    "No business data migration or rollback rehearsal",
+    "No new backend business/schema/API change or backend full rerun"
+  ],
+  "pushedToGitHub": false,
+  "submittedToCoursePlatform": false
+}

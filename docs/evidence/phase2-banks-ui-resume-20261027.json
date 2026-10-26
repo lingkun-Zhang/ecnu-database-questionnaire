@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-27",
+  "ownershipVerified": true,
+  "onlyOwnedSyntheticAndSystemDatabases": true,
+  "preResumeAuditSha256": "2d54ab103727de4d1ce4df406d2a62ca1ec36cb18004956281bb958739e912cd",
+  "exactLatestSnapshotMatched": true,
+  "businessRecordsSeededOrChangedByResume": false,
+  "priorSuccessfulEvents": 6,
+  "counts": {
+    "users": 1,
+    "questions": 1,
+    "question_versions": 1,
+    "surveys": 1,
+    "survey_versions": 0,
+    "responses": 0,
+    "question_shares": 0,
+    "question_banks": 1,
+    "question_bank_items": 1
+  }
+}

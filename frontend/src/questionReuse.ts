@@ -12,7 +12,7 @@ export function applyQuestionVersion(definition: Definition, sources: QuestionSo
     const index = next.questions.findIndex(question => question.id === instanceId)
     const source = mapping.find(item => item.instanceId === instanceId)
     if (index < 0 || !source) throw new Error('这道引用题已被移除，请重新选择。')
-    if (source.questionId !== version.questionId) throw new Error('更换版本时请选择同一道个人题目。')
+    if (source.questionId !== version.questionId) throw new Error('更换版本时请选择同一道题目的版本。')
     // Route IDs, requiredness and rules belong to this questionnaire instance.
     // Keep them so a changed kind/option can be diagnosed instead of erased.
     next.questions[index] = { ...next.questions[index]!, ...clone(version.content) }

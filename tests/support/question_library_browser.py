@@ -32,6 +32,9 @@ sys.path[:0] = [str(ROOT / "backend"), str(ROOT)]
 PREFIX = "survey_ui_"
 MARKER = "browser_runner_ownership"
 WRITE_PATHS = (
+    ("POST", re.compile(r"^/api/question-banks$")),
+    ("PUT", re.compile(r"^/api/question-banks/[^/]+(?:/questions/[^/]+)?$")),
+    ("DELETE", re.compile(r"^/api/question-banks/[^/]+/questions/[^/]+$")),
     ("POST", re.compile(r"^/api/questions(?:/[^/]+/(?:versions|restore))?$")),
     ("PUT", re.compile(r"^/api/surveys/[^/]+/draft$")),
     ("PUT", re.compile(r"^/api/questions/[^/]+/shares$")),
@@ -69,6 +72,14 @@ def numeric_answers(responses):
             and not isinstance(answer["value"], bool)]
 
 
+def bank_records(banks, members):
+    """Observe only synthetic organization metadata, never owner or request keys."""
+    return {"banks": [{"id": bank["_id"], **{key: bank[key] for key in
+                      ("name", "archived", "revision")}} for bank in banks],
+            "bankItems": [{"id": member["_id"], **{key: member[key] for key in
+                          ("bankId", "questionId", "questionVersionId")}} for member in members]}
+
+
 async def safe_summary(db):
     """A read transaction keeps each observation internally consistent."""
     async def observe(session):
@@ -80,9 +91,14 @@ async def safe_summary(db):
                                                "answers.kind": 1, "answers.value": 1}, session=session).to_list(length=None)
         shares = await db.question_shares.find({}, {"questionId": 1, "active": 1, "revision": 1,
                   "permission": 1, "versionScope": 1, "useSequence": 1}, session=session).sort("_id", 1).to_list(length=None)
+        banks = await db.question_banks.find({}, {"name": 1, "archived": 1, "revision": 1},
+                  session=session).sort("_id", 1).to_list(length=None)
+        members = await db.question_bank_items.find({}, {"bankId": 1, "questionId": 1, "questionVersionId": 1},
+                    session=session).sort("_id", 1).to_list(length=None)
         counts = {"users": await db.users.count_documents({}, session=session),
                   "questions": len(roots), "question_versions": len(versions), "surveys": len(surveys),
-                  "survey_versions": len(publications), "responses": len(responses), "question_shares": len(shares)}
+                  "survey_versions": len(publications), "responses": len(responses), "question_shares": len(shares),
+                  "question_banks": len(banks), "question_bank_items": len(members)}
         question_rows = []
         for root in roots:
             history = []
@@ -114,7 +130,7 @@ async def safe_summary(db):
                                 "draftQuestions": survey_definition(survey["draft"]), "versions": history})
         sharing_rows = [{"id": row["_id"], **{key: row[key] for key in
                         ("questionId", "active", "revision", "permission", "versionScope", "useSequence")}} for row in shares]
-        return {"counts": counts, "questions": question_rows, "surveys": survey_rows, "shares": sharing_rows}
+        return {"counts": counts, "questions": question_rows, "surveys": survey_rows, "shares": sharing_rows, **bank_records(banks, members)}
 
     async with db.client.start_session() as session:
         return await session.with_transaction(observe, read_concern=ReadConcern("snapshot"), max_commit_time_ms=5000)

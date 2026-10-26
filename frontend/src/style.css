@@ -461,3 +461,10 @@ input[type="checkbox"].editor-field-invalid { outline: 2px solid #b53a32; outlin
 
 /* Native fieldset locks every nested editor control for the full write/readback. */
 .editor-operation { border: 0; margin: 0; padding: 0; min-inline-size: 0; width: 100%; }
+
+
+.question-content-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
+.question-source-note { padding: 13px 15px; margin-bottom: 18px; border: 1px solid #cbded6; border-radius: 6px; background: #f1f7f4; }
+.question-source-note p { margin: 5px 0 8px; }
+.question-picker-modal { width: min(1120px, 96vw); max-width: 1120px; }
+.question-picker-backdrop { z-index: 60; }

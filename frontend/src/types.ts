@@ -9,6 +9,10 @@ export interface Question { id: string; kind: Kind; title: string; required: boo
 export interface Definition { title: string; description: string; allowAnonymous: boolean; entryQuestionId: string | null; questions: Question[] }
 export interface User { id: string; username: string; createdAt: string }
 export interface QuestionSource { instanceId: string; questionId: string; questionVersionId: string }
+export interface QuestionContent { kind: Kind; title: string; config: Question['config'] }
+export interface ReusableQuestion { id: string; currentVersionId: string; lastVersionNo: number; createdAt: string; updatedAt: string }
+export interface QuestionVersion { id: string; questionId: string; versionNo: number; parentVersionId: string | null; content: QuestionContent; createdAt: string; operation?: 'restore'; previousCurrentVersionId?: string }
+export interface QuestionUsage { surveyId: string; surveyTitle: string; surveyStatus: string; instances: Array<{instanceId: string; questionVersionId: string}>; draftRevision?: number; surveyVersionId?: string; versionNo?: number; publishedAt?: string; isCurrent?: boolean }
 export interface Survey { id: string; publicId: string; draft: Definition; draftQuestionSources?: QuestionSource[]; draftRevision: number; currentVersionId: string | null; lastVersionNo: number; status: string; deadlineAt: string | null; allowMultiple: boolean; policyLocked: boolean; settingsRevision: number; createdAt: string; updatedAt?: string }
 export interface Version { id: string; versionNo: number; sourceDraftRevision: number; publishedAt: string; definition: Definition; questionSources?: QuestionSource[] }
 export interface Evaluation { path: string[]; activeAnswers: Answers; trace: Array<Record<string, unknown>>; errors: FieldError[]; blockedAt: string | null; complete: boolean; provisional: boolean; warnings?: DesignWarning[] }

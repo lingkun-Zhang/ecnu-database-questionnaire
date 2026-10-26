@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-26",
+  "interruptedAuditPreserved": true,
+  "match": "exact known question UUID, full last audited business snapshot, exact owner marker, dedicated server PID and replica-set identity",
+  "matchedDatabases": 1,
+  "countsBeforeCleanup": {
+    "users": 1,
+    "questions": 1,
+    "question_versions": 2,
+    "surveys": 0,
+    "survey_versions": 0,
+    "responses": 0
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

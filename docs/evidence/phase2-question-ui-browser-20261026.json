@@ -1,0 +1,1038 @@
+{
+  "runner": "question-library-browser",
+  "runnerAutomatesBrowser": false,
+  "businessDataSeeded": false,
+  "events": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/questions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": []
+      }
+    },
+    {
+      "number": 2,
+      "method": "POST",
+      "path": "/api/questions/5278e6e6-d2e7-4bfb-8378-69622c3f2c37/versions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": []
+      }
+    },
+    {
+      "number": 3,
+      "method": "POST",
+      "path": "/api/questions/5278e6e6-d2e7-4bfb-8378-69622c3f2c37/restore",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+                "versionNo": 3,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                },
+                "operation": "restore",
+                "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+              }
+            ]
+          }
+        ],
+        "surveys": []
+      }
+    },
+    {
+      "number": 4,
+      "method": "PUT",
+      "path": "/api/surveys/5862df56-8d01-49a9-a4ff-ed1dec5148f5/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+                "versionNo": 3,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                },
+                "operation": "restore",
+                "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+            "title": "浏览器问卷A",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ]
+      }
+    },
+    {
+      "number": 5,
+      "method": "POST",
+      "path": "/api/surveys/5862df56-8d01-49a9-a4ff-ed1dec5148f5/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+                "versionNo": 3,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                },
+                "operation": "restore",
+                "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+            "title": "浏览器问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "d9b71f91-91d2-4488-be34-ded494faf008",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "d9b71f91-91d2-4488-be34-ded494faf008",
+                "versionNo": 1,
+                "title": "浏览器问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                    "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "kind": "number",
+                    "title": "近七天运动次数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 6,
+      "method": "PUT",
+      "path": "/api/surveys/185c6a17-914c-4b8e-b85f-e47535cf5f87/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 2,
+          "survey_versions": 1,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+                "versionNo": 3,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                },
+                "operation": "restore",
+                "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "185c6a17-914c-4b8e-b85f-e47535cf5f87",
+            "title": "浏览器问卷B",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          },
+          {
+            "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+            "title": "浏览器问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "d9b71f91-91d2-4488-be34-ded494faf008",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "d9b71f91-91d2-4488-be34-ded494faf008",
+                "versionNo": 1,
+                "title": "浏览器问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                    "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "kind": "number",
+                    "title": "近七天运动次数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "number": 7,
+      "method": "POST",
+      "path": "/api/surveys/185c6a17-914c-4b8e-b85f-e47535cf5f87/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 0
+        },
+        "questions": [
+          {
+            "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+                "versionNo": 2,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 1,
+                  "max": 5,
+                  "integerOnly": true
+                }
+              },
+              {
+                "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+                "versionNo": 3,
+                "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                },
+                "operation": "restore",
+                "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "185c6a17-914c-4b8e-b85f-e47535cf5f87",
+            "title": "浏览器问卷B",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+                "versionNo": 1,
+                "title": "浏览器问卷B",
+                "questionSources": [
+                  {
+                    "instanceId": "q_04b9cddd05a5",
+                    "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                    "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_04b9cddd05a5",
+                    "kind": "number",
+                    "title": "近七天运动次数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          },
+          {
+            "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+            "title": "浏览器问卷A",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "d9b71f91-91d2-4488-be34-ded494faf008",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "d9b71f91-91d2-4488-be34-ded494faf008",
+                "versionNo": 1,
+                "title": "浏览器问卷A",
+                "questionSources": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                    "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_12e053c733e2",
+                    "kind": "number",
+                    "title": "近七天运动次数",
+                    "content": {
+                      "min": 0,
+                      "max": 7,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "cleanedUp": true,
+  "initial": {
+    "counts": {
+      "users": 0,
+      "questions": 0,
+      "question_versions": 0,
+      "surveys": 0,
+      "survey_versions": 0,
+      "responses": 0
+    },
+    "questions": [],
+    "surveys": []
+  },
+  "latest": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 3,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 0
+    },
+    "questions": [
+      {
+        "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+        "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+        "lastVersionNo": 3,
+        "versions": [
+          {
+            "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+            "versionNo": 2,
+            "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "versionNo": 3,
+            "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            },
+            "operation": "restore",
+            "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "185c6a17-914c-4b8e-b85f-e47535cf5f87",
+        "title": "浏览器问卷B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_04b9cddd05a5",
+            "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_04b9cddd05a5",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+            "versionNo": 1,
+            "title": "浏览器问卷B",
+            "questionSources": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      },
+      {
+        "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+        "title": "浏览器问卷A",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "d9b71f91-91d2-4488-be34-ded494faf008",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_12e053c733e2",
+            "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_12e053c733e2",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "d9b71f91-91d2-4488-be34-ded494faf008",
+            "versionNo": 1,
+            "title": "浏览器问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ]
+  },
+  "final": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 3,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 0
+    },
+    "questions": [
+      {
+        "id": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+        "currentVersionId": "35976d64-75f4-4834-ab24-b4663cea3853",
+        "lastVersionNo": 3,
+        "versions": [
+          {
+            "id": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "1885e453-450e-4229-a865-9aa00f67a3a0",
+            "versionNo": 2,
+            "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 1,
+              "max": 5,
+              "integerOnly": true
+            }
+          },
+          {
+            "id": "35976d64-75f4-4834-ab24-b4663cea3853",
+            "versionNo": 3,
+            "parentVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            },
+            "operation": "restore",
+            "previousCurrentVersionId": "1885e453-450e-4229-a865-9aa00f67a3a0"
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "185c6a17-914c-4b8e-b85f-e47535cf5f87",
+        "title": "浏览器问卷B",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_04b9cddd05a5",
+            "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_04b9cddd05a5",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "fee99ec6-ad31-4700-adbb-82964b9a3e12",
+            "versionNo": 1,
+            "title": "浏览器问卷B",
+            "questionSources": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_04b9cddd05a5",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      },
+      {
+        "id": "5862df56-8d01-49a9-a4ff-ed1dec5148f5",
+        "title": "浏览器问卷A",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "d9b71f91-91d2-4488-be34-ded494faf008",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_12e053c733e2",
+            "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+            "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_12e053c733e2",
+            "kind": "number",
+            "title": "近七天运动次数",
+            "content": {
+              "min": 0,
+              "max": 7,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "d9b71f91-91d2-4488-be34-ded494faf008",
+            "versionNo": 1,
+            "title": "浏览器问卷A",
+            "questionSources": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "questionId": "5278e6e6-d2e7-4bfb-8378-69622c3f2c37",
+                "questionVersionId": "81085c0b-bbe4-415b-a791-7f9a04aa8f28"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_12e053c733e2",
+                "kind": "number",
+                "title": "近七天运动次数",
+                "content": {
+                  "min": 0,
+                  "max": 7,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ]
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

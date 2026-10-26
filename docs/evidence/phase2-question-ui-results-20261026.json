@@ -1,0 +1,95 @@
+{
+  "recordDate": "2026-10-26",
+  "frontendRunDate": "2026-10-25",
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "stepBaseCommit": "033b9a6",
+  "scope": "Private question management and explicit fixed-version selection in questionnaire drafts",
+  "frontend": {
+    "passed": 95,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 3139.2229,
+    "files": {
+      "session": 51,
+      "editorErrors": 15,
+      "conditionEditor": 5,
+      "questionReuse": 6,
+      "questionLibrary": 18
+    },
+    "kind": "actual Vue setup logic with controlled network responses; no DOM mount"
+  },
+  "build": {
+    "typecheckPassed": true,
+    "productionBuildPassed": true,
+    "viteSeconds": 1.42
+  },
+  "backendFullSuiteRerun": false,
+  "browser": {
+    "interactions": "Cua browser automation against the real built frontend and API",
+    "startedWithEmptyDatabase": true,
+    "businessRecordsSeeded": false,
+    "verified": [
+      "synthetic account registration",
+      "create number V1 [0,7] integers",
+      "derive V2 [1,5]",
+      "restore V1 as V3 with source V1 and previous head V2",
+      "A and B independently choose V1, save and publish",
+      "A version picker initially displays its bound V1"
+    ],
+    "notVerified": [
+      "completed A switch to V2",
+      "filling and submission",
+      "detaching via browser",
+      "list/history/usage pagination via browser",
+      "other three kind controls via browser"
+    ],
+    "limitation": "Browser control connection timed out at the switch confirmation; no evidence of completed switch",
+    "auditedWriteEvents": 7,
+    "finalCounts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 3,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 0
+    },
+    "auditOmits": [
+      "credentials",
+      "user identities",
+      "public links",
+      "request bodies/headers",
+      "text answers"
+    ],
+    "databaseCleanedUp": true
+  },
+  "runnerOwnershipSmoke": {
+    "businessRecordsCreated": 0,
+    "privateManifestWritten": true,
+    "exactOwnerMarkerVerified": true,
+    "cleanupReceiptWritten": true,
+    "databaseAbsent": true
+  },
+  "interruptedPreviousRun": {
+    "auditOriginalPreserved": true,
+    "completedBusinessWrites": 2,
+    "recoveredCleanupVerified": true,
+    "matchingRule": "exact known question UUID, full last audited business snapshot, exact owner marker, dedicated server PID and replica-set identity"
+  },
+  "desktopOriginal": {
+    "filesRechecked": 163,
+    "changed": 0
+  },
+  "businessDataMigrated": false,
+  "realConfigurationRead": false,
+  "githubPushed": false,
+  "courseSubmitted": false,
+  "next": "Complete remaining browser checks, then define and implement sharing permissions and banks in a separate increment",
+  "testEnvironment": {
+    "testDatabasesRemaining": 0,
+    "webServerProcessesStopped": true,
+    "mongoShutdownCommandIssued": true,
+    "dedicatedMongoOwnershipVerified": true,
+    "mongoProcessExitVerified": true,
+    "listeningPortsAbsent": true
+  }
+}

@@ -21,6 +21,11 @@ const editorErrorsModule = { exports: {} }
 vm.runInNewContext(compile(readFileSync(resolve(root, 'src/editorErrors.ts'), 'utf8')), {
   module: editorErrorsModule, exports: editorErrorsModule.exports,
 })
+const reuseModule = { exports: {} }
+vm.runInNewContext(compile(readFileSync(resolve(root, 'src/questionReuse.ts'), 'utf8')), {
+  module: reuseModule, exports: reuseModule.exports,
+  require: name => { if (name === './types') return typesModule.exports; throw new Error(name) },
+})
 
 function storage() {
   const values = new Map()
@@ -58,7 +63,7 @@ function component(pathname = '/', sharedStorage = {}) {
     setToken: token => token ? localStorage.setItem('wenchuan_token', token) : localStorage.removeItem('wenchuan_token'),
     request: (...args) => network.request(...args), post: (...args) => network.post(...args), download: async () => {} }
   const module = { exports: {} }
-  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput'
+  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged'
   vm.runInNewContext(compile(appSource + `\nmodule.exports={${exposed}}`), {
     module, exports: module.exports,
     require: name => {
@@ -66,12 +71,13 @@ function component(pathname = '/', sharedStorage = {}) {
       if (name === './api') return api
       if (name === './types') return typesModule.exports
       if (name === './editorErrors') return editorErrorsModule.exports
+      if (name === './questionReuse') return reuseModule.exports
       throw new Error(`Unexpected import: ${name}`)
     },
     location: { pathname, origin: 'http://localhost' }, localStorage, sessionStorage,
     window: { addEventListener: (name, handler) => events.set(name, handler), removeEventListener: name => events.delete(name) },
     document: { getElementById: () => null },
-    navigator: { clipboard: { writeText: async () => {} } }, confirm: () => true,
+    navigator: { clipboard: { writeText: async () => {} } }, confirm: sharedStorage.confirm || (() => true),
     URLSearchParams, crypto: webcrypto, setTimeout, clearTimeout,
   })
   const state = module.exports
@@ -91,6 +97,103 @@ function component(pathname = '/', sharedStorage = {}) {
 }
 
 const plain = value => JSON.parse(JSON.stringify(value))
+
+test('switching only a source version is dirty and saves the explicit mapping with the same content', async () => {
+  const h = component(), original = seedEditor(h, false), question = plain(h.state.definition.value.questions[0])
+  const oldSource = { instanceId: question.id, questionId: 'bank', questionVersionId: 'bank-v1' }
+  h.state.active.value.draftQuestionSources = [oldSource]
+  h.network.post = async path => { assert.match(path, /\/preview$/); return { path: [], errors: [], warnings: [] } }
+  h.state.openQuestionPicker(question.id)
+  h.state.chooseQuestionVersion({ id: 'bank-v2', questionId: 'bank', versionNo: 2, content: { kind: question.kind, title: question.title, config: question.config } })
+  assert.equal(h.state.dirty.value, true)
+  assert.deepEqual(plain(h.state.definition.value), original.draft)
+  const sources = [{ ...oldSource, questionVersionId: 'bank-v2' }]
+  const refreshed = { ...original, draftRevision: 5, draftQuestionSources: sources }
+  let writes = 0
+  h.network.request = async (path, options) => {
+    if (path.endsWith('/draft')) { writes++; assert.deepEqual(JSON.parse(options.body).questionSources, sources); return refreshed }
+    if (path.includes('/versions?')) return { items: [] }
+    return refreshed
+  }
+  await h.state.saveDraft()
+  assert.equal(writes, 1); assert.equal(h.state.dirty.value, false)
+  assert.equal(h.state.localQuestionSources.value, null)
+  h.state.logout()
+})
+
+test('detaching a source marks unchanged content dirty and sends an explicit empty list', async () => {
+  const h = component(), original = seedEditor(h, false), id = original.draft.questions[0].id
+  h.state.active.value.draftQuestionSources = [{ instanceId: id, questionId: 'bank', questionVersionId: 'v1' }]
+  h.state.detachQuestion(id)
+  assert.equal(h.state.dirty.value, true)
+  assert.deepEqual(plain(h.state.definition.value), original.draft)
+  h.network.request = async (path, options) => {
+    if (path.endsWith('/draft')) { assert.deepEqual(JSON.parse(options.body).questionSources, []); return { ...original, draftRevision: 5 } }
+    return path.includes('/versions?') ? { items: [] } : { ...original, draftRevision: 5 }
+  }
+  await h.state.saveDraft(); assert.equal(h.state.dirty.value, false); h.state.logout()
+})
+
+test('a picker opened for another survey or an expired account cannot apply its version', () => {
+  const h = component(); seedEditor(h, false)
+  h.state.openQuestionPicker(); h.state.active.value = { ...h.state.active.value, id: 'different-survey' }
+  const before = JSON.stringify(h.state.definition.value), saved = { id: 'v1', questionId: 'bank', versionNo: 1, content: { kind: 'text', title: '迟到选题', config: {} } }
+  h.state.chooseQuestionVersion(saved); assert.equal(JSON.stringify(h.state.definition.value), before)
+  h.state.logout(); h.state.chooseQuestionVersion(saved)
+  assert.equal(h.state.definition.value, null); assert.equal(h.state.questionPicker.value, null)
+})
+
+test('source validation errors locate the editor and expire when provenance is explicitly detached', async () => {
+  const h = component(), original = seedEditor(h, false), id = original.draft.questions[0].id
+  h.state.active.value.draftQuestionSources = [{ instanceId: id, questionId: 'bank', questionVersionId: 'v1' }]
+  const failure = new ApiError(422, 'INVALID_QUESTION_SOURCE', '内容不一致')
+  failure.fieldErrors = [{ questionId: id, field: 'questions[0].config', message: '内容不一致' }]
+  h.network.request = async () => { throw failure }
+  await h.state.saveDraft(); assert.equal(h.state.editorFieldErrors.value.length, 1)
+  let focused = false
+  h.state.definitionEditor.value = { focusError: async issue => { focused = issue === h.state.error.value.fieldErrors[0] } }
+  await h.state.focusEditorIssue(h.state.error.value.fieldErrors[0]); assert.equal(focused, true)
+  h.state.detachQuestion(id); assert.equal(h.state.error.value, null); assert.equal(h.state.editorFieldErrors.value.length, 0)
+  h.state.logout()
+})
+
+test('personal-question pending work protects navigation and page unload', async () => {
+  const h = component(); h.seedOwner(); h.state.page.value = 'questions'
+  h.state.questionLibrary.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.network.request = async () => { throw new Error('Navigation must not request data') }
+  await h.state.goDashboard(); await h.state.openSurvey('another')
+  assert.equal(h.state.page.value, 'questions')
+  let prevented = false; const event = { preventDefault: () => { prevented = true } }
+  h.state.beforeUnload(event); assert.equal(prevented, true)
+  h.state.logout()
+})
+
+test('an expired library session clears credentials even when manual logout confirmation is declined', () => {
+  const h = component('/', { confirm: () => false }); h.seedOwner(); h.state.page.value = 'questions'
+  h.state.questionBusy.value = true
+  h.state.questionLibrary.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.logout(); assert.equal(h.api.getToken(), 'token-A')
+  h.state.expireQuestionSession()
+  assert.equal(h.api.getToken(), ''); assert.equal(h.state.user.value, null)
+  assert.equal(h.state.questionBusy.value, false); assert.equal(h.state.error.value.status, 401)
+})
+
+test('settings refresh preserves the local draft revision and sources when another page has saved a new version', async () => {
+  const h = component(), original = seedEditor(h, false), id = original.draft.questions[0].id
+  const oldSources = [{ instanceId: id, questionId: 'bank', questionVersionId: 'v1' }]
+  h.state.active.value.draftQuestionSources = oldSources
+  const remote = { ...plain(h.state.active.value), draftRevision: 5, settingsRevision: 3,
+    draftQuestionSources: [{ ...oldSources[0], questionVersionId: 'v2' }], draft: { ...original.draft, title: '其他页面的新草稿' } }
+  h.network.request = async (path, options) => options?.method === 'PATCH' ? remote : remote
+  await h.state.settings()
+  assert.equal(h.state.active.value.settingsRevision, 3)
+  assert.equal(h.state.active.value.draftRevision, 4)
+  assert.deepEqual(plain(h.state.currentQuestionSources.value), oldSources)
+  assert.deepEqual(plain(h.state.definition.value), original.draft)
+  assert.equal(h.state.remoteDraftChanged.value, true)
+  h.network.post = async () => { throw new Error('An unseen remote draft must not be published') }
+  await h.state.publish(); h.state.logout()
+})
 
 function seedEditor(h, changed = true) {
   h.seedOwner()

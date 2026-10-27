@@ -11,7 +11,8 @@ from pymongo.errors import PyMongoError
 from .question_content import canonical_question_content, validate_question_content
 from .question_sharing import readable_question
 from .question_usage import (DRAFT_USAGE_PROJECTION, draft_usage_filter,
-                             matching_instances, published_usage_pipeline)
+                             matching_instances, published_usage_pipeline,
+                             question_impact_pipeline, question_impact_view)
 from .repositories import Repository
 from .security import digest, utcnow
 from .services import ServiceError
@@ -85,6 +86,21 @@ class QuestionServices:
         return {"questionId": question_id, "questionVersionId": version_id, "scope": scope,
                 "limit": limit, "items": items,
                 "nextAfterId": rows[limit - 1]["_id"] if len(rows) > limit else None}
+
+    async def impact(self, user, question_id, version_id=None, offset=0, limit=20):
+        async def operation(session):
+            # Impact metadata belongs to the author, not every shared reader.
+            await self.owned(question_id, user, session)
+            if version_id is not None:
+                await self.version(question_id, version_id, session)
+            checked_at = self.clock()
+            cursor = await self.db.surveys.aggregate(
+                question_impact_pipeline(user["_id"], question_id, version_id, offset, limit),
+                session=session, maxTimeMS=10000)
+            rows = await cursor.to_list(length=1)
+            return question_impact_view(rows[0] if rows else {}, question_id, version_id, checked_at,
+                                        self.settings.participant_secret, offset, limit)
+        return await self.repo.transaction(operation)
 
     def content(self, raw):
         errors = validate_question_content(raw)

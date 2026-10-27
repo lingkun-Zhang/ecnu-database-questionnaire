@@ -1,0 +1,665 @@
+{
+  "runner": "question-library-browser",
+  "runnerAutomatesBrowser": false,
+  "businessDataSeeded": false,
+  "events": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/questions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "currentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 2,
+      "method": "PUT",
+      "path": "/api/surveys/32614e74-bf4e-412c-b1b5-887b4be749fd/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "currentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+            "title": "到校方式调查（影响检查演示）",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "versions": []
+          }
+        ],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 3,
+      "method": "POST",
+      "path": "/api/surveys/32614e74-bf4e-412c-b1b5-887b4be749fd/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "currentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+            "title": "到校方式调查（影响检查演示）",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "b353cc3e-4660-4601-91c4-052239f74d57",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "versions": [
+              {
+                "id": "b353cc3e-4660-4601-91c4-052239f74d57",
+                "versionNo": 1,
+                "title": "到校方式调查（影响检查演示）",
+                "questionSources": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                    "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "kind": "single",
+                    "title": "你通常如何到校？（演示）",
+                    "content": {}
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 4,
+      "method": "POST",
+      "path": "/api/questions/2e06e1f0-628e-452e-a0e9-c027c82b7b96/versions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 2,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "currentVersionId": "47c05488-f172-4a08-ad94-d47fdf1546ef",
+            "lastVersionNo": 2,
+            "versions": [
+              {
+                "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              },
+              {
+                "id": "47c05488-f172-4a08-ad94-d47fdf1546ef",
+                "versionNo": 2,
+                "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "kind": "single",
+                "title": "你通常如何到校？（新版演示）",
+                "content": {}
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+            "title": "到校方式调查（影响检查演示）",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "b353cc3e-4660-4601-91c4-052239f74d57",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "versions": [
+              {
+                "id": "b353cc3e-4660-4601-91c4-052239f74d57",
+                "versionNo": 1,
+                "title": "到校方式调查（影响检查演示）",
+                "questionSources": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                    "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "kind": "single",
+                    "title": "你通常如何到校？（演示）",
+                    "content": {}
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 5,
+      "method": "POST",
+      "path": "/api/questions/2e06e1f0-628e-452e-a0e9-c027c82b7b96/restore",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 3,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "currentVersionId": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+            "lastVersionNo": 3,
+            "versions": [
+              {
+                "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              },
+              {
+                "id": "47c05488-f172-4a08-ad94-d47fdf1546ef",
+                "versionNo": 2,
+                "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "kind": "single",
+                "title": "你通常如何到校？（新版演示）",
+                "content": {}
+              },
+              {
+                "id": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+                "versionNo": 3,
+                "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {},
+                "operation": "restore",
+                "previousCurrentVersionId": "47c05488-f172-4a08-ad94-d47fdf1546ef"
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+            "title": "到校方式调查（影响检查演示）",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "b353cc3e-4660-4601-91c4-052239f74d57",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "versions": [
+              {
+                "id": "b353cc3e-4660-4601-91c4-052239f74d57",
+                "versionNo": 1,
+                "title": "到校方式调查（影响检查演示）",
+                "questionSources": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                    "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_b4b0bed65937",
+                    "kind": "single",
+                    "title": "你通常如何到校？（演示）",
+                    "content": {}
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    }
+  ],
+  "cleanedUp": true,
+  "initial": {
+    "counts": {
+      "users": 0,
+      "questions": 0,
+      "question_versions": 0,
+      "surveys": 0,
+      "survey_versions": 0,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 0,
+      "question_stat_sources": 0,
+      "question_stat_grants": 0
+    },
+    "questions": [],
+    "surveys": [],
+    "shares": [],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [],
+    "statSources": [],
+    "statGrants": []
+  },
+  "latest": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 3,
+      "surveys": 1,
+      "survey_versions": 1,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 0,
+      "question_stat_sources": 0,
+      "question_stat_grants": 0
+    },
+    "questions": [
+      {
+        "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+        "currentVersionId": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+        "lastVersionNo": 3,
+        "versions": [
+          {
+            "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {}
+          },
+          {
+            "id": "47c05488-f172-4a08-ad94-d47fdf1546ef",
+            "versionNo": 2,
+            "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "kind": "single",
+            "title": "你通常如何到校？（新版演示）",
+            "content": {}
+          },
+          {
+            "id": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+            "versionNo": 3,
+            "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {},
+            "operation": "restore",
+            "previousCurrentVersionId": "47c05488-f172-4a08-ad94-d47fdf1546ef"
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+        "title": "到校方式调查（影响检查演示）",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "b353cc3e-4660-4601-91c4-052239f74d57",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_b4b0bed65937",
+            "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_b4b0bed65937",
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {}
+          }
+        ],
+        "versions": [
+          {
+            "id": "b353cc3e-4660-4601-91c4-052239f74d57",
+            "versionNo": 1,
+            "title": "到校方式调查（影响检查演示）",
+            "questionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ],
+    "shares": [],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [],
+    "statSources": [],
+    "statGrants": []
+  },
+  "final": {
+    "counts": {
+      "users": 1,
+      "questions": 1,
+      "question_versions": 3,
+      "surveys": 1,
+      "survey_versions": 1,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 0,
+      "question_stat_sources": 0,
+      "question_stat_grants": 0
+    },
+    "questions": [
+      {
+        "id": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+        "currentVersionId": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+        "lastVersionNo": 3,
+        "versions": [
+          {
+            "id": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {}
+          },
+          {
+            "id": "47c05488-f172-4a08-ad94-d47fdf1546ef",
+            "versionNo": 2,
+            "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "kind": "single",
+            "title": "你通常如何到校？（新版演示）",
+            "content": {}
+          },
+          {
+            "id": "ce9544c3-6e52-4f26-8b45-c2eae80afb6a",
+            "versionNo": 3,
+            "parentVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d",
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {},
+            "operation": "restore",
+            "previousCurrentVersionId": "47c05488-f172-4a08-ad94-d47fdf1546ef"
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "32614e74-bf4e-412c-b1b5-887b4be749fd",
+        "title": "到校方式调查（影响检查演示）",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "b353cc3e-4660-4601-91c4-052239f74d57",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_b4b0bed65937",
+            "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+            "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_b4b0bed65937",
+            "kind": "single",
+            "title": "你通常如何到校？（演示）",
+            "content": {}
+          }
+        ],
+        "versions": [
+          {
+            "id": "b353cc3e-4660-4601-91c4-052239f74d57",
+            "versionNo": 1,
+            "title": "到校方式调查（影响检查演示）",
+            "questionSources": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "questionId": "2e06e1f0-628e-452e-a0e9-c027c82b7b96",
+                "questionVersionId": "d4e79b0d-6eda-4134-8b39-5e210100066d"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_b4b0bed65937",
+                "kind": "single",
+                "title": "你通常如何到校？（演示）",
+                "content": {}
+              }
+            ],
+            "responseCount": 0,
+            "numericAnswers": []
+          }
+        ]
+      }
+    ],
+    "shares": [],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [],
+    "statSources": [],
+    "statGrants": []
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

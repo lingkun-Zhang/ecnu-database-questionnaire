@@ -1,0 +1,183 @@
+{
+  "passed": true,
+  "baselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "mode": "real two-version ASGI lifecycle; isolated BSON clone rehearsal",
+  "realDataMigrated": false,
+  "dependencyReinstallationTested": false,
+  "operatingSystemRollbackTested": false,
+  "losslessDowngradeClaimed": false,
+  "currentBaseCommit": "44432eb33bc65d00d699d1761ec2cee56b9afd97",
+  "currentBackendWorkingTreeHash": "5604cc4bc039a81d44511af7520aa2e687346ac7647d9142ad02d15eb41f9ec2",
+  "currentBackendHasUncommittedChanges": true,
+  "sameLockedRequirements": true,
+  "lastStepAttempted": "restored-old",
+  "seed-old": {
+    "action": "seed-old",
+    "applicationSourceVerified": true,
+    "legacyFourTypes": true,
+    "legacyVersions": 2,
+    "legacyResponses": 2,
+    "anonymousAndNamed": true,
+    "oldFillCredentialCaptured": true
+  },
+  "upgrade-current": {
+    "action": "upgrade-current",
+    "applicationSourceVerified": true,
+    "oldInitializationDocumentsUnchanged": true,
+    "legacyContractsOnlyGainOptionalSources": true,
+    "oldIndexesPreserved": true,
+    "oldLoginAndStats": true,
+    "oldSubmissionReplay": true,
+    "oldCredentialAfterNewerPublication": true,
+    "phase2IndependentVersionsAndRestore": true,
+    "phase2FixedSources": true,
+    "phase2SharedUse": true,
+    "phase2BankPin": true,
+    "aggregateGrantAndScope": true,
+    "aggregateA": 2,
+    "aggregateSum": 3,
+    "ownRawOnly": true,
+    "legacyRecordsProtectedDuringNewFeatureWrites": true
+  },
+  "mixed-old": {
+    "action": "mixed-old",
+    "applicationSourceVerified": true,
+    "oldLegacyRead": true,
+    "oldStartupReplacedValidators": true,
+    "sourceSaveStatus": 503,
+    "sourcePublishStatus": 422,
+    "sourceSubmitStatus": 503,
+    "errorCodes": [
+      "DATABASE_UNAVAILABLE",
+      "INVALID_DOCUMENT",
+      "SUBMISSION_OUTCOME_UNKNOWN"
+    ],
+    "databaseValidationError121Confirmed": true,
+    "allBusinessDocumentsUnchanged": true,
+    "unsafeDirectDowngradeRejected": true
+  },
+  "repair-current": {
+    "action": "repair-current",
+    "applicationSourceVerified": true,
+    "currentValidatorsRestored": true,
+    "fixedSourcesReadable": true,
+    "independentHistoryReadable": true,
+    "allBusinessDocumentsUnchanged": true
+  },
+  "restored-old": {
+    "action": "restored-old",
+    "applicationSourceVerified": true,
+    "restorePointDocumentsExact": true,
+    "restoreContractsAndIndexesExact": true,
+    "oldLoginReadWritePublishSubmit": true,
+    "laterPhase2WritesNotInRestoredBackup": true,
+    "notLosslessDowngrade": true
+  },
+  "seedBackup": {
+    "users": {
+      "count": 1,
+      "documentsSha256": "3f6029893b9f3f7ac4b1b0a1422876fe94559a0abaffe4c8d9ac48bdc9ab0886",
+      "optionsSha256": "a04b86c19ca5fad764ab3a546748fda8925ffc3fd90c04017d6cb8527599924f"
+    },
+    "surveys": {
+      "count": 1,
+      "documentsSha256": "c4630609d7ef545956f14c57bb454952659fc2c48acb958df01b321f8e8942a1",
+      "optionsSha256": "564353f954269799b43b9d77dfecc88a9f48a67b005d1c4cd7e0234691c499d8"
+    },
+    "survey_versions": {
+      "count": 2,
+      "documentsSha256": "665afcfa87a532c924876e6e3cf072797e47830f36293783af1264f656d2f4e9",
+      "optionsSha256": "8d23ba1cc049ae7cd28c4da324dd0a5133137b6202e12cf77f1995f1a1a95868"
+    },
+    "responses": {
+      "count": 2,
+      "documentsSha256": "83a4e86a87419b6a44bc659d23d398374327d216f3660536445c9689e4d2f221",
+      "optionsSha256": "3d000b161a0ea55a767541e8c19bac02d12a62ace00de5066bd0392177ff47fb"
+    }
+  },
+  "upgradedBackup": {
+    "users": {
+      "count": 2,
+      "documentsSha256": "134bfcb5dc9eafd30ce305eae7736c827fe022c8914d4bdc531a2ef1c62bf2ff",
+      "optionsSha256": "a04b86c19ca5fad764ab3a546748fda8925ffc3fd90c04017d6cb8527599924f"
+    },
+    "surveys": {
+      "count": 3,
+      "documentsSha256": "1c43a2e546f35d97a9b2d4cee3bc09d4eddf715ecce4ee7c7908ed2c4043da99",
+      "optionsSha256": "bd52a0f76e4766635d77c4ad78f89f43033c80889b775755c7e4b2fabf829460"
+    },
+    "survey_versions": {
+      "count": 4,
+      "documentsSha256": "99ecc3240da7f7b9db1fabf78d85aafc984de62257adb2e0d857fb940d4c3740",
+      "optionsSha256": "ec892ce1d426a43b23f096dffc1ee23232f839da7690807a9408c4229633475d"
+    },
+    "responses": {
+      "count": 5,
+      "documentsSha256": "9e50aba6b7003c4e74140365f7567b52a489be6764098af3df73812f617a8174",
+      "optionsSha256": "3d000b161a0ea55a767541e8c19bac02d12a62ace00de5066bd0392177ff47fb"
+    },
+    "questions": {
+      "count": 1,
+      "documentsSha256": "e9bacf3e9c500bb10e1e122fe88c83065614112f0f61836cd23b1f213ca64ced",
+      "optionsSha256": "d7d7d825a48cb005ec0f52d6dee0d864fb2adedf7a5cf7a3a4cbe6a915bc91c6"
+    },
+    "question_versions": {
+      "count": 3,
+      "documentsSha256": "f08a603a5142db5040afb7b4bb8ee09029c27d02a7f28091bd04534d5f03f7b2",
+      "optionsSha256": "0f25cd432934c77fafbc232ac55831d2a2c4ef3cbec8e59160c987f8abbb10ad"
+    },
+    "question_shares": {
+      "count": 1,
+      "documentsSha256": "1afd085813498db35f26d7c5e13921a69a27ae59ee8d0f529c25018bbc8bac54",
+      "optionsSha256": "b1c17e4ab787a124afd97640e07565ff59a2492189cc396e2bf513d39b07cb38"
+    },
+    "question_banks": {
+      "count": 1,
+      "documentsSha256": "0ef05336a3216c34874027cd798183d1ea7de7bd8f697414e8e707cb19fe2687",
+      "optionsSha256": "9fa28ef041b10b7c17d2ae6a864ef4a73de533dcb5b64fabbe166101532a5783"
+    },
+    "question_bank_items": {
+      "count": 1,
+      "documentsSha256": "cdd64c25dc6f6f40cdc0e8bafa651ddaeaf9d7005c2d8166410db8a9869108f2",
+      "optionsSha256": "0f8962a16d3f927a22a49d131deb548fe1aec1ac5cbe95c45c88e6e84d54ec16"
+    },
+    "question_stat_scopes": {
+      "count": 1,
+      "documentsSha256": "68bff2bb923b0d898aff250f6c099f5a11affebed477e7cf86af351852247e40",
+      "optionsSha256": "dc5adb3c6c612156f4ef245f50593fc8adf32d4c5ca53dff8c1d7873085c9e66"
+    },
+    "question_stat_sources": {
+      "count": 2,
+      "documentsSha256": "7750f2057e83b9a3299d866f24e546766e5a550a70ea6db4d9c16b1367d2c1fd",
+      "optionsSha256": "ce395d44ca31995308fa9387e5a8f6c164366a8b9cd9f0226c51c8c2c4985fed"
+    },
+    "question_stat_grants": {
+      "count": 1,
+      "documentsSha256": "f4d4cbaf145aab00ab3158bf4911dd8883113c3b49404a64d06d58a27d87d8c1",
+      "optionsSha256": "d4d6597df0607abbc039f12622a94591f947c29882d16a06f2ee97f7b812d0b3"
+    }
+  },
+  "upgradedDatabaseRetainedDuringBackupRollback": true,
+  "cleanup": [
+    {
+      "stage": "seed",
+      "ownershipVerified": true,
+      "databaseAbsent": true
+    },
+    {
+      "stage": "upgraded",
+      "ownershipVerified": true,
+      "databaseAbsent": true
+    },
+    {
+      "stage": "mixed",
+      "ownershipVerified": true,
+      "databaseAbsent": true
+    },
+    {
+      "stage": "restored",
+      "ownershipVerified": true,
+      "databaseAbsent": true
+    }
+  ]
+}

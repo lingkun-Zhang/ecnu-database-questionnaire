@@ -394,6 +394,14 @@ def create_app(settings=None):
                               user=Depends(current_user), svc=Depends(question_service)):
         return await svc.usages(user, question_id, scope, questionVersionId, limit, afterId)
 
+    @api.get("/questions/{question_id}/impact")
+    async def question_impact(question_id: str,
+                               questionVersionId: str | None = Query(None, min_length=1, max_length=160),
+                               offset: int = Query(0, ge=0, le=9007199254740991),
+                               limit: int = Query(20, ge=1, le=100),
+                               user=Depends(current_user), svc=Depends(question_service)):
+        return await svc.impact(user, question_id, questionVersionId, offset, limit)
+
     @api.post("/questions/{question_id}/versions")
     async def create_question_version(question_id: str, body: NewQuestionVersion, user=Depends(current_user),
                                       svc=Depends(question_service),

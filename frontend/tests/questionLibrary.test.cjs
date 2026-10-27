@@ -31,7 +31,7 @@ class ApiError extends Error {
 // copied into these assertions. Rendered controls are checked in the browser.
 function component(mode = 'manage', initialProps = {}) {
   const source = parse(readFileSync(resolve(root, 'src/components/QuestionLibrary.vue'), 'utf8')).descriptor.scriptSetup.content
-  const exposed = 'collection,sharedCursors,ownerSelection,sharePanel,sharingBusy,operationBusy,onShareBusy,changeCollection,hasUnsavedChanges,busy,failure,note,entries,listOffset,listMore,selectedRoot,history,historyOffset,historyMore,selectedVersionId,selectedVersion,editor,editBaseline,editParentVersionId,editExpectedHeadId,pendingWrite,refreshNeeded,conflictNeedsReview,usageScope,usageVersion,usageRows,usageNext,usageLoaded,loadQuestions,openQuestion,startCreate,startEdit,selectVersion,saveContent,restoreVersion,retryWrite,refreshSaved,reviewConflict,abandonPending,loadMoreHistory,loadUsage,chooseVersion,canLeave'
+  const exposed = 'impactDecision,impactBusy,editorLocked,onImpactBusy,confirmImpact,cancelImpact,collection,sharedCursors,ownerSelection,sharePanel,sharingBusy,operationBusy,onShareBusy,changeCollection,hasUnsavedChanges,busy,failure,note,entries,listOffset,listMore,selectedRoot,history,historyOffset,historyMore,selectedVersionId,selectedVersion,editor,editBaseline,editParentVersionId,editExpectedHeadId,pendingWrite,refreshNeeded,conflictNeedsReview,usageScope,usageVersion,usageRows,usageNext,usageLoaded,loadQuestions,openQuestion,startCreate,startEdit,selectVersion,saveContent,restoreVersion,retryWrite,refreshSaved,reviewConflict,abandonPending,loadMoreHistory,loadUsage,chooseVersion,canLeave'
   const mounted = [], unmounted = [], events = [], confirmations = [], windowEvents = new Map()
   let token = 'account-A-token', confirmResult = true
   const props = vue.reactive({ mode, ...initialProps })
@@ -146,7 +146,7 @@ test('saved versions are chosen explicitly and picker mode cannot create or edit
     assert.deepEqual(choices[0].args[0], data.versions.get('q-a')[1])
     const reads = data.reads.length
     await h.state.startCreate('number'); await h.state.startEdit()
-    await h.state.saveContent(); await h.state.restoreVersion()
+    await saveAfterReview(h); await restoreAfterReview(h)
     assert.equal(h.state.editor.value, null)
     assert.equal(data.reads.length, reads)
   } finally { h.dispose() }
@@ -188,7 +188,7 @@ test('editing a historical version binds its source while retaining the separate
       const saved = { ...version('q-a', 3, plain(body.content)), parentVersionId: 'q-a-v1' }
       data.commit(saved); return plain(saved)
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.ok(writes[0].headers['idempotency-key'])
     assert.equal(h.state.selectedRoot.value.currentVersionId, 'q-a-v3')
@@ -212,7 +212,7 @@ for (const kind of ['single', 'multi', 'text', 'number']) {
         const saved = version(`created-${kind}`, 1, plain(body.content))
         data.commit(saved); return saved
       }
-      await h.state.saveContent()
+      await saveAfterReview(h)
       assert.equal(writes.length, 1)
       assert.ok(writes[0].headers['idempotency-key'])
       assert.equal(h.state.selectedRoot.value.id, `created-${kind}`)
@@ -230,7 +230,7 @@ test('an uncertain create retries the original key and body and holds busy throu
       writes.push({ path, body: plain(body), headers: headersPlain(headers) })
       throw new ApiError(0, 'NETWORK_ERROR', '结果尚未确认')
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.ok(h.state.pendingWrite.value)
     const write = deferred(), read = deferred(), readStarted = deferred()
@@ -245,7 +245,7 @@ test('an uncertain create retries the original key and body and holds busy throu
     }
     const running = h.state.retryWrite()
     assert.equal(h.state.busy.value, true)
-    await h.state.retryWrite(); await h.state.saveContent()
+    await h.state.retryWrite(); await saveAfterReview(h)
     assert.equal(writes.length, 2, 'busy retries do not start another write')
     const saved = version('q-created', 1, writes[0].body.content)
     data.commit(saved); write.resolve(saved); await readStarted.promise
@@ -273,7 +273,7 @@ test('a successful write followed by failed refresh is refreshed without sending
       if (path === '/questions/q-a' && failRefresh) throw new ApiError(503, 'DATABASE_UNAVAILABLE', '读取失败')
       return originalRead(path)
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.equal(h.state.refreshNeeded.value, true)
     assert.equal(h.state.pendingWrite.value.result.id, 'q-a-v3')
@@ -297,7 +297,7 @@ test('restoring an old version uses target and current identifiers without clien
         parentVersionId: 'q-a-v1', operation: 'restore', previousCurrentVersionId: 'q-a-v2' }
       data.commit(saved); return plain(saved)
     }
-    await h.state.restoreVersion()
+    await restoreAfterReview(h)
     assert.equal(writes.length, 1)
     assert.ok(writes[0].headers['idempotency-key'])
     assert.equal(h.state.selectedVersion.value.operation, 'restore')
@@ -313,7 +313,7 @@ test('an unconfirmed restore result is retried with the original restore key and
       writes.push({ path, body: plain(body), headers: headersPlain(headers) })
       throw new ApiError(503, 'QUESTION_WRITE_OUTCOME_UNKNOWN', '恢复结果未确认')
     }
-    await h.state.restoreVersion()
+    await restoreAfterReview(h)
     assert.equal(writes.length, 1)
     h.network.post = async (path, body, headers) => {
       writes.push({ path, body: plain(body), headers: headersPlain(headers) })
@@ -337,11 +337,11 @@ test('a version conflict preserves local edits and blocks blind resubmission unt
       writes.push({ path, body: plain(body), headers: headersPlain(headers) })
       throw new ApiError(409, 'QUESTION_VERSION_CONFLICT', '当前版本已经变化')
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.equal(h.state.conflictNeedsReview.value, true)
     assert.equal(h.state.editor.value.title, '本页尚未保存的编辑')
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.equal(h.state.editExpectedHeadId.value, 'q-a-v2')
     assert.ok(data.reads.length)
@@ -358,7 +358,7 @@ test('reviewing a changed head preserves local content and requires another expl
       data.commit(version('q-a', 3, content('其他页面已经提交的内容')))
       throw new ApiError(409, 'QUESTION_VERSION_CONFLICT', '其他页面已创建V3')
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 1)
     assert.equal(h.state.conflictNeedsReview.value, true)
     h.state.editor.value.title = '冲突后继续修改的本地题干'
@@ -379,7 +379,7 @@ test('reviewing a changed head preserves local content and requires another expl
       const saved = { ...version('q-a', 4, plain(body.content)), parentVersionId: 'q-a-v1' }
       data.commit(saved); return saved
     }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 2)
     assert.notEqual(writes[1].headers['idempotency-key'], writes[0].headers['idempotency-key'])
     assert.equal(h.state.selectedVersion.value.id, 'q-a-v4')
@@ -513,11 +513,11 @@ test('received shared questions can be inspected but cannot start any owner cont
   try {
     await h.state.changeCollection('shared'); await h.state.openQuestion('q-a')
     assert.equal(h.state.ownerSelection.value, false)
-    await h.state.startCreate('number'); await h.state.startEdit(); await h.state.restoreVersion()
+    await h.state.startCreate('number'); await h.state.startEdit(); await restoreAfterReview(h)
     assert.equal(h.state.editor.value, null)
     h.state.editor.value = content('programmatic stale content')
     h.network.post = async (...args) => { writes.push(args); throw new Error('A shared view must not write') }
-    await h.state.saveContent()
+    await saveAfterReview(h)
     assert.equal(writes.length, 0)
     assert.equal(h.state.selectedVersion.value.id, 'q-a-v2')
     assert.ok(data.sharedReads.length)
@@ -534,7 +534,7 @@ test('the shared picker emits the exact selected historical version without crea
     assert.equal(choice.args[0].questionId, 'q-a')
     assert.equal(choice.args[0].id, 'q-a-v1')
     assert.equal(h.state.ownerSelection.value, false)
-    await h.state.startCreate('number'); await h.state.startEdit(); await h.state.restoreVersion()
+    await h.state.startCreate('number'); await h.state.startEdit(); await restoreAfterReview(h)
     assert.equal(h.state.editor.value, null)
   } finally { h.dispose() }
 })
@@ -548,7 +548,7 @@ test('a readable detail outside the personal list never becomes an owner selecti
     await h.state.loadQuestions(); await h.state.openQuestion('q-b')
     assert.equal(h.state.selectedRoot.value.id, 'q-b')
     assert.equal(h.state.ownerSelection.value, false)
-    await h.state.startEdit(); await h.state.restoreVersion()
+    await h.state.startEdit(); await restoreAfterReview(h)
     assert.equal(h.state.editor.value, null)
   } finally { h.dispose() }
 })
@@ -629,4 +629,42 @@ test('a revoked shared history or usage read invalidates its previously selectab
       assert.equal(h.events.filter(item => item.name === 'choose').length, 0)
     } finally { h.dispose() }
   }
+})
+
+
+// Existing write-recovery tests now pass through an explicit approval event.
+// The review child and its real GET are tested separately; no DOM is mounted.
+function approval(h) { const d=h.state.impactDecision.value;return {decisionId:d.id,questionId:d.questionId,sourceVersionId:d.sourceVersionId,checkedAt:'2026-10-27T08:00:00Z'} }
+async function saveAfterReview(h) { await h.state.saveContent();if(h.state.impactDecision.value)await h.state.confirmImpact(approval(h)) }
+async function restoreAfterReview(h) { await h.state.restoreVersion();if(h.state.impactDecision.value)await h.state.confirmImpact(approval(h)) }
+
+test('derive waits for review; cancellation preserves edits and sends no write',async()=>{
+ const h=component();fixture(h);let writes=0;h.network.post=async()=>{writes++;throw new Error('Unexpected write')}
+ try{await selected(h);await h.state.startEdit();h.state.editor.value.title='待确认内容';await h.state.saveContent()
+ assert.equal(writes,0);assert.equal(h.state.pendingWrite.value,null);assert.equal(h.state.editorLocked.value,true)
+ assert.equal(h.state.impactDecision.value.body.content.title,'待确认内容');h.setConfirm(false);assert.equal(h.state.canLeave(),false)
+ h.state.onImpactBusy(true);h.state.cancelImpact();assert.ok(h.state.impactDecision.value);assert.equal(h.state.canLeave(),false)
+ h.state.onImpactBusy(false);h.state.cancelImpact();assert.equal(h.state.impactDecision.value,null);assert.equal(h.state.editor.value.title,'待确认内容');assert.equal(writes,0)
+ }finally{h.dispose()}
+})
+test('review approval is bound to the operation, question, source and account',async()=>{
+ const h=component();fixture(h);let writes=0;h.network.post=async()=>{writes++;throw new Error('Unexpected write')}
+ try{await selected(h);await h.state.startEdit();await h.state.saveContent();const a=approval(h)
+ for(const key of ['decisionId','questionId','sourceVersionId']){await h.state.confirmImpact({...a,[key]:'other'});assert.equal(writes,0)}
+ h.setToken('new-account');await h.state.confirmImpact(a);assert.equal(writes,0)
+ }finally{h.dispose()}
+})
+test('changing content while the review is pending requires a new review',async()=>{
+ const h=component();fixture(h);let writes=0;h.network.post=async()=>{writes++;throw new Error('Unexpected write')}
+ try{await selected(h);await h.state.startEdit();await h.state.saveContent();const a=approval(h)
+ h.state.editor.value.title='程序修改了锁定内容';await h.state.confirmImpact(a)
+ assert.equal(writes,0);assert.equal(h.state.impactDecision.value,null);assert.equal(h.state.failure.value.code,'IMPACT_CONTENT_CHANGED');assert.ok(h.state.editor.value)
+ }finally{h.dispose()}
+})
+test('restore review can be cancelled without creating a version or accepting stale approval',async()=>{
+ const h=component();fixture(h);let writes=0;h.network.post=async()=>{writes++;throw new Error('Unexpected write')}
+ try{await selected(h);await h.state.selectVersion('q-a-v1');await h.state.restoreVersion();const a=approval(h)
+ assert.deepEqual(plain(h.state.impactDecision.value.body),{targetVersionId:'q-a-v1',expectedCurrentVersionId:'q-a-v2'});assert.equal(writes,0)
+ h.state.cancelImpact();await h.state.confirmImpact(a);assert.equal(writes,0);assert.equal(h.state.pendingWrite.value,null)
+ }finally{h.dispose()}
 })

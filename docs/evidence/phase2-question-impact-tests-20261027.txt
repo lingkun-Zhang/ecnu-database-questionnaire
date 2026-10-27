@@ -1,0 +1,6 @@
+Impact targeted: 18 passed in12.40s
+Full backend: 480 passed, 3 existing Windows symlink permission skips, 251 subtests passed in198.01s
+Rehearsal safety after final worker fixes: 25 passed in0.15s
+Full frontend: 204 passed, 0 failed in4.724054s
+Typecheck and production build passed
+Two-version rehearsal completed all five stages, four owned databases cleaned

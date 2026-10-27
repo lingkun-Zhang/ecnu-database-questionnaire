@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import AnswerInput from './AnswerInput.vue'
 import QuestionSharePanel from './QuestionSharePanel.vue'
+import QuestionImpactReview from './QuestionImpactReview.vue'
 import { ApiError, getToken, post, request } from '../api'
 import { clone, kindNames, newQuestion, uid } from '../types'
 import type { Answer, FieldError, Kind, Question, QuestionContent, QuestionUsage, QuestionVersion, ReusableQuestion } from '../types'
@@ -12,11 +13,14 @@ interface Entry { root:ReusableQuestion; current:QuestionVersion }
 interface Scope { token:string; generation:number }
 interface HistoryPage { items:QuestionVersion[];offset:number;limit:number }
 interface PendingWrite { kind:'create'|'derive'|'restore';key:string;path:string;body:Record<string,unknown>;result?:QuestionVersion;uncertain:boolean }
+interface ImpactDecision {id:string;questionId:string;sourceVersionId:string;sourceVersionLabel:string;kind:'derive'|'restore';path:string;body:Record<string,unknown>;session:Scope}
+interface ImpactApproval {decisionId:string;questionId:string;sourceVersionId:string;checkedAt:string}
+const impactDecision=ref<ImpactDecision|null>(null),impactBusy=ref(false)
 const libraryRoot=ref<HTMLElement|null>(null)
 const busy=ref(false),failure=ref<ApiError|null>(null),note=ref('')
 const collection=ref<'owned'|'shared'>('owned'),sharedCursors=ref<Array<string|null>>([null])
 const sharePanel=ref<{canLeave:()=>boolean;hasUnsavedChanges:()=>boolean}|null>(null),sharingBusy=ref(false)
-const operationBusy=computed(()=>busy.value||sharingBusy.value)
+const operationBusy=computed(()=>busy.value||sharingBusy.value||impactBusy.value)
 const entries=ref<Entry[]>([]),listOffset=ref(0),listMore=ref(false),listLoaded=ref(false)
 const selectedRoot=ref<ReusableQuestion|null>(null),history=ref<QuestionVersion[]>([])
 const historyOffset=ref(0),historyMore=ref(false),selectedVersionId=ref('')
@@ -29,7 +33,7 @@ let generation=0,alive=true
 class StaleLibraryResponse extends Error {}
 const selectedVersion=computed(()=>history.value.find(item=>item.id===selectedVersionId.value)||null)
 const dirty=computed(()=>editor.value!==null&&JSON.stringify(editor.value)!==editBaseline.value&&!pendingWrite.value?.result)
-const editorLocked=computed(()=>operationBusy.value||Boolean(pendingWrite.value?.uncertain||pendingWrite.value?.result))
+const editorLocked=computed(()=>operationBusy.value||Boolean(impactDecision.value||pendingWrite.value?.uncertain||pendingWrite.value?.result))
 const ownerSelection=computed(()=>props.mode==='manage'&&collection.value==='owned'&&Boolean(selectedRoot.value&&entries.value.some(entry=>entry.root.id===selectedRoot.value!.id)))
 const lockedQuestion=computed(()=>props.mode==='pick'&&Boolean(props.questionId))
 const previewQuestion=computed<Question|null>(()=>{
@@ -44,11 +48,13 @@ function formatDate(value:string){return new Intl.DateTimeFormat('zh-CN',{year:'
 function versionLabel(id:string|null|undefined){if(!id)return '初始版本';const item=history.value.find(value=>value.id===id);return item?`V${item.versionNo}`:'未载入的历史版本'}
 function emitBusy(){emit('busy-change',operationBusy.value)}
 function onShareBusy(value:boolean){sharingBusy.value=value;emitBusy()}
+function onImpactBusy(value:boolean){impactBusy.value=value;emitBusy()}
 function openStatistics(){if(operationBusy.value||!selectedRoot.value)return;emit('statistics',selectedRoot.value.id)}
-function hasUnsavedChanges(){return dirty.value||Boolean(pendingWrite.value)||Boolean(sharePanel.value?.hasUnsavedChanges())}
+function hasUnsavedChanges(){return dirty.value||Boolean(impactDecision.value)||Boolean(pendingWrite.value)||Boolean(sharePanel.value?.hasUnsavedChanges())}
 function canLeave(){
   if(operationBusy.value)return false
   if(sharePanel.value&&!sharePanel.value.canLeave())return false
+  if(impactDecision.value)return confirm('修改影响还未确认，确定离开？本次检查不会创建新版本；离开会放弃本页未保存编辑。')
   if(pendingWrite.value?.result)return confirm('题目已保存，但最新状态尚未读回。离开后可重新打开核对。确定离开？')
   if(pendingWrite.value?.uncertain)return confirm('上一次保存的结果尚未确认，操作可能已经成功。离开会放弃本页的原标识重试入口，建议先重试核对。仍要离开？')
   return !dirty.value||confirm('题目内容还有未保存的修改，确定放弃这些修改？')
@@ -69,7 +75,7 @@ async function run(action:(scope:Scope)=>Promise<void>){
   finally{if(current(scope)){busy.value=false;emitBusy()}}
 }
 function clearUsage(){usageRows.value=[];usageNext.value=null;usageLoaded.value=false}
-function clearEditor(){editor.value=null;editBaseline.value='';editParentVersionId.value='';editExpectedHeadId.value='';pendingWrite.value=null;refreshNeeded.value=false;conflictNeedsReview.value=false;previewAnswer.value=null}
+function clearEditor(){impactDecision.value=null;impactBusy.value=false;editor.value=null;editBaseline.value='';editParentVersionId.value='';editExpectedHeadId.value='';pendingWrite.value=null;refreshNeeded.value=false;conflictNeedsReview.value=false;previewAnswer.value=null}
 function clearSelection(){clearEditor();selectedRoot.value=null;history.value=[];historyOffset.value=0;historyMore.value=false;selectedVersionId.value='';clearUsage()}
 function uniqueVersions(items:QuestionVersion[]){return [...new Map(items.map(item=>[item.id,item])).values()].sort((a,b)=>b.versionNo-a.versionNo)}
 async function fetchList(offset:number,scope:Scope){
@@ -187,25 +193,45 @@ async function executeWrite(){
     }
   })
 }
+function requestImpact(kind:'derive'|'restore',body:Record<string,unknown>){
+  if(!ownerSelection.value||!selectedRoot.value||!selectedVersion.value||impactDecision.value||pendingWrite.value)return
+  impactDecision.value={id:uid('impact_decision'),questionId:selectedRoot.value.id,
+    sourceVersionId:kind==='restore'?String(body.targetVersionId):String(body.parentVersionId),
+    sourceVersionLabel:versionLabel(kind==='restore'?String(body.targetVersionId):String(body.parentVersionId)),
+    kind,path:`${pathQuestion(selectedRoot.value.id)}/${kind==='restore'?'restore':'versions'}`,body:clone(body),session:capture()}
+  failure.value=null
+}
+function cancelImpact(){if(!impactBusy.value)impactDecision.value=null}
+async function confirmImpact(approval:ImpactApproval){
+  const decision=impactDecision.value
+  if(!decision||operationBusy.value||!current(decision.session)||!ownerSelection.value||!selectedRoot.value||pendingWrite.value
+    ||approval?.decisionId!==decision.id||approval.questionId!==decision.questionId||approval.sourceVersionId!==decision.sourceVersionId||!approval.checkedAt
+    ||selectedRoot.value.id!==decision.questionId||selectedVersionId.value!==decision.sourceVersionId)return
+  if(decision.kind==='derive'&&JSON.stringify(contentBody())!==JSON.stringify(decision.body)){
+    impactDecision.value=null;failure.value=new ApiError(409,'IMPACT_CONTENT_CHANGED','本地内容已变化，请重新检查影响后保存。');return
+  }
+  impactDecision.value=null
+  pendingWrite.value={kind:decision.kind,key:uid(decision.kind==='restore'?'question_restore':'question_save'),path:decision.path,body:clone(decision.body),uncertain:true}
+  await executeWrite()
+}
 async function saveContent(){
-  if(props.mode==='pick'||collection.value!=='owned'||operationBusy.value||!editor.value||conflictNeedsReview.value)return
+  if(props.mode==='pick'||collection.value!=='owned'||operationBusy.value||impactDecision.value||!editor.value||conflictNeedsReview.value)return
   if(pendingWrite.value?.result){await refreshSaved();return}
   const body=contentBody()!
   if(pendingWrite.value&&JSON.stringify(body)!==JSON.stringify(pendingWrite.value.body)){
     if(pendingWrite.value.uncertain){failure.value=new ApiError(409,'UNCONFIRMED_WRITE','上一次保存结果尚未确认，请先重试原操作或明确放弃重试。');return}
     pendingWrite.value=null
   }
+  if(editParentVersionId.value&&!pendingWrite.value){requestImpact('derive',body);return}
   pendingWrite.value ||= {kind:editParentVersionId.value?'derive':'create',key:uid('question_save'),path:editParentVersionId.value?`${pathQuestion(selectedRoot.value!.id)}/versions`:'/questions',body,uncertain:true}
   await executeWrite()
 }
 async function restoreVersion(){
-  if(!ownerSelection.value||operationBusy.value||!selectedVersion.value||!selectedRoot.value||editor.value||conflictNeedsReview.value)return
+  if(!ownerSelection.value||operationBusy.value||impactDecision.value||!selectedVersion.value||!selectedRoot.value||editor.value||conflictNeedsReview.value)return
   if(pendingWrite.value?.result){await refreshSaved();return}
   if(pendingWrite.value){await retryWrite();return}
   const target=selectedVersion.value
-  if(!confirm(`将V${target.versionNo}的内容恢复为新版本？当前及历史版本会保留，问卷不会自动换版。`))return
-  pendingWrite.value={kind:'restore',key:uid('question_restore'),path:`${pathQuestion(selectedRoot.value.id)}/restore`,body:{targetVersionId:target.id,expectedCurrentVersionId:selectedRoot.value.currentVersionId},uncertain:true}
-  await executeWrite()
+  requestImpact('restore',{targetVersionId:target.id,expectedCurrentVersionId:selectedRoot.value.currentVersionId})
 }
 async function retryWrite(){if(conflictNeedsReview.value)return;if(pendingWrite.value?.result)await refreshSaved();else await executeWrite()}
 async function refreshSaved(){if(!pendingWrite.value?.result||busy.value)return;await executeWrite()}
@@ -246,7 +272,7 @@ watch(editor,()=>{
 },{deep:true,flush:'sync'})
 watch(()=>[usageScope.value,usageVersion.value],clearUsage)
 async function initialize(){if(lockedQuestion.value&&props.questionId)await openQuestion(props.questionId,props.versionId);else await loadQuestions()}
-watch(()=>[props.mode,props.questionId,props.versionId],()=>{generation++;busy.value=false;sharingBusy.value=false;emitBusy();collection.value='owned';sharedCursors.value=[null];clearSelection();entries.value=[];listLoaded.value=false;void initialize()})
+watch(()=>[props.mode,props.questionId,props.versionId],()=>{generation++;busy.value=false;sharingBusy.value=false;impactBusy.value=false;emitBusy();collection.value='owned';sharedCursors.value=[null];clearSelection();entries.value=[];listLoaded.value=false;void initialize()})
 onMounted(()=>void initialize())
 onUnmounted(()=>{alive=false;generation++})
 defineExpose({canLeave,hasUnsavedChanges})
@@ -259,10 +285,11 @@ defineExpose({canLeave,hasUnsavedChanges})
     <p v-if="note" class="library-notice" role="status">{{note}}</p>
     <div v-if="failure" class="library-error" role="alert"><strong>{{failure.message}}</strong><p v-if="mode==='pick'&&lockedQuestion&&failure.status===404" class="hint">{{destination==='bank'?'这道题当前不可读取，可能已撤销共享。题库保留原整理记录，但不授予读取或换版权限；关闭窗口不会改变题库条目。':'这道题当前不可读取，可能已撤销共享。服务器已保存的固定引用可以保留；新选题或换版仍需作者授权。关闭选择窗口不会移除原草稿来源。'}}</p><ul v-if="failure.fieldErrors.length"><li v-for="(issue,index) in failure.fieldErrors" :key="index">{{issue.message}} <button v-if="editor" class="text-button small" @click="focusIssue(issue)">定位</button></li></ul></div>
     <div v-if="pendingWrite" class="panel pending-operation"><p>{{pendingWrite.result?'保存已经成功，重新读取不会再次创建版本。':pendingWrite.uncertain?'上次结果尚未确认，请使用原操作重试。确认前已暂停修改内容。':'本次操作尚未完成。可以按原标识重试，或修改内容后重新保存。'}}</p><div class="button-row"><button v-if="!conflictNeedsReview" class="button secondary" :disabled="operationBusy" @click="retryWrite">{{pendingWrite.result?'重新读取保存结果':'重试原操作'}}</button><button v-if="conflictNeedsReview&&selectedRoot" class="button secondary" :disabled="operationBusy" @click="reviewConflict">核对当前版本</button><button v-if="!pendingWrite.result" class="text-button" :disabled="operationBusy" @click="abandonPending">放弃本次重试</button></div></div>
+    <QuestionImpactReview v-if="impactDecision" :key="impactDecision.id" :decision-id="impactDecision.id" :question-id="impactDecision.questionId" :source-version-id="impactDecision.sourceVersionId" :source-version-label="impactDecision.sourceVersionLabel" :operation="impactDecision.kind" @confirm="confirmImpact" @cancel="cancelImpact" @busy-change="onImpactBusy" @unauthorized="emit('unauthorized')"/>
     <div class="library-layout">
       <aside class="panel library-list"><div class="section-heading"><h3>{{lockedQuestion?'当前题目':collection==='shared'?'收到的共享题目':'已保存的题目'}}</h3><button class="text-button small" :disabled="operationBusy" @click="loadQuestions(listOffset)">刷新</button></div><p v-if="!listLoaded" class="hint">{{operationBusy?'正在读取题目…':'读取未完成，可以刷新重试。'}}</p><p v-else-if="!entries.length" class="hint">{{collection==='shared'?'当前没有有效的共享题目。请让作者按你的用户名共享，再刷新列表。':mode==='manage'?'还没有保存的题目，点击“新建题目”开始。':'还没有保存的题目，请先到题目管理页面创建。'}}</p><button v-for="entry in entries" :key="entry.root.id" :class="['library-entry',{active:selectedRoot?.id===entry.root.id}]" :disabled="operationBusy" @click="openQuestion(entry.root.id,lockedQuestion?versionId:undefined)"><strong>{{entry.current.content.title}}</strong><span>{{kindNames[entry.current.content.kind]}} · 当前V{{entry.current.versionNo}}</span><small>{{formatDate(entry.root.updatedAt)}}</small></button><div v-if="!lockedQuestion&&(listOffset||listMore)" class="library-pages"><button class="button secondary small" :disabled="operationBusy||listOffset===0" @click="loadQuestions(Math.max(0,listOffset-20))">上一页</button><span class="muted small">第{{Math.floor(listOffset/20)+1}}页</span><button class="button secondary small" :disabled="operationBusy||!listMore" @click="loadQuestions(listOffset+20)">下一页</button></div></aside>
       <div class="library-main">
-        <section v-if="editor" class="panel library-editor"><div class="section-heading"><div><div class="eyebrow">{{editParentVersionId?`基于${versionLabel(editParentVersionId)}编辑`:'新建个人题目'}}</div><h3>{{editParentVersionId?'保存为新版本':'设置题目内容'}}</h3></div><span class="muted small">{{dirty?'有未保存修改':'内容未修改'}}</span></div><fieldset :disabled="editorLocked" class="library-fieldset"><label>题目名称<input v-model="editor.title" data-library-field="content.title" maxlength="500" placeholder="请输入题干"/></label><label>题型<select :value="editor.kind" data-library-field="content.kind" @change="changeKind"><option v-for="kind in (['single','multi','text','number'] as Kind[])" :key="kind" :value="kind">{{kindNames[kind]}}</option></select></label><template v-if="editor.kind==='single'||editor.kind==='multi'"><div class="field-heading">选项 <small>修改已有选项文案时保留其标识</small></div><div v-for="(option,index) in editor.config.options" :key="option.id" class="option-editor"><span>{{String.fromCharCode(65+index)}}</span><input v-model="option.label" :data-library-field="`content.config.options[${index}].label`" :aria-label="`选项${index+1}`" maxlength="500"/><button class="icon-button danger-text" :aria-label="`删除选项${index+1}`" @click="removeOption(index)">×</button></div><button class="text-button" :disabled="(editor.config.options?.length||0)>=100" data-library-field="content.config.options" @click="addOption">＋ 添加选项</button><div v-if="editor.kind==='multi'" class="limit-grid"><label>至少选择<input type="number" min="0" :value="editor.config.minSelected" data-library-field="content.config.minSelected" @input="setLimit('minSelected',$event)"/></label><label>最多选择<input type="number" min="0" :value="editor.config.maxSelected" data-library-field="content.config.maxSelected" placeholder="不限制" @input="setLimit('maxSelected',$event)"/></label></div></template><div v-if="editor.kind==='text'" class="limit-grid"><label>最少字数<input type="number" min="0" :value="editor.config.minLength" data-library-field="content.config.minLength" placeholder="不限制" @input="setLimit('minLength',$event)"/></label><label>最多字数<input type="number" min="0" :value="editor.config.maxLength" data-library-field="content.config.maxLength" placeholder="不限制" @input="setLimit('maxLength',$event)"/></label></div><template v-if="editor.kind==='number'"><div class="limit-grid"><label>最小值（含）<input type="number" :value="editor.config.min" data-library-field="content.config.min" placeholder="不限制" @input="setLimit('min',$event)"/></label><label>最大值（含）<input type="number" :value="editor.config.max" data-library-field="content.config.max" placeholder="不限制" @input="setLimit('max',$event)"/></label></div><label class="checkbox-line"><input v-model="editor.config.integerOnly" type="checkbox" data-library-field="content.config.integerOnly"/>只接受整数</label></template></fieldset><div class="button-row library-actions"><button class="button primary" :disabled="operationBusy||!editor.title.trim()||conflictNeedsReview" @click="saveContent">{{pendingWrite?.result?'重新读取保存结果':editParentVersionId?'保存新版本':'保存题目'}}</button><button class="button secondary" :disabled="operationBusy" @click="cancelEdit">取消编辑</button></div><p class="hint">必答、卷内题目顺序和条件跳转在问卷编辑器中配置。</p></section>
+        <section v-if="editor" class="panel library-editor"><div class="section-heading"><div><div class="eyebrow">{{editParentVersionId?`基于${versionLabel(editParentVersionId)}编辑`:'新建个人题目'}}</div><h3>{{editParentVersionId?'保存为新版本':'设置题目内容'}}</h3></div><span class="muted small">{{dirty?'有未保存修改':'内容未修改'}}</span></div><fieldset :disabled="editorLocked" class="library-fieldset"><label>题目名称<input v-model="editor.title" data-library-field="content.title" maxlength="500" placeholder="请输入题干"/></label><label>题型<select :value="editor.kind" data-library-field="content.kind" @change="changeKind"><option v-for="kind in (['single','multi','text','number'] as Kind[])" :key="kind" :value="kind">{{kindNames[kind]}}</option></select></label><template v-if="editor.kind==='single'||editor.kind==='multi'"><div class="field-heading">选项 <small>修改已有选项文案时保留其标识</small></div><div v-for="(option,index) in editor.config.options" :key="option.id" class="option-editor"><span>{{String.fromCharCode(65+index)}}</span><input v-model="option.label" :data-library-field="`content.config.options[${index}].label`" :aria-label="`选项${index+1}`" maxlength="500"/><button class="icon-button danger-text" :aria-label="`删除选项${index+1}`" @click="removeOption(index)">×</button></div><button class="text-button" :disabled="(editor.config.options?.length||0)>=100" data-library-field="content.config.options" @click="addOption">＋ 添加选项</button><div v-if="editor.kind==='multi'" class="limit-grid"><label>至少选择<input type="number" min="0" :value="editor.config.minSelected" data-library-field="content.config.minSelected" @input="setLimit('minSelected',$event)"/></label><label>最多选择<input type="number" min="0" :value="editor.config.maxSelected" data-library-field="content.config.maxSelected" placeholder="不限制" @input="setLimit('maxSelected',$event)"/></label></div></template><div v-if="editor.kind==='text'" class="limit-grid"><label>最少字数<input type="number" min="0" :value="editor.config.minLength" data-library-field="content.config.minLength" placeholder="不限制" @input="setLimit('minLength',$event)"/></label><label>最多字数<input type="number" min="0" :value="editor.config.maxLength" data-library-field="content.config.maxLength" placeholder="不限制" @input="setLimit('maxLength',$event)"/></label></div><template v-if="editor.kind==='number'"><div class="limit-grid"><label>最小值（含）<input type="number" :value="editor.config.min" data-library-field="content.config.min" placeholder="不限制" @input="setLimit('min',$event)"/></label><label>最大值（含）<input type="number" :value="editor.config.max" data-library-field="content.config.max" placeholder="不限制" @input="setLimit('max',$event)"/></label></div><label class="checkbox-line"><input v-model="editor.config.integerOnly" type="checkbox" data-library-field="content.config.integerOnly"/>只接受整数</label></template></fieldset><div class="button-row library-actions"><button class="button primary" :disabled="operationBusy||Boolean(impactDecision)||!editor.title.trim()||conflictNeedsReview" @click="saveContent">{{pendingWrite?.result?'重新读取保存结果':editParentVersionId?'检查影响并保存新版本':'保存题目'}}</button><button class="button secondary" :disabled="operationBusy" @click="cancelEdit">取消编辑</button></div><p class="hint">必答、卷内题目顺序和条件跳转在问卷编辑器中配置。</p></section>
         <section v-else-if="selectedVersion&&selectedRoot" class="panel library-version"><div class="section-heading"><div><div class="eyebrow">{{kindNames[selectedVersion.content.kind]}} · V{{selectedVersion.versionNo}} <span class="library-current" v-if="selectedVersion.id===selectedRoot.currentVersionId">当前版本</span></div><h3>{{selectedVersion.content.title}}</h3></div><button v-if="mode==='pick'" class="button primary" :disabled="operationBusy" @click="chooseVersion">选择V{{selectedVersion.versionNo}}</button></div><p class="hint">{{formatDate(selectedVersion.createdAt)}} · {{selectedVersion.parentVersionId?`内容来源：${versionLabel(selectedVersion.parentVersionId)}`:'初始版本'}}<template v-if="selectedVersion.operation==='restore'"> · 恢复记录，恢复前为{{versionLabel(selectedVersion.previousCurrentVersionId)}}</template></p><p v-if="mode==='pick'&&lockedQuestion" class="hint">{{destination==='bank'?'这里只更新同一道题的题库固定版本；已有问卷仍保留原版。':'这里只切换同一道题的版本；当前选中内容会在确认后应用到问卷草稿。'}}</p><div v-if="ownerSelection" class="button-row"><button class="button primary" :disabled="operationBusy||Boolean(pendingWrite)" @click="startEdit">基于此版编辑</button><button class="button secondary" :disabled="operationBusy||Boolean(pendingWrite)" @click="restoreVersion">恢复此版内容</button></div></section>
         <QuestionSharePanel v-if="ownerSelection&&!editor&&selectedRoot" :key="selectedRoot.id" ref="sharePanel" :question-id="selectedRoot.id" @busy-change="onShareBusy" @unauthorized="emit('unauthorized')"/>
         <section v-if="previewQuestion" class="panel library-preview"><div class="eyebrow">内容预览</div><h3>{{previewQuestion.title||'请输入题目名称'}}</h3><AnswerInput v-model="previewAnswer" :question="previewQuestion" :disabled="operationBusy"/><p class="hint">预览回答只保留在本页，不会提交答卷。</p></section>

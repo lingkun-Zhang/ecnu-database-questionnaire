@@ -6,7 +6,7 @@
 
 `GET /api/questions/{questionId}/usages`按题目系列或指定版本查询本人草稿、发布快照，参数与输出口径见[题目使用情况查询](phase2-question-usage.md)。
 
-`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。恢复功能完成时共29个API操作、26条路径；共享与题库接入时为39个API操作、32条路径；跨问卷统计新增7个操作，当前46个操作、39条路径，以本次生成的OpenAPI为准。
+`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。恢复功能完成时共29个API操作、26条路径；共享与题库接入时为39个API操作、32条路径；跨问卷统计新增7个操作时为46个操作、39条路径；影响查询接入后当前47个操作、40条路径，以本次生成的OpenAPI为准。
 
 下文JSON是契约示例，尖括号内为调用时替换的值，不冒充实际HTTP运行记录。真实执行结果见[test-report.md](test-report.md)及evidence/。OpenAPI快照由实际应用生成，但部分响应没有声明response_model，动态201/200和业务错误应结合本文阅读。
 
@@ -253,3 +253,8 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 范围有效30分钟，创建回执有限保留7天。key同而body不同409 IDEMPOTENCY_CONFLICT；错账号/错题范围404；缺失或过期410 STATISTICS_SCOPE_EXPIRED；授权撤销、换修订或归属变化409 STATISTICS_SCOPE_INVALIDATED。未知写入结果503 STATISTICS_SCOPE_WRITE_OUTCOME_UNKNOWN或STATISTICS_GRANT_WRITE_OUTCOME_UNKNOWN，保留原参数重试；保存成功后读取失败只重试GET。授权状态409 STATISTICS_GRANT_CONFLICT后须明确重新核对，不能自动提高expectedRevision重发。错题/不存在的明细版本404 QUESTION_VERSION_NOT_FOUND，超出已固定单版本范围422；游标签名或绑定不符422 INVALID_STATISTICS_CURSOR。
 
 概览responseCount是一份来源答卷一次，answeredResponseCount表示至少有效作答过一个本题实例；每版本responseCount不可直接相加推断概览，更不代表跨问卷唯一人数。数字返回sum/avg/min/max及最多10组直方图（末组含上界），选择题列全部固定选项count/percentage，多选totalSelections与A分开；文本汇总不泄露原文。明细/CSV与汇总共享固定来源和序号，但本人明细不包含他人汇总贡献。
+
+
+## 作者专用修改影响查询（2026-10-27）
+
+新增`GET /api/questions/{qid}/impact`，仅题目作者可用，原usages权限不变。可选questionVersionId；offset默认0且0—9007199254740991；limit默认20且1—100。返回checkedAt、scope=saved_references、own/others摘要及每份问卷的有界items页和nextOffset。本人条目带标题/ID/状态，他人仅HMAC引用代号与引用数，不含真实ID、标题、身份、实例标识、定义或答案。摘要区分去重问卷、草稿实例、当前发布实例及历史快照/实例；当前/历史按真实发布指针判断，闭卷仍可有当前版。一次请求snapshot一致，跨页实时偏移不冻结；保存前检查不代表全局锁或换版授权。字段、解释和边界见[影响说明](phase2-question-impact.md)。接入后当前共47个API操作、40条路径，OpenAPI由实际应用生成。

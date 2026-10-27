@@ -30,6 +30,8 @@ from .statistics import get_stats, StatsError, RespondentType, build_response_sc
 from .questions import QuestionServices, question_view, question_version_view
 from .question_sharing import QuestionSharingServices
 from .question_banks import QuestionBankServices, bank_view
+from .question_statistics import QuestionStatisticsServices
+from .question_statistics_api import install_statistics_routes
 
 log = logging.getLogger("survey")
 bearer = HTTPBearer(auto_error=False)
@@ -193,6 +195,10 @@ def bank_service(request: Request):
                                 request.app.state.clock, request.app.state.bank_hooks)
 
 
+def question_statistics_service(request: Request):
+    return QuestionStatisticsServices(request.app.state.db, request.app.state.settings, request.app.state.clock, request.app.state.stat_hooks)
+
+
 def create_app(settings=None):
     settings = settings or Settings.from_env()
 
@@ -220,6 +226,7 @@ def create_app(settings=None):
     app.state.clock = utcnow
     app.state.hooks = {}
     app.state.bank_hooks = {}
+    app.state.stat_hooks = {}
 
     def error_response(request, code, message, status, details=None):
         return JSONResponse(status_code=status, content=jsonable_encoder({
@@ -272,6 +279,7 @@ def create_app(settings=None):
         return error_response(request, "DATABASE_UNAVAILABLE", "数据库暂时不可用，请稍后重试", 503)
 
     api = APIRouter(prefix="/api")
+    install_statistics_routes(api, current_user, question_statistics_service)
 
     @api.get("/health")
     async def health(request: Request):

@@ -4,7 +4,7 @@
 
 正文保留第一阶段四集合的核心结构及历史验证说明。第二阶段另增 `questions`、`question_versions`，当时初始化共创建六集合；见[独立题目与版本](phase2-question-versions.md)。随后仅给 `surveys/survey_versions`增加可选来源数组，原字段约束和 `users/responses`校验器保持不变；具体结构与兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。旧文档无需回填或将 `schemaVersion` 改成2。使用情况查询再给草稿和发布集合各增加两个复合多键索引，不增加业务字段或使用关系集合；设计与实际计划见[题目使用情况查询](phase2-question-usage.md)。恢复功能再为 `question_versions`增加成对可选的 `operation/previousCurrentVersionId`，不增集合、索引或回填；约束和旧格式说明见[恢复题目旧版本](phase2-question-restore.md)。
 
-共享新增第七集合`question_shares`；本步再加入题库与成员，当前初始化共九集合。后续结构见本文第11、12节；第一阶段四集合正文和历史实验范围仍分别保留。
+共享新增第七集合`question_shares`；本步再加入题库与成员，当前初始化共十二集合（统计新增范围、来源和独立汇总授权）。后续结构见本文第11—13节；第一阶段四集合正文和历史实验范围仍分别保留。
 
 ## 1. 集合与生命周期
 
@@ -191,3 +191,22 @@ MongoDB 聚合分别计算到达、已答、到达未答和跳过集合；多选
 新增唯一索引`uq_question_banks_creation(ownerId,creationKey)`及`uq_question_bank_items_question(bankId,questionId)`；分页索引`ix_question_banks_owner_page(ownerId,archived,_id)`、`ix_question_bank_items_page(bankId,_id)`。成员独立增长，不嵌入库根的无限数组；元信息、成员和授权门在同一事务提交，以库revision仲裁不同决定。成员移除只删整理关系，不删除题目、发布快照和答卷。
 
 收录或换版共享题时，对有效授权真实递增useSequence，与撤销写同一授权文档协调。序列含义扩展为依赖授权的写入顺序，未改变授权集合结构、用户决定修订或共享范围。成员读取在同一快照批量检查当前权限，失效仅返回自有整理指针，不把题库当成新的授权来源。归档库可读可恢复但禁止成员变更。
+
+
+## 13. 跨问卷单题统计范围与授权
+
+本步仅增加三集合，不改变原九集合校验器、索引或业务文档，不为历史答卷补写来源。统计依据已发布`survey_versions.questionSources`的显式题目/版本/卷内实例身份，不以题干匹配；第一阶段没有来源的本地题仍可照常按单卷统计。业务口径与测试见[本步说明](phase2-question-statistics.md)。
+
+| 集合 | 字段与约束 | 索引 |
+|---|---|---|
+| `question_stat_scopes` | `_id,viewerId,questionId,questionVersionId`（可空）、`respondentType,creationKey,requestDigest,createdAt,expiresAt,purgeAt,publicationCount,surveyCount,instanceCount,hasForeignSources,schemaVersion`；严格对象；统计有效30分钟，创建回执保留7天 | viewerId+creationKey唯一；purgeAt单字段TTL=0 |
+| `question_stat_sources` | `_id,scopeId,surveyId,surveyVersionId,asOfSeq,accessMode,expiresAt,schemaVersion`；每发布快照一条；aggregate必须含`grantId,grantRevision`，owner禁止这两个字段 | scopeId+surveyVersionId唯一；scopeId+_id分页；expiresAt单字段TTL=0 |
+| `question_stat_grants` | `_id,surveyId,questionId,ownerId,recipientId,permission,active,revision,requestDigest,createdAt,updatedAt,schemaVersion`；permission只允许aggregate；recipient由题目作者推导，revision为正BSON整数；请求expectedRevision受安全整数上限约束 | surveyId+questionId唯一；questionId+recipientId+active接收查询 |
+
+范围与来源不保存答案、姓名或账号文案；viewerId用于授权归属，本身仍是内部账号引用，不能称为完全不含个人标识。公开响应不返回viewerId、创建key或摘要。他人来源只显示概括标题，原始答案与CSV只来自当前账号拥有的问卷。
+
+首次范围在同一个snapshot事务中确定全部符合授权的历史发布快照和每问卷各自的提交序号，随后写入范围根和来源子记录；后续汇总、来源页、明细、CSV都按这些引用和序号读取。题目版本内容再次与发布快照校验。同一事务内顺序执行数据库操作，不并行共用session。原responses的surveyId+versionId+acceptedSeq索引及既有发布来源索引继续使用。
+
+TTL只负责异步回收，访问时仍显式检查expiresAt；不依赖TTL准点删除。每次读取还核对当前问卷归属与授权active/revision；撤销后提交的新请求不能继续使用旧范围，重新授权也需新范围。已在撤销前建立snapshot的在途读取按原快照完成，不宣称撤销能追回已显示结果。7天后旧创建key不再保证恢复；界面在30分钟后要求明确结束原请求再刷新。
+
+汇总通过MongoDB的match/facet/unwind/group和有界分布结果完成，Python合并每版本的分组结果，不装载原始答卷数组。来源元数据仍需逐一读取；尚无大规模执行计划和吞吐证明，不将功能测试当性能结论。统计事务沿用20秒总预算，超时返回错误而不静默截断。兼容性已在隔离库验证初始化前后旧业务全文不变；尚未迁移真实数据或完成正式升级/回退演练。

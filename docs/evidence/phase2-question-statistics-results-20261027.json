@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-27",
+  "activeRepository": "D:/DBLab/wenchuan-phase2",
+  "firstStageBaseline": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "backend": {
+    "targetedPassed": 30,
+    "targetedSeconds": 22.73,
+    "fullPassed": 437,
+    "fullSkipped": 3,
+    "subtestsPassed": 251,
+    "fullSeconds": 195.58,
+    "failures": 0,
+    "skipsReason": "Windows symlink creation unavailable; existing tests"
+  },
+  "frontend": {
+    "passed": 189,
+    "failed": 0,
+    "seconds": 4.0334793,
+    "method": "Actual Vue setup/reactivity with controlled HTTP, not mounted DOM",
+    "typecheck": true,
+    "productionBuild": true,
+    "log": "stats-frontend-postentry.txt",
+    "lastEntryChange": {
+      "location": "Survey editor fixed-source bar",
+      "preservesUnsavedDraft": true,
+      "coveredByParentStateTest": true,
+      "finalTypecheckAndBuildPassed": true,
+      "browserRetestedAfterEntryAddition": false
+    }
+  },
+  "api": {
+    "paths": 39,
+    "operations": 46
+  },
+  "browser": {
+    "method": "Real built UI and local API, two synthetic accounts, unseeded owned database",
+    "successfulAuditedWrites": 14,
+    "questionCount": 1,
+    "questionVersions": 1,
+    "surveys": 2,
+    "responses": 2,
+    "statisticsScopes": 4,
+    "statisticsSources": 5,
+    "statisticsGrants": 1,
+    "finalGrantActive": false,
+    "finalGrantRevision": 2,
+    "independentStoredDataChecks": [
+      {
+        "scopeOrder": 1,
+        "respondentType": "all",
+        "publicationCount": 2,
+        "responseCount": 2,
+        "A": 2,
+        "sum": 3,
+        "ownAnswerValues": [
+          0
+        ],
+        "avg": 1.5
+      },
+      {
+        "scopeOrder": 2,
+        "respondentType": "all",
+        "publicationCount": 1,
+        "responseCount": 1,
+        "A": 1,
+        "sum": 0,
+        "ownAnswerValues": [
+          0
+        ],
+        "avg": 0.0
+      },
+      {
+        "scopeOrder": 3,
+        "respondentType": "named",
+        "publicationCount": 1,
+        "responseCount": 0,
+        "A": 0,
+        "sum": 0,
+        "ownAnswerValues": [],
+        "avg": null
+      },
+      {
+        "scopeOrder": 4,
+        "respondentType": "all",
+        "publicationCount": 1,
+        "responseCount": 1,
+        "A": 1,
+        "sum": 0,
+        "ownAnswerValues": [
+          0
+        ],
+        "avg": 0.0
+      }
+    ],
+    "observed": [
+      "Select fixed V1 in own and received-question picker; save and publish both surveys",
+      "Submit anonymous numeric 0 and 3 in real fill pages",
+      "Cancel then confirm aggregate grant; only one activation PUT before the later revocation",
+      "Before revoke: two source surveys, A2/sum3/avg1.5, histogram total2; own details only0",
+      "Revoke: revision2 inactive; fresh range has one own source and A1/sum0/avg0",
+      "Changing named filter retains old all-range label until explicit refresh; named range has zero responses and no details",
+      "Export button clicked with no visible failure; downloaded file not independently inspected in browser workflow"
+    ],
+    "notBrowserTested": [
+      "Different content versions",
+      "All four question kinds",
+      "Old-scope read after revoke across separate browser sessions",
+      "Injected unknown network outcome",
+      "Downloaded CSV file content"
+    ],
+    "screenshots": "Private local runtime files only; not included in repository",
+    "testedBuildAsset": "index-DxQhyqqZ.js"
+  },
+  "limitations": [
+    "No real business-data migration or upgrade/rollback rehearsal",
+    "No large-scale query-plan or load proof",
+    "No cross-survey unique-person inference",
+    "No GitHub push or course submission"
+  ],
+  "cleanup": {
+    "date": "2026-10-27",
+    "browserOwnershipVerified": true,
+    "browserDatabaseCleanedUp": true,
+    "onlySystemDatabasesBeforeShutdown": true,
+    "mongoProcessAndDataPathVerified": true,
+    "mongoNormalExitCode": 0,
+    "mongoProcessAbsent": true,
+    "browserAndMongoPortsClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true,
+    "realConfigurationRead": false,
+    "realDataMigrated": false,
+    "githubPushed": false,
+    "courseSubmitted": false
+  }
+}

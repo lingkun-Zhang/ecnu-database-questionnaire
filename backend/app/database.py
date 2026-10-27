@@ -442,6 +442,46 @@ INDEXES.update({
 })
 
 
+# Fixed query ranges keep only provenance references, never answers or identities.
+QUESTION_STAT_SCOPE_SCHEMA = _object({
+    "_id": STRING_ID, "viewerId": STRING_ID, "questionId": STRING_ID,
+    "questionVersionId": {"bsonType": ["string", "null"], "minLength": 1, "maxLength": 160},
+    "respondentType": {"enum": ["all", "anonymous", "named"]},
+    "creationKey": {"bsonType": "string", "minLength": 1, "maxLength": 128},
+    "requestDigest": {"bsonType": "string", "pattern": "^[a-f0-9]{64}$"},
+    "createdAt": DATE, "expiresAt": DATE, "purgeAt": DATE,
+    "publicationCount": NONNEGATIVE, "surveyCount": NONNEGATIVE, "instanceCount": NONNEGATIVE,
+    "hasForeignSources": {"bsonType": "bool"}, "schemaVersion": POSITIVE},
+    ["_id","viewerId","questionId","questionVersionId","respondentType","creationKey","requestDigest",
+     "createdAt","expiresAt","purgeAt","publicationCount","surveyCount","instanceCount","hasForeignSources","schemaVersion"])
+QUESTION_STAT_SOURCE_SCHEMA = _object({
+    "_id": STRING_ID, "scopeId": STRING_ID, "surveyId": STRING_ID, "surveyVersionId": STRING_ID,
+    "asOfSeq": NONNEGATIVE, "accessMode": {"enum": ["owner", "aggregate"]},
+    "grantId": STRING_ID, "grantRevision": POSITIVE, "expiresAt": DATE, "schemaVersion": POSITIVE},
+    ["_id","scopeId","surveyId","surveyVersionId","asOfSeq","accessMode","expiresAt","schemaVersion"])
+QUESTION_STAT_SOURCE_SCHEMA["oneOf"] = [
+    {"properties": {"accessMode": {"enum": ["owner"]}}, "not": {"anyOf": [{"required":["grantId"]},{"required":["grantRevision"]}]}},
+    {"properties": {"accessMode": {"enum": ["aggregate"]}}, "required": ["grantId","grantRevision"]}]
+QUESTION_STAT_GRANT_SCHEMA = _object({
+    "_id": STRING_ID, "surveyId": STRING_ID, "questionId": STRING_ID, "ownerId": STRING_ID,
+    "recipientId": STRING_ID, "permission": {"enum":["aggregate"]}, "active": {"bsonType":"bool"},
+    "revision": POSITIVE, "requestDigest": {"bsonType":"string","pattern":"^[a-f0-9]{64}$"},
+    "createdAt": DATE, "updatedAt": DATE, "schemaVersion": POSITIVE},
+    ["_id","surveyId","questionId","ownerId","recipientId","permission","active","revision","requestDigest","createdAt","updatedAt","schemaVersion"])
+VALIDATORS.update({"question_stat_scopes":{"$jsonSchema":QUESTION_STAT_SCOPE_SCHEMA},
+                   "question_stat_sources":{"$jsonSchema":QUESTION_STAT_SOURCE_SCHEMA},
+                   "question_stat_grants":{"$jsonSchema":QUESTION_STAT_GRANT_SCHEMA}})
+INDEXES.update({
+    "question_stat_scopes":[IndexModel([("viewerId",ASCENDING),("creationKey",ASCENDING)],unique=True,name="uq_question_stat_scope_creation"),
+        IndexModel([("purgeAt",ASCENDING)],expireAfterSeconds=0,name="ttl_question_stat_scopes")],
+    "question_stat_sources":[IndexModel([("scopeId",ASCENDING),("surveyVersionId",ASCENDING)],unique=True,name="uq_question_stat_source_publication"),
+        IndexModel([("scopeId",ASCENDING),("_id",ASCENDING)],name="ix_question_stat_source_page"),
+        IndexModel([("expiresAt",ASCENDING)],expireAfterSeconds=0,name="ttl_question_stat_sources")],
+    "question_stat_grants":[IndexModel([("surveyId",ASCENDING),("questionId",ASCENDING)],unique=True,name="uq_question_stat_grant"),
+        IndexModel([("questionId",ASCENDING),("recipientId",ASCENDING),("active",ASCENDING)],name="ix_question_stat_grant_received")],
+})
+
+
 async def init_database(db: Any) -> None:
     """Create or update contracts without dropping collections or business data.
 

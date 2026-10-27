@@ -6,7 +6,7 @@
 
 `GET /api/questions/{questionId}/usages`按题目系列或指定版本查询本人草稿、发布快照，参数与输出口径见[题目使用情况查询](phase2-question-usage.md)。
 
-`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。恢复功能完成时共29个API操作、26条路径；共享与题库接入后当前共39个API操作、32条路径，以本次生成的OpenAPI为准。
+`POST /api/questions/{questionId}/restore`由服务端读取指定版本生成新恢复版；请求、元数据和重放规则见[恢复题目旧版本](phase2-question-restore.md)。恢复功能完成时共29个API操作、26条路径；共享与题库接入时为39个API操作、32条路径；跨问卷统计新增7个操作，当前46个操作、39条路径，以本次生成的OpenAPI为准。
 
 下文JSON是契约示例，尖括号内为调用时替换的值，不冒充实际HTTP运行记录。真实执行结果见[test-report.md](test-report.md)及evidence/。OpenAPI快照由实际应用生成，但部分响应没有声明response_model，动态201/200和业务错误应结合本文阅读。
 
@@ -234,3 +234,22 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 新库修订为0；元信息和成员决定统一使用该库revision，每次成功明确决定加1。后续变更只支持当前最后一次成功请求的有限重放，响应均为题库视图并含`Idempotent-Replay`；创建身份则按创建键永久去重并返回同库当前视图。旧移除或换版不能覆盖后续决定。
 
 成员的版本仍由现有`questionSources`保存到问卷；真正保存继续检查来源及当前使用权。题库不授权，撤销后已有成员返回`available=false`，仅保留整理指针和时间，不返回内容或head。归档保留本人读取和恢复、禁止成员变更，不影响独立题目使用权。题库冲突为409`BANK_CONFLICT`，归档成员变更409`BANK_ARCHIVED`，不存在成员404`BANK_ITEM_NOT_FOUND`，不明写入结果503`BANK_WRITE_OUTCOME_UNKNOWN`；旧的401/404/422边界继续适用。
+
+
+## 跨问卷单题统计（2026-10-27）
+
+以下路径省略`/api`，均要求登录。题目作者或有本人已发布来源的使用者可统计自己的来源；他人来源须由其问卷所有者向题目作者单独授权汇总。题目使用共享不替代此授权。响应字段及口径见[统计说明](phase2-question-statistics.md)。
+
+| 操作 | 请求 | 结果与分页 |
+|---|---|---|
+| POST `/questions/{qid}/statistics/scopes` | 必需Idempotency-Key请求头1—128字符；body仅questionVersionId（可空）和respondentType=all/anonymous/named | 首次201，同key同body200重放；返回id、固定筛选、createdAt/expiresAt、来源/发布/实例数、hasForeignSources |
+| GET `/questions/{qid}/statistics` | scopeId必需；afterVersionNo默认0，limit默认10/最大20 | scope、overview、versions、nextAfterVersionNo；不同题目版本分别列R/V/A/U/S与分布 |
+| GET `/questions/{qid}/statistics/sources` | scopeId；afterId可选，limit默认30/最大100 | items、nextAfterId；他人来源没有真实问卷标题、surveyId或surveyVersionId |
+| GET `/questions/{qid}/statistics/answers` | scopeId；questionVersionId可选；cursor可选；limit默认30/最大100 | 本人问卷的逐实例有效作答、nextCursor和coverage；签名游标绑定账号/范围/版本筛选 |
+| GET `/questions/{qid}/statistics/export` | scopeId；questionVersionId可选 | UTF-8 BOM CSV，仅本人作答；最多20000行、8MiB（含BOM），超限422 EXPORT_TOO_LARGE，无静默截断 |
+| GET `/surveys/{sid}/question-statistics-grants` | 无body，仅问卷所有者 | 从真实已发布来源推导他人题目候选及当前授权，草稿引用不能授权 |
+| PUT `/surveys/{sid}/question-statistics-grants/{qid}` | active严格布尔；expectedRevision严格非负安全整数，初次0 | 200及Idempotent-Replay；服务端指定接收者为题目作者，仅aggregate；同修订竞争409 |
+
+范围有效30分钟，创建回执有限保留7天。key同而body不同409 IDEMPOTENCY_CONFLICT；错账号/错题范围404；缺失或过期410 STATISTICS_SCOPE_EXPIRED；授权撤销、换修订或归属变化409 STATISTICS_SCOPE_INVALIDATED。未知写入结果503 STATISTICS_SCOPE_WRITE_OUTCOME_UNKNOWN或STATISTICS_GRANT_WRITE_OUTCOME_UNKNOWN，保留原参数重试；保存成功后读取失败只重试GET。授权状态409 STATISTICS_GRANT_CONFLICT后须明确重新核对，不能自动提高expectedRevision重发。错题/不存在的明细版本404 QUESTION_VERSION_NOT_FOUND，超出已固定单版本范围422；游标签名或绑定不符422 INVALID_STATISTICS_CURSOR。
+
+概览responseCount是一份来源答卷一次，answeredResponseCount表示至少有效作答过一个本题实例；每版本responseCount不可直接相加推断概览，更不代表跨问卷唯一人数。数字返回sum/avg/min/max及最多10组直方图（末组含上界），选择题列全部固定选项count/percentage，多选totalSelections与A分开；文本汇总不泄露原文。明细/CSV与汇总共享固定来源和序号，但本人明细不包含他人汇总贡献。

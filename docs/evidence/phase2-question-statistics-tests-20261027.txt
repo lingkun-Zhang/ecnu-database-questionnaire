@@ -1,0 +1,5 @@
+Statistics targeted: 30 passed in 22.73s
+Backend full: 437 passed, 3 skipped, 251 subtests passed in 195.58s
+Frontend full: 189 passed, 0 failed in 4.0334793s
+Type check and production build: passed
+Skips: three existing Windows symlink permission cases; no failures

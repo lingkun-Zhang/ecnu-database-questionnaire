@@ -1,0 +1,2923 @@
+{
+  "runner": "question-library-browser",
+  "runnerAutomatesBrowser": false,
+  "businessDataSeeded": false,
+  "events": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/questions",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 1,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 0,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 2,
+      "method": "PUT",
+      "path": "/api/questions/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd/shares",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 0,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 0
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 3,
+      "method": "PUT",
+      "path": "/api/surveys/58d12a20-9c6f-4c2c-afd3-2e291cf22a6a/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 0,
+          "responses": 0,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 0
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 4,
+      "method": "POST",
+      "path": "/api/surveys/58d12a20-9c6f-4c2c-afd3-2e291cf22a6a/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 0,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 0
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 5,
+      "method": "POST",
+      "path": "/api/survey/22c02d5b254346c5ad12e98ffb1c06c3/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 1,
+          "survey_versions": 1,
+          "responses": 1,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 0
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 6,
+      "method": "PUT",
+      "path": "/api/surveys/6027dea2-f4d1-4923-94b5-a2725c1cabce/draft",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 1,
+          "responses": 1,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "draft",
+            "draftRevision": 1,
+            "currentVersionId": null,
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": []
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 7,
+      "method": "POST",
+      "path": "/api/surveys/6027dea2-f4d1-4923-94b5-a2725c1cabce/publish",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 1,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 0,
+                "numericAnswers": []
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 8,
+      "method": "POST",
+      "path": "/api/survey/724179be602c4c8c8efc9e58136e5f9f/submit",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 0
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": []
+      }
+    },
+    {
+      "number": 9,
+      "method": "PUT",
+      "path": "/api/surveys/6027dea2-f4d1-4923-94b5-a2725c1cabce/question-statistics-grants/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 0,
+          "question_stat_sources": 0,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [],
+        "statSources": [],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": true,
+            "revision": 1
+          }
+        ]
+      }
+    },
+    {
+      "number": 10,
+      "method": "POST",
+      "path": "/api/questions/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd/statistics/scopes",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 1,
+          "question_stat_sources": 2,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [
+          {
+            "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:32:39.414000+00:00",
+            "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+            "publicationCount": 2,
+            "surveyCount": 2,
+            "instanceCount": 2,
+            "hasForeignSources": true
+          }
+        ],
+        "statSources": [
+          {
+            "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "asOfSeq": 1,
+            "accessMode": "aggregate",
+            "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "grantRevision": 1
+          }
+        ],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": true,
+            "revision": 1
+          }
+        ]
+      }
+    },
+    {
+      "number": 11,
+      "method": "PUT",
+      "path": "/api/surveys/6027dea2-f4d1-4923-94b5-a2725c1cabce/question-statistics-grants/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+      "status": 200,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 1,
+          "question_stat_sources": 2,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [
+          {
+            "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:32:39.414000+00:00",
+            "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+            "publicationCount": 2,
+            "surveyCount": 2,
+            "instanceCount": 2,
+            "hasForeignSources": true
+          }
+        ],
+        "statSources": [
+          {
+            "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "asOfSeq": 1,
+            "accessMode": "aggregate",
+            "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "grantRevision": 1
+          }
+        ],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": false,
+            "revision": 2
+          }
+        ]
+      }
+    },
+    {
+      "number": 12,
+      "method": "POST",
+      "path": "/api/questions/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd/statistics/scopes",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 2,
+          "question_stat_sources": 3,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [
+          {
+            "id": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:37:05.734000+00:00",
+            "expiresAt": "2026-10-27T07:07:05.734000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          },
+          {
+            "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:32:39.414000+00:00",
+            "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+            "publicationCount": 2,
+            "surveyCount": 2,
+            "instanceCount": 2,
+            "hasForeignSources": true
+          }
+        ],
+        "statSources": [
+          {
+            "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "asOfSeq": 1,
+            "accessMode": "aggregate",
+            "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "grantRevision": 1
+          },
+          {
+            "id": "7372c47a-2724-4fdc-beb5-fbce6169c094",
+            "scopeId": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          }
+        ],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": false,
+            "revision": 2
+          }
+        ]
+      }
+    },
+    {
+      "number": 13,
+      "method": "POST",
+      "path": "/api/questions/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd/statistics/scopes",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 3,
+          "question_stat_sources": 4,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [
+          {
+            "id": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:37:05.734000+00:00",
+            "expiresAt": "2026-10-27T07:07:05.734000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          },
+          {
+            "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:32:39.414000+00:00",
+            "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+            "publicationCount": 2,
+            "surveyCount": 2,
+            "instanceCount": 2,
+            "hasForeignSources": true
+          },
+          {
+            "id": "853030c5-bf61-4317-b978-6b6a2e18e775",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "named",
+            "createdAt": "2026-10-27T06:37:19.945000+00:00",
+            "expiresAt": "2026-10-27T07:07:19.945000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          }
+        ],
+        "statSources": [
+          {
+            "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "asOfSeq": 1,
+            "accessMode": "aggregate",
+            "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "grantRevision": 1
+          },
+          {
+            "id": "7372c47a-2724-4fdc-beb5-fbce6169c094",
+            "scopeId": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "ab26cbd6-b243-4a0e-833e-bab2e69e023c",
+            "scopeId": "853030c5-bf61-4317-b978-6b6a2e18e775",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          }
+        ],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": false,
+            "revision": 2
+          }
+        ]
+      }
+    },
+    {
+      "number": 14,
+      "method": "POST",
+      "path": "/api/questions/b0ad0515-0e0e-4e48-b29f-a14ac390e8fd/statistics/scopes",
+      "status": 201,
+      "business": {
+        "counts": {
+          "users": 2,
+          "questions": 1,
+          "question_versions": 1,
+          "surveys": 2,
+          "survey_versions": 2,
+          "responses": 2,
+          "question_shares": 1,
+          "question_banks": 0,
+          "question_bank_items": 0,
+          "question_stat_scopes": 4,
+          "question_stat_sources": 5,
+          "question_stat_grants": 1
+        },
+        "questions": [
+          {
+            "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "lastVersionNo": 1,
+            "versions": [
+              {
+                "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+                "versionNo": 1,
+                "parentVersionId": null,
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ]
+          }
+        ],
+        "surveys": [
+          {
+            "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "title": "来源 A：作者自有问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+                "versionNo": 1,
+                "title": "来源 A：作者自有问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_88c3e9423862",
+                    "value": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "title": "来源 B：接收者问卷",
+            "status": "open",
+            "draftRevision": 1,
+            "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "draftQuestionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "draftQuestions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "versions": [
+              {
+                "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+                "versionNo": 1,
+                "title": "来源 B：接收者问卷",
+                "questionSources": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                    "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+                  }
+                ],
+                "questions": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "kind": "number",
+                    "title": "每周学习时长（测试）",
+                    "content": {
+                      "min": 0,
+                      "max": 100,
+                      "integerOnly": true
+                    }
+                  }
+                ],
+                "responseCount": 1,
+                "numericAnswers": [
+                  {
+                    "instanceId": "q_dc5d1a6bd3d5",
+                    "value": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "shares": [
+          {
+            "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "active": true,
+            "revision": 1,
+            "permission": "use",
+            "versionScope": "series",
+            "useSequence": 1
+          }
+        ],
+        "banks": [],
+        "bankItems": [],
+        "statScopes": [
+          {
+            "id": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:37:05.734000+00:00",
+            "expiresAt": "2026-10-27T07:07:05.734000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          },
+          {
+            "id": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:37:27.273000+00:00",
+            "expiresAt": "2026-10-27T07:07:27.273000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          },
+          {
+            "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "all",
+            "createdAt": "2026-10-27T06:32:39.414000+00:00",
+            "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+            "publicationCount": 2,
+            "surveyCount": 2,
+            "instanceCount": 2,
+            "hasForeignSources": true
+          },
+          {
+            "id": "853030c5-bf61-4317-b978-6b6a2e18e775",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": null,
+            "respondentType": "named",
+            "createdAt": "2026-10-27T06:37:19.945000+00:00",
+            "expiresAt": "2026-10-27T07:07:19.945000+00:00",
+            "publicationCount": 1,
+            "surveyCount": 1,
+            "instanceCount": 1,
+            "hasForeignSources": false
+          }
+        ],
+        "statSources": [
+          {
+            "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+            "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "asOfSeq": 1,
+            "accessMode": "aggregate",
+            "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "grantRevision": 1
+          },
+          {
+            "id": "5888b730-a223-4a08-a41c-668945892194",
+            "scopeId": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "7372c47a-2724-4fdc-beb5-fbce6169c094",
+            "scopeId": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          },
+          {
+            "id": "ab26cbd6-b243-4a0e-833e-bab2e69e023c",
+            "scopeId": "853030c5-bf61-4317-b978-6b6a2e18e775",
+            "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+            "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "asOfSeq": 1,
+            "accessMode": "owner"
+          }
+        ],
+        "statGrants": [
+          {
+            "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+            "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "permission": "aggregate",
+            "active": false,
+            "revision": 2
+          }
+        ]
+      }
+    }
+  ],
+  "cleanedUp": true,
+  "initial": {
+    "counts": {
+      "users": 0,
+      "questions": 0,
+      "question_versions": 0,
+      "surveys": 0,
+      "survey_versions": 0,
+      "responses": 0,
+      "question_shares": 0,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 0,
+      "question_stat_sources": 0,
+      "question_stat_grants": 0
+    },
+    "questions": [],
+    "surveys": [],
+    "shares": [],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [],
+    "statSources": [],
+    "statGrants": []
+  },
+  "latest": {
+    "counts": {
+      "users": 2,
+      "questions": 1,
+      "question_versions": 1,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 2,
+      "question_shares": 1,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 4,
+      "question_stat_sources": 5,
+      "question_stat_grants": 1
+    },
+    "questions": [
+      {
+        "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+        "lastVersionNo": 1,
+        "versions": [
+          {
+            "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "title": "来源 A：作者自有问卷",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_88c3e9423862",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_88c3e9423862",
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "versionNo": 1,
+            "title": "来源 A：作者自有问卷",
+            "questionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "title": "来源 B：接收者问卷",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_dc5d1a6bd3d5",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_dc5d1a6bd3d5",
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "versionNo": 1,
+            "title": "来源 B：接收者问卷",
+            "questionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shares": [
+      {
+        "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "active": true,
+        "revision": 1,
+        "permission": "use",
+        "versionScope": "series",
+        "useSequence": 1
+      }
+    ],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [
+      {
+        "id": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:37:05.734000+00:00",
+        "expiresAt": "2026-10-27T07:07:05.734000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      },
+      {
+        "id": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:37:27.273000+00:00",
+        "expiresAt": "2026-10-27T07:07:27.273000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      },
+      {
+        "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:32:39.414000+00:00",
+        "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+        "publicationCount": 2,
+        "surveyCount": 2,
+        "instanceCount": 2,
+        "hasForeignSources": true
+      },
+      {
+        "id": "853030c5-bf61-4317-b978-6b6a2e18e775",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "named",
+        "createdAt": "2026-10-27T06:37:19.945000+00:00",
+        "expiresAt": "2026-10-27T07:07:19.945000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      }
+    ],
+    "statSources": [
+      {
+        "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+        "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+        "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+        "asOfSeq": 1,
+        "accessMode": "aggregate",
+        "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+        "grantRevision": 1
+      },
+      {
+        "id": "5888b730-a223-4a08-a41c-668945892194",
+        "scopeId": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "7372c47a-2724-4fdc-beb5-fbce6169c094",
+        "scopeId": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "ab26cbd6-b243-4a0e-833e-bab2e69e023c",
+        "scopeId": "853030c5-bf61-4317-b978-6b6a2e18e775",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      }
+    ],
+    "statGrants": [
+      {
+        "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+        "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "permission": "aggregate",
+        "active": false,
+        "revision": 2
+      }
+    ]
+  },
+  "final": {
+    "counts": {
+      "users": 2,
+      "questions": 1,
+      "question_versions": 1,
+      "surveys": 2,
+      "survey_versions": 2,
+      "responses": 2,
+      "question_shares": 1,
+      "question_banks": 0,
+      "question_bank_items": 0,
+      "question_stat_scopes": 4,
+      "question_stat_sources": 5,
+      "question_stat_grants": 1
+    },
+    "questions": [
+      {
+        "id": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "currentVersionId": "6366f292-8004-4614-9b11-d29a6d790e99",
+        "lastVersionNo": 1,
+        "versions": [
+          {
+            "id": "6366f292-8004-4614-9b11-d29a6d790e99",
+            "versionNo": 1,
+            "parentVersionId": null,
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ]
+      }
+    ],
+    "surveys": [
+      {
+        "id": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "title": "来源 A：作者自有问卷",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_88c3e9423862",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_88c3e9423862",
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+            "versionNo": 1,
+            "title": "来源 A：作者自有问卷",
+            "questionSources": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_88c3e9423862",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "title": "来源 B：接收者问卷",
+        "status": "open",
+        "draftRevision": 1,
+        "currentVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+        "draftQuestionSources": [
+          {
+            "instanceId": "q_dc5d1a6bd3d5",
+            "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+            "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+          }
+        ],
+        "draftQuestions": [
+          {
+            "instanceId": "q_dc5d1a6bd3d5",
+            "kind": "number",
+            "title": "每周学习时长（测试）",
+            "content": {
+              "min": 0,
+              "max": 100,
+              "integerOnly": true
+            }
+          }
+        ],
+        "versions": [
+          {
+            "id": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+            "versionNo": 1,
+            "title": "来源 B：接收者问卷",
+            "questionSources": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+                "questionVersionId": "6366f292-8004-4614-9b11-d29a6d790e99"
+              }
+            ],
+            "questions": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "kind": "number",
+                "title": "每周学习时长（测试）",
+                "content": {
+                  "min": 0,
+                  "max": 100,
+                  "integerOnly": true
+                }
+              }
+            ],
+            "responseCount": 1,
+            "numericAnswers": [
+              {
+                "instanceId": "q_dc5d1a6bd3d5",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shares": [
+      {
+        "id": "241f188f-4f65-4851-92c0-3d65b73a829e",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "active": true,
+        "revision": 1,
+        "permission": "use",
+        "versionScope": "series",
+        "useSequence": 1
+      }
+    ],
+    "banks": [],
+    "bankItems": [],
+    "statScopes": [
+      {
+        "id": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:37:05.734000+00:00",
+        "expiresAt": "2026-10-27T07:07:05.734000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      },
+      {
+        "id": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:37:27.273000+00:00",
+        "expiresAt": "2026-10-27T07:07:27.273000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      },
+      {
+        "id": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "all",
+        "createdAt": "2026-10-27T06:32:39.414000+00:00",
+        "expiresAt": "2026-10-27T07:02:39.414000+00:00",
+        "publicationCount": 2,
+        "surveyCount": 2,
+        "instanceCount": 2,
+        "hasForeignSources": true
+      },
+      {
+        "id": "853030c5-bf61-4317-b978-6b6a2e18e775",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "questionVersionId": null,
+        "respondentType": "named",
+        "createdAt": "2026-10-27T06:37:19.945000+00:00",
+        "expiresAt": "2026-10-27T07:07:19.945000+00:00",
+        "publicationCount": 1,
+        "surveyCount": 1,
+        "instanceCount": 1,
+        "hasForeignSources": false
+      }
+    ],
+    "statSources": [
+      {
+        "id": "101f4efa-4c55-4228-98e4-3ad8fe8d08ce",
+        "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "1e0b6100-289e-41e2-9cdc-833ffde398ee",
+        "scopeId": "744ecdd4-269f-4311-a007-f006ffcc5fa3",
+        "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "surveyVersionId": "7e556bf6-95f5-4e8c-87d5-8dfe73d65aad",
+        "asOfSeq": 1,
+        "accessMode": "aggregate",
+        "grantId": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+        "grantRevision": 1
+      },
+      {
+        "id": "5888b730-a223-4a08-a41c-668945892194",
+        "scopeId": "67d6a3b0-88c1-446f-a757-589b7119b85a",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "7372c47a-2724-4fdc-beb5-fbce6169c094",
+        "scopeId": "13fb4157-9b20-4d6d-8751-5645d3ca365e",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      },
+      {
+        "id": "ab26cbd6-b243-4a0e-833e-bab2e69e023c",
+        "scopeId": "853030c5-bf61-4317-b978-6b6a2e18e775",
+        "surveyId": "58d12a20-9c6f-4c2c-afd3-2e291cf22a6a",
+        "surveyVersionId": "f1aa5e26-013d-4464-b315-3541eaaf7d79",
+        "asOfSeq": 1,
+        "accessMode": "owner"
+      }
+    ],
+    "statGrants": [
+      {
+        "id": "4a296aaf-1d50-4c2f-8247-afb1acd43773",
+        "surveyId": "6027dea2-f4d1-4923-94b5-a2725c1cabce",
+        "questionId": "b0ad0515-0e0e-4e48-b29f-a14ac390e8fd",
+        "permission": "aggregate",
+        "active": false,
+        "revision": 2
+      }
+    ]
+  },
+  "ownershipVerified": true,
+  "databaseAbsentAfterCleanup": true
+}

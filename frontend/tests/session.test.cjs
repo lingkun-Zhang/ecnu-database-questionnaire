@@ -63,7 +63,7 @@ function component(pathname = '/', sharedStorage = {}) {
     setToken: token => token ? localStorage.setItem('wenchuan_token', token) : localStorage.removeItem('wenchuan_token'),
     request: (...args) => network.request(...args), post: (...args) => network.post(...args), download: async () => {} }
   const module = { exports: {} }
-  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged,questionBanks,pickerLibrary,pickerBanks,pickerCollection,openBanks,changePickerCollection,closeQuestionPicker'
+  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged,questionBanks,pickerLibrary,pickerBanks,pickerCollection,openBanks,changePickerCollection,closeQuestionPicker,questionStatistics,statQuestionId,statisticsGrants,questionWork,openQuestionStatistics,returnToEditor,changeEditorTab,openSourceQuestionStatistics'
   vm.runInNewContext(compile(appSource + `\nmodule.exports={${exposed}}`), {
     module, exports: module.exports,
     require: name => {
@@ -1070,4 +1070,117 @@ test('bank expiry clears busy refs and picker source even when manual departure 
   assert.equal(h.api.getToken(), ''); assert.equal(h.state.page.value, 'dashboard')
   assert.equal(h.state.questionBanks.value, null); assert.equal(h.state.questionBusy.value, false)
   assert.equal(h.state.pickerCollection.value, 'questions'); assert.equal(h.state.error.value.status, 401)
+})
+
+
+test('pending cross-survey statistics protects navigation, logout and page unload', async () => {
+  const h = component('/', { confirm: () => false }); seedEditor(h, false)
+  const before = JSON.stringify(h.state.definition.value), surveyId = h.state.active.value.id
+  h.state.openQuestionStatistics('fixed-question')
+  h.state.questionStatistics.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  // A retained editor settings ref must not be selected instead of this page.
+  h.state.statisticsGrants.value = { canLeave: () => true, hasUnsavedChanges: () => false }
+  assert.equal(h.state.questionWork(), h.state.questionStatistics.value)
+  h.network.request = async () => { throw new Error('Blocked navigation must not read') }
+  await h.state.goDashboard(); h.state.openQuestions(); await h.state.showStats()
+  h.state.returnToEditor(); h.state.changeEditorTab('settings')
+  assert.equal(h.state.page.value, 'question-statistics')
+  assert.equal(h.state.editorTab.value, 'design')
+  assert.equal(h.state.statQuestionId.value, 'fixed-question')
+  assert.equal(h.state.active.value.id, surveyId)
+  assert.equal(JSON.stringify(h.state.definition.value), before)
+  const unload = { preventDefault() { this.prevented = true } }
+  h.state.beforeUnload(unload)
+  assert.equal(unload.prevented, true); assert.equal(unload.returnValue, '')
+  h.state.logout(); assert.equal(h.api.getToken(), 'token-A')
+  h.state.expireQuestionSession()
+})
+
+test('unconfirmed statistics grants block settings tab exits and workspace navigation', async () => {
+  const h = component('/', { confirm: () => false }); seedEditor(h, false)
+  h.state.editorTab.value = 'settings'
+  h.state.statisticsGrants.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.questionStatistics.value = { canLeave: () => true, hasUnsavedChanges: () => false }
+  assert.equal(h.state.questionWork(), h.state.statisticsGrants.value)
+  h.network.request = async () => { throw new Error('Unconfirmed grant must not trigger a workspace read') }
+  h.state.changeEditorTab('design'); h.state.openQuestions(); h.state.openQuestionStatistics('another-question')
+  await h.state.showStats(); await h.state.goDashboard()
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.editorTab.value, 'settings')
+  assert.equal(h.state.statQuestionId.value, '')
+  let prevented = false; h.state.beforeUnload({ preventDefault: () => { prevented = true } })
+  assert.equal(prevented, true)
+  h.state.logout(); assert.equal(h.api.getToken(), 'token-A')
+  h.state.expireQuestionSession()
+})
+
+test('the question statistics detour retains unsaved draft and fixed sources when returning', () => {
+  const h = component(); seedEditor(h, true)
+  const original = JSON.stringify(h.state.definition.value)
+  const mappings = [{ instanceId: 'q_age', questionId: 'bank-question', questionVersionId: 'bank-v1' }]
+  h.state.localQuestionSources.value = mappings
+  h.state.openQuestionStatistics('bank-question')
+  assert.equal(h.state.page.value, 'question-statistics')
+  assert.equal(h.state.statQuestionId.value, 'bank-question')
+  h.state.questionStatistics.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.returnToEditor(); assert.equal(h.state.page.value, 'question-statistics')
+  h.state.questionStatistics.value = { canLeave: () => true, hasUnsavedChanges: () => false }
+  h.state.returnToEditor()
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.dirty.value, true)
+  assert.equal(JSON.stringify(h.state.definition.value), original)
+  assert.deepEqual(plain(h.state.currentQuestionSources.value), mappings)
+  h.state.expireQuestionSession()
+})
+
+test('401 forcibly clears both statistics refs and selected question before another account logs in', async () => {
+  const h = component('/', { confirm: () => false }); seedEditor(h, false)
+  h.state.page.value = 'question-statistics'; h.state.statQuestionId.value = 'private-question'
+  h.state.questionStatistics.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.statisticsGrants.value = { canLeave: () => false, hasUnsavedChanges: () => true }
+  h.state.questionBusy.value = true
+  h.state.logout(); assert.equal(h.api.getToken(), 'token-A')
+  await h.state.perform(async () => { throw new ApiError(401, 'UNAUTHENTICATED', 'expired') })
+  assert.equal(h.api.getToken(), ''); assert.equal(h.state.page.value, 'dashboard')
+  assert.equal(h.state.statQuestionId.value, '')
+  assert.equal(h.state.questionStatistics.value, null); assert.equal(h.state.statisticsGrants.value, null)
+  assert.equal(h.state.questionBusy.value, false); assert.equal(h.state.active.value, null)
+  assert.equal(h.state.definition.value, null); assert.equal(h.state.error.value.status, 401)
+  await h.loginB()
+  assert.equal(h.state.statQuestionId.value, ''); assert.equal(h.state.questionWork(), null)
+  assert.equal(h.state.questionStatistics.value, null); assert.equal(h.state.statisticsGrants.value, null)
+  h.state.logout()
+})
+
+
+test('a fixed-source statistics entry resolves the current question mapping without changing drafts or granting data access', () => {
+  const h = component(); seedEditor(h, true)
+  const instanceId = h.state.definition.value.questions[0].id
+  const localId = h.state.definition.value.questions[1].id
+  h.state.active.value.draftQuestionSources = [{ instanceId, questionId: 'old-source-question', questionVersionId: 'old-v1' }]
+  const sources = [{ instanceId, questionId: 'current-fixed-question', questionVersionId: 'current-v2' },
+    { instanceId: 'deleted-instance', questionId: 'stale-question', questionVersionId: 'stale-v1' }]
+  h.state.localQuestionSources.value = sources
+  const before = JSON.stringify({ draft: h.state.definition.value, saved: h.state.savedDefinition.value,
+    active: h.state.active.value, sources: h.state.currentQuestionSources.value })
+  const requests = []
+  h.network.request = async (...args) => { requests.push(args); throw new Error('Opening statistics must not read or grant') }
+  h.network.post = async (...args) => { requests.push(args); throw new Error('Opening statistics must not read or grant') }
+  h.state.openSourceQuestionStatistics(localId)
+  h.state.openSourceQuestionStatistics('deleted-instance')
+  h.state.openSourceQuestionStatistics('missing-instance')
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.statQuestionId.value, '')
+  h.state.page.value = 'questions'; h.state.openSourceQuestionStatistics(instanceId)
+  assert.equal(h.state.page.value, 'questions'); assert.equal(h.state.statQuestionId.value, '')
+  h.state.page.value = 'editor'; h.state.editorTab.value = 'settings'; h.state.openSourceQuestionStatistics(instanceId)
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.statQuestionId.value, '')
+  h.state.editorTab.value = 'design'; h.state.questionBusy.value = true; h.state.openSourceQuestionStatistics(instanceId)
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.statQuestionId.value, '')
+  h.state.questionBusy.value = false; h.state.openSourceQuestionStatistics(instanceId)
+  assert.equal(h.state.page.value, 'question-statistics')
+  assert.equal(h.state.statQuestionId.value, 'current-fixed-question', 'use the current source question ID, never the local instance or saved stale mapping')
+  h.state.returnToEditor()
+  assert.equal(h.state.page.value, 'editor'); assert.equal(h.state.dirty.value, true)
+  assert.equal(JSON.stringify({ draft: h.state.definition.value, saved: h.state.savedDefinition.value,
+    active: h.state.active.value, sources: h.state.currentQuestionSources.value }), before)
+  assert.equal(requests.length, 0, 'entry navigation must not silently grant access or create a range')
+  h.state.expireQuestionSession()
 })

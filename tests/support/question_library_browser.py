@@ -38,6 +38,8 @@ WRITE_PATHS = (
     ("POST", re.compile(r"^/api/questions(?:/[^/]+/(?:versions|restore))?$")),
     ("PUT", re.compile(r"^/api/surveys/[^/]+/draft$")),
     ("PUT", re.compile(r"^/api/questions/[^/]+/shares$")),
+    ("POST", re.compile(r"^/api/questions/[^/]+/statistics/scopes$")),
+    ("PUT", re.compile(r"^/api/surveys/[^/]+/question-statistics-grants/[^/]+$")),
     ("POST", re.compile(r"^/api/surveys/[^/]+/publish$")),
     ("POST", re.compile(r"^/api/survey/[^/]+/submit$")),
 )
@@ -80,6 +82,34 @@ def bank_records(banks, members):
                           ("bankId", "questionId", "questionVersionId")}} for member in members]}
 
 
+STATISTICS_FIELDS = {
+    "statScopes": ("questionId", "questionVersionId", "respondentType", "createdAt", "expiresAt",
+                   "publicationCount", "surveyCount", "instanceCount", "hasForeignSources"),
+    "statSources": ("scopeId", "surveyId", "surveyVersionId", "asOfSeq", "accessMode", "grantId", "grantRevision"),
+    "statGrants": ("surveyId", "questionId", "permission", "active", "revision"),
+}
+
+
+def statistics_records(scopes, sources, grants):
+    """Keep fixed-range provenance and grant state, never account IDs or answers.
+
+    Explicit projection at both boundaries protects observations if a future
+    document grows identity, request, content or answer fields. Dates become
+    ISO strings so the audit remains plain JSON without a general serializer.
+    """
+    result = {}
+    for label, rows in (("statScopes", scopes), ("statSources", sources), ("statGrants", grants)):
+        result[label] = []
+        for row in rows:
+            metadata = {"id": row["_id"]}
+            for key in STATISTICS_FIELDS[label]:
+                if key in row:
+                    value = row[key]
+                    metadata[key] = value.isoformat() if key in ("createdAt", "expiresAt") else value
+            result[label].append(metadata)
+    return result
+
+
 async def safe_summary(db):
     """A read transaction keeps each observation internally consistent."""
     async def observe(session):
@@ -95,10 +125,18 @@ async def safe_summary(db):
                   session=session).sort("_id", 1).to_list(length=None)
         members = await db.question_bank_items.find({}, {"bankId": 1, "questionId": 1, "questionVersionId": 1},
                     session=session).sort("_id", 1).to_list(length=None)
+        scopes = await db.question_stat_scopes.find({}, {key: 1 for key in STATISTICS_FIELDS["statScopes"]},
+                    session=session).sort("_id", 1).to_list(length=None)
+        stat_sources = await db.question_stat_sources.find({}, {key: 1 for key in STATISTICS_FIELDS["statSources"]},
+                    session=session).sort("_id", 1).to_list(length=None)
+        stat_grants = await db.question_stat_grants.find({}, {key: 1 for key in STATISTICS_FIELDS["statGrants"]},
+                    session=session).sort("_id", 1).to_list(length=None)
         counts = {"users": await db.users.count_documents({}, session=session),
                   "questions": len(roots), "question_versions": len(versions), "surveys": len(surveys),
                   "survey_versions": len(publications), "responses": len(responses), "question_shares": len(shares),
-                  "question_banks": len(banks), "question_bank_items": len(members)}
+                  "question_banks": len(banks), "question_bank_items": len(members),
+                  "question_stat_scopes": len(scopes), "question_stat_sources": len(stat_sources),
+                  "question_stat_grants": len(stat_grants)}
         question_rows = []
         for root in roots:
             history = []
@@ -130,7 +168,8 @@ async def safe_summary(db):
                                 "draftQuestions": survey_definition(survey["draft"]), "versions": history})
         sharing_rows = [{"id": row["_id"], **{key: row[key] for key in
                         ("questionId", "active", "revision", "permission", "versionScope", "useSequence")}} for row in shares]
-        return {"counts": counts, "questions": question_rows, "surveys": survey_rows, "shares": sharing_rows, **bank_records(banks, members)}
+        return {"counts": counts, "questions": question_rows, "surveys": survey_rows, "shares": sharing_rows, **bank_records(banks, members),
+                **statistics_records(scopes, stat_sources, stat_grants)}
 
     async with db.client.start_session() as session:
         return await session.with_transaction(observe, read_concern=ReadConcern("snapshot"), max_commit_time_ms=5000)

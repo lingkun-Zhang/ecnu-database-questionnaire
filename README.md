@@ -1,6 +1,6 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库已接入私有库管理、固定选版、收录、换版与移除界面；跨问卷单题统计已接入固定范围、按版本分组、总体分布、本人明细和CSV；他人问卷由其所有者逐题授权汇总。保存与恢复前已接入本人/他人引用影响检查，并完成两版真实代码的隔离升级、回退边界及备份恢复演练；最终报告和交付材料仍待整理。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
+华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库已接入私有库管理、固定选版、收录、换版与移除界面；跨问卷单题统计已接入固定范围、按版本分组、总体分布、本人明细和CSV；他人问卷由其所有者逐题授权汇总。保存与恢复前已接入本人/他人引用影响检查，并完成两版真实代码的隔离升级、回退边界及备份恢复演练；第二阶段报告、演示步骤与逐项验收材料已整理，入口见下表。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
 
 仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
 
@@ -9,14 +9,15 @@
 | 内容 | 入口 |
 |---|---|
 | 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[修改影响检查](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[跨问卷单题统计](docs/phase2-question-statistics.md)、[题库管理与选题界面](docs/phase2-question-banks-ui.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
-| 实验报告与设计说明 | [公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
+| 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[最终回归证据](docs/evidence/phase2-delivery-results-20261027.json) |
+| 第一阶段报告与设计说明 | [第一阶段公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
-| 测试范围、原始结果与需求对应 | [测试报告](docs/test-report.md)、[需求追踪](docs/requirements.md) |
+| 测试范围、原始结果与需求对应 | [测试报告](docs/test-report.md)、[第一阶段及逐轮追踪](docs/requirements.md)、[第二阶段逐项验收](docs/phase2-acceptance.md) |
 | 接口参数 | [API说明](docs/api.md)、[OpenAPI快照](docs/api-openapi.json)；运行后也可打开 `/docs` |
 | AI辅助过程、问题与修改 | [AI使用说明](docs/ai-use-summary.md)、[详细日志](docs/ai-log.md) |
 
-课程平台单独收取PDF。带姓名、学号的正式PDF和Word报告留在本地，GitHub提供脱敏正文；真实配置、运行数据和原始截图也不公开，见[公开材料说明](PRIVACY.md)。
+课程平台单独收取PDF。报告PDF和Word副本留在本地，仓库提供脱敏Markdown正文；第二阶段没有代填姓名、学号或个人贡献。真实配置、运行数据和原始截图也不公开，见[公开材料说明](PRIVACY.md)。
 
 ## 安装、运行和停止
 
@@ -47,7 +48,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 ## 快速演示
 
-完整手工流程见[demo.md](docs/demo.md)：注册 → 创建 → 添加四种题型 → 配置年龄跳转 → 保存并发布 → 匿名/实名填写 → 查看统计。
+第二阶段的版本、共享、题库和跨卷统计演示见[第二阶段演示](docs/phase2-demo.md)。第一阶段完整手工流程见[demo.md](docs/demo.md)：注册 → 创建 → 添加四种题型 → 配置年龄跳转 → 保存并发布 → 匿名/实名填写 → 查看统计。
 
 第二阶段可从“题目管理”的“我的题目”创建或打开题目，查看历史、编辑、恢复、查询本人使用情况并按用户名共享；接收者可在“共享给我的”只读查看。问卷编辑器通过“从已保存题目选用”选择本人或共享题目的具体版本，再保存、发布。引用题可更换同系列版本或解除引用，均先改草稿，发布后才供新填写使用。恢复和题目更新不会自动改变已有问卷；操作说明与本轮实际验证范围见[选题界面说明](docs/phase2-question-ui.md)。 可在“题库”页建立和整理固定版本条目，再在问卷选题窗口切到“从题库选择”。题库换版、归档或移出条目不改变已有问卷，步骤与实测边界见[题库界面说明](docs/phase2-question-banks-ui.md)。
 
@@ -71,12 +72,12 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 ```powershell
 Set-Location frontend
-node --test tests/conditionEditor.test.cjs tests/session.test.cjs tests/editorErrors.test.cjs tests/questionReuse.test.cjs tests/questionLibrary.test.cjs tests/questionSharing.test.cjs tests/questionBanks.test.cjs
+node --test (Get-ChildItem -LiteralPath tests -Filter *.test.cjs | Select-Object -ExpandProperty FullName)
 npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近前端148项及浏览器检查见[题库界面说明](docs/phase2-question-banks-ui.md)；最近后端全量382项见[题库后端批次](docs/phase2-question-banks.md)，两个批次分别记录。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最终后端484项通过、3项既有Windows权限相关跳过、251个子测试通过；前端204项通过，类型检查和生产构建通过。见[最终证据](docs/evidence/phase2-delivery-results-20261027.json)。组件、浏览器和各次历史批次分别记录，不合并相加。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|

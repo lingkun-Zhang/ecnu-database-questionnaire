@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-27",
+  "scope": "Final phase-two isolated MongoDB/API test service",
+  "mongoVersion": "6.0.29",
+  "mongoOwnershipVerified": true,
+  "onlySystemDatabasesBeforeShutdown": true,
+  "databasesBeforeShutdown": [
+    "admin",
+    "config",
+    "local"
+  ],
+  "mongoNormalExitCode": 0,
+  "processAbsent": true,
+  "portClosed": true,
+  "desktopBaselineFilesChecked": 163,
+  "desktopBaselineUnchanged": true,
+  "businessDatabaseConnected": false,
+  "realConfigurationRead": false,
+  "remotePush": false,
+  "courseSubmission": false
+}

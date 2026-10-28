@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-27",
+  "pages": 14,
+  "pdfVisuallyReviewed": true,
+  "allPagesViewed": true,
+  "reviewers": {
+    "primaryAgent": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      13,
+      14
+    ],
+    "reviewAgent": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  "finalRerenderUnchangedPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "finalRerenderChangedPagesRechecked": [
+    13,
+    14
+  ],
+  "checks": [
+    "Chinese and Latin glyphs readable",
+    "No clipped or overlapping text",
+    "All table cells and repeated headers visible",
+    "Model diagram and caption clear",
+    "Evidence paths visible in print",
+    "No identity invented"
+  ],
+  "acceptedLayoutNotes": [
+    "First requirement table continues with a repeated header on page 3",
+    "Long E06 filename wraps its final two letters without losing text"
+  ],
+  "docxStructuralXmlChecked": true,
+  "docxNativePaginationReviewed": false,
+  "docxStatus": "local editable draft; not a visually accepted Word deliverable",
+  "docxRenderAttempt": {
+    "tool": "packaged render_docx.py",
+    "exitCode": 1,
+    "reason": "LibreOffice soffice.exe was not found on PATH"
+  },
+  "nativeWordAttempt": "Computer Use app approval timed out; no document session available; no bypass attempted",
+  "pdfIsDocxRendering": false,
+  "pdfProducer": "ReportLab from the same Markdown content",
+  "studentIdentityAdded": false,
+  "pdfSha256": "d290ff9b32045c789625b7db7b1afef2edd2834539cc69f5c85151e4cd1d2ed0",
+  "markdownSha256": "30138892224d9d5f02fe9781c1c8b56b326e8118da219383b05347e110126163",
+  "pageImageSha256": [
+    {
+      "page": 1,
+      "sha256": "b08f2ac993baf6b2ccde95f001e4e825c283ef48d64776c0f32b2a36bff58b74"
+    },
+    {
+      "page": 2,
+      "sha256": "0dc2476e057dbca6affb390371b12eb7252ea1cc43c2253a40ee91038f6660c0"
+    },
+    {
+      "page": 3,
+      "sha256": "ac7f085f53d84355807fcdf349bfc8ae9ee131d50b949779cad6575daebbd996"
+    },
+    {
+      "page": 4,
+      "sha256": "d9aa06f7d9ddbb20d0cd6d3630020ef300f21f1ee86da9d335ad7f5ec0a74635"
+    },
+    {
+      "page": 5,
+      "sha256": "bf140bda6c52d41594e939c48d53deb0ebbcf08b9eaa01be71f44c3c95d64497"
+    },
+    {
+      "page": 6,
+      "sha256": "69f268657b1d1f912f0c7ecade0edaa58108c8fe358c7e40bbfb80c346d89f1a"
+    },
+    {
+      "page": 7,
+      "sha256": "c1dc8c989645de7d214778c8c6594c4a9eb361b64376e0514d5197d1db64ba3b"
+    },
+    {
+      "page": 8,
+      "sha256": "6994f29f5f52614b3801928d5f2707b9a0bf8fb33a1020be441d75c8d181c24a"
+    },
+    {
+      "page": 9,
+      "sha256": "5af5e01863c58df3779dc4f5edcc87019b3637e8ef6774193cd3d557f916a948"
+    },
+    {
+      "page": 10,
+      "sha256": "d71fa995567a107c3d9c8306042121734df17e0d867de0d395c44b20e3a885a4"
+    },
+    {
+      "page": 11,
+      "sha256": "f6ef28039ded717ab3b25e450c3c9c09e80f3d9309ec7c68aa80a519b956c496"
+    },
+    {
+      "page": 12,
+      "sha256": "c5ace1064e26f76934a3b132212e4dbd78d133c1219cff1e0d043d7faa517f8b"
+    },
+    {
+      "page": 13,
+      "sha256": "53c0496c6d93139d92aca2e019b5ae961353e564e2a95708dee673646edcc92b"
+    },
+    {
+      "page": 14,
+      "sha256": "2f2d52770aaa3638314dc73007a2760521b5f1eba858cd8389adc922af881da7"
+    }
+  ]
+}

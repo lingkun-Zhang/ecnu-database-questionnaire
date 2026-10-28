@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-27",
+  "scope": "Phase-two final requirements, regression and report delivery review",
+  "implementationBaseCommit": "3a4220ae4779c00444ae308cede3350c10543195",
+  "phaseOneBaselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "productCodeChangedThisStep": false,
+  "newTestFile": "tests/test_question_share_recovery.py",
+  "newTestSha256": "a4025e6e6daeb3c67017e42d78ddaab2f29c755837cdfee245577d219b7683c5",
+  "backendFull": {
+    "passed": 484,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 185.31,
+    "junitTestcaseElements": 487,
+    "skipReason": "Existing real Windows symlink creation cases lack permission",
+    "mongoVersion": "6.0.29",
+    "realMongoIsolatedDatabases": true
+  },
+  "frontendFull": {
+    "passed": 204,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 4596.8206,
+    "typecheckPassed": true,
+    "productionBuildPassed": true
+  },
+  "useShareRecoveryTargeted": {
+    "passed": 4,
+    "seconds": 2.75,
+    "includedInBackendFull": true,
+    "cases": [
+      "Committed transaction plus driver return failure recovers without a second transaction",
+      "Real post-write create fault rolls back all twelve collections and original request retries",
+      "Real post-write revoke fault rolls back all twelve collections and original request retries",
+      "Commit plus precise recovery read failure reports unknown; later original retry recovers; old activate cannot revive revoke"
+    ],
+    "realDatabaseWrites": true,
+    "successfulStorageMocked": false,
+    "networkOutageClaimed": false
+  },
+  "report": {
+    "markdown": "docs/phase2-report.md",
+    "pdfFileName": "问川第二阶段实验报告.pdf",
+    "pdfPages": 14,
+    "pdfAllPagesReviewed": true,
+    "wordFileName": "问川第二阶段实验报告_待校稿.docx",
+    "wordIsDraft": true,
+    "wordNativePaginationReviewed": false,
+    "studentIdentityAdded": false,
+    "nativeWordApprovalTimedOut": true,
+    "packagedDocxRendererUnavailable": true
+  },
+  "evidence": {
+    "tests": "phase2-delivery-tests-20261027.txt",
+    "junit": "phase2-delivery-tests-20261027.xml",
+    "build": "phase2-delivery-build-20261027.txt",
+    "reportReview": "phase2-report-review-20261027.json",
+    "shutdown": "phase2-delivery-shutdown-20261027.json"
+  },
+  "officialReferencesReopened": [
+    "https://www.mongodb.com/docs/manual/data-modeling/",
+    "https://www.mongodb.com/docs/manual/core/indexes/index-types/index-multikey/multikey-index-bounds/",
+    "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/crud/transactions/"
+  ],
+  "boundaries": [
+    "No new browser session or clean installation this step",
+    "Historical browser, migration rehearsal and index results retain their original scope and dates",
+    "No production migration, load-test or lossless downgrade claim",
+    "No invented human code contribution or test results"
+  ],
+  "protection": {
+    "date": "2026-10-27",
+    "scope": "Final phase-two isolated MongoDB/API test service",
+    "mongoVersion": "6.0.29",
+    "mongoOwnershipVerified": true,
+    "onlySystemDatabasesBeforeShutdown": true,
+    "databasesBeforeShutdown": [
+      "admin",
+      "config",
+      "local"
+    ],
+    "mongoNormalExitCode": 0,
+    "processAbsent": true,
+    "portClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true,
+    "businessDatabaseConnected": false,
+    "realConfigurationRead": false,
+    "remotePush": false,
+    "courseSubmission": false
+  },
+  "remotePush": false,
+  "courseSubmission": false
+}

@@ -66,7 +66,7 @@ Content-Type: application/json
 | 422 `INVALID_REQUEST` | 字段、类型或分页参数不符合契约 |
 | 503 `QUESTION_SHARE_WRITE_OUTCOME_UNKNOWN` | 写入结果无法确认，应保留原请求重试 |
 
-本轮API测试已核对正常状态、模型、权限及修订冲突；新增共享写入的不明结果和恢复查询失败尚未做故障注入，不把这些错误分支写成已实测。
+本节2026年10月26日批次核对正常状态、模型、权限及修订冲突，当时尚未做共享写入未知结果和恢复查询失败的故障注入。10月27日新增四项真实MongoDB验证，覆盖提交后返回边界异常、写后回滚（新增/撤销两参数）以及提交成功且恢复读失败后的原请求恢复、晚到激活不能复活撤销；见[test_question_share_recovery.py](../tests/test_question_share_recovery.py)和[最终结果](evidence/phase2-delivery-results-20261027.json)。这些是受控驱动边界故障，未宣称真实断网。
 
 ## 撤销后的精确边界
 

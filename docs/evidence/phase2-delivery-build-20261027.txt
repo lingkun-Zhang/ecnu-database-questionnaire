@@ -1,0 +1,16 @@
+COMMAND: node node_modules/vue-tsc/bin/vue-tsc.js --noEmit
+
+EXIT CODE: 0
+
+COMMAND: node node_modules/vite/bin/vite.js build
+vite v7.1.12 building for production...
+transforming...
+✓ 40 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.51 kB │ gzip:  0.40 kB
+dist/assets/index-C_wMNA4L.css   44.22 kB │ gzip:  8.92 kB
+dist/assets/index-BGXR2oiY.js   264.35 kB │ gzip: 86.63 kB
+✓ built in 1.41s
+
+EXIT CODE: 0

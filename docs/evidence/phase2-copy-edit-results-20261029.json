@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-29",
+  "baseCommit": "c7ccdbc10b64f02c11cced7dba89ca3845c697c5",
+  "scope": "README, report and two guides; eight display strings in four Vue components",
+  "uiOnlyEightStringReplacementsVerified": true,
+  "uiStrings": [
+    {
+      "file": "frontend/src/components/QuestionLibrary.vue",
+      "before": "把常用题目保存下来",
+      "after": "题目管理"
+    },
+    {
+      "file": "frontend/src/components/QuestionLibrary.vue",
+      "before": "题目内容独立保存；每次编辑或恢复都形成新版本，不自动修改已使用它的问卷。",
+      "after": "保存修改或恢复旧内容时会新增版本，已选用的问卷保留原版。"
+    },
+    {
+      "file": "frontend/src/components/QuestionStatistics.vue",
+      "before": "把同一道题的作答放在一起看",
+      "after": "跨问卷统计"
+    },
+    {
+      "file": "frontend/src/components/QuestionStatistics.vue",
+      "before": "汇总、来源和本人明细均已读回；后续新提交需获取新范围后才会纳入。",
+      "after": "结果已更新。新增答卷需点击“刷新并获取新范围”后才会纳入。"
+    },
+    {
+      "file": "frontend/src/components/QuestionStatistics.vue",
+      "before": "统计只认已发布问卷保存的题目来源。自己的问卷自动纳入；其他人的问卷须由其所有者另行授权，且只参与汇总。不同题目版本分别计算。",
+      "after": "统计已发布问卷中固定引用这道题的数据。自己的问卷直接纳入；他人的问卷需由所有者授权，只提供汇总。各版本分开计算。"
+    },
+    {
+      "file": "frontend/src/components/QuestionBanks.vue",
+      "before": "选择题库中明确保存的一版；加入后仍需保存问卷草稿。",
+      "after": "选用题库中保存的版本；加入问卷后还需保存草稿。"
+    },
+    {
+      "file": "frontend/src/components/QuestionBanks.vue",
+      "before": "预览回答仅保留在本页，不会提交答卷。题库中的固定版本只有显式更新后才会改变。",
+      "after": "这里的预览不会提交答卷。题库选用的版本需要手动更新。"
+    },
+    {
+      "file": "frontend/src/components/QuestionStatisticsGrantPanel.vue",
+      "before": "这里只列出本问卷已发布过的他人题目。逐题授权后，题目作者可把本问卷纳入跨问卷汇总；不会获得逐条答案、填写者身份或其他题目的内容。题目共享与统计授权分别管理。",
+      "after": "这里列出本问卷发布过的他人题目。逐题授权后，作者可查看该题的汇总，不会获得逐条答案、填写者身份或其他题目的内容。题目共享与统计授权分别设置。"
+    }
+  ],
+  "frontend": {
+    "passed": 216,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 4939.7216,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "buildSeconds": 1.59,
+    "assets": [
+      "index-uMFD0Rq7.css",
+      "index-CfAqNdBc.js"
+    ]
+  },
+  "backend": {
+    "rerun": false,
+    "lastFullPassed": 533,
+    "lastFullSkipped": 3,
+    "lastFullSubtests": 251,
+    "previouslyTestedBackendAndTestFilesUnchanged": true
+  },
+  "report": {
+    "asciiNumericSequencePreservedBeforeVersionMetadataUpdate": true,
+    "evidenceCitationOrderPreserved": true,
+    "allLinkTargetsPreserved": true,
+    "technicalClarification": "MongoDB detects write conflicts; PyMongo with_transaction performs transaction retries.",
+    "aiRoleAndActualFailuresRetained": true,
+    "personalContributionInvented": false
+  },
+  "readmeAndVerifierCommandBlocksUnchanged": true,
+  "browser": {
+    "syntheticFixtureCreatedThroughRealApi": true,
+    "accounts": 2,
+    "questions": 1,
+    "banks": 1,
+    "surveys": 3,
+    "publishedSnapshots": 3,
+    "responses": 2,
+    "answerValues": [
+      0,
+      3
+    ],
+    "newStatisticsScopeCreated": 1,
+    "statisticsShown": {
+      "A": 2,
+      "sum": 3,
+      "avg": 1.5
+    },
+    "checkedPages": [
+      "question library title and version hint",
+      "statistics title, permission intro and success notice",
+      "bank version preview",
+      "recipient aggregate-grant explanation"
+    ],
+    "bankPickerHintIndependentlyVisited": false,
+    "screenshotsPrivate": true,
+    "temporaryTabClosed": true,
+    "ownedAppStoppedNormally": true,
+    "ownedDatabaseCleaned": true
+  },
+  "frontendSourceSha256": {
+    "frontend/src/components/QuestionLibrary.vue": "c8e7c7b654679acc83c1da9394a21e267725dd4df64c7b3d9cbb62671f44a520",
+    "frontend/src/components/QuestionStatistics.vue": "156c541d1262b897784d9f5194de29240fae7c906b3fe38d5973b6495e8d3da4",
+    "frontend/src/components/QuestionBanks.vue": "9d3897f6dfeedb658fa15235ce3d9e4bb7c8d78e196da3a9dd81399256e255de",
+    "frontend/src/components/QuestionStatisticsGrantPanel.vue": "63bd1bdaa585d824daa7c61a86d90b6171570963938352e019988f4a4a00f78b"
+  },
+  "courseSubmission": false
+}

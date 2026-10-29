@@ -1,27 +1,25 @@
 # 问川：基于 MongoDB 的问卷系统
 
-华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库已接入私有库管理、固定选版、收录、换版与移除界面；跨问卷单题统计已接入固定范围、按版本分组、总体分布、本人明细和CSV；他人问卷由其所有者逐题授权汇总。保存与恢复前已接入本人/他人引用影响检查，并完成两版真实代码的隔离升级、回退边界及备份恢复演练；第二阶段报告、演示步骤与逐项验收材料已整理，入口见下表。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
+华东师范大学数据库课程项目，后端使用Python/FastAPI，前端使用Vue/TypeScript，业务数据存储在MongoDB。
 
-仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`，保留在 `main`。第二阶段使用 [`phase2-question-versions`](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions) 分支，查看本阶段代码时请选择该分支。
+第一阶段支持问卷编辑、条件跳转、校验、发布、填写和统计。第二阶段增加独立题目、内容版本、共享、题库和跨问卷统计。问卷选用具体的题目版本，原题后续修改不会改变已有问卷和答卷；题目使用共享与答卷汇总授权分别管理。
 
-## 先看哪些文件
+第二阶段代码在 [`phase2-question-versions`](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions) 分支。`main`保留第一阶段提交`99b66d1e637fa3b4ecb13719c0230ecb7e958701`，可用来比较两阶段的变化。
 
-| 内容 | 入口 |
+## 阅读入口
+
+| 想了解的内容 | 文件 |
 |---|---|
-| 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[修改影响检查](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[跨问卷单题统计](docs/phase2-question-statistics.md)、[题库管理与选题界面](docs/phase2-question-banks-ui.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
-| 本轮复核与独立复验 | [复验入口、隔离运行与实际结果](docs/phase2-verification.md)、[演示讲解与自查](docs/phase2-walkthrough.md) |
-| 查询与页面加载优化 | [五项改动与实测](docs/phase2-optimization.md)、[本轮结果](docs/evidence/phase2-optimization-results-20261029.json) |
-| 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[当前完整回归](docs/evidence/phase2-optimization-results-20261029.json)、[新目录安装与连续验收](docs/phase2-delivery-review.md)、[交付清单](docs/phase2-submission.md) |
-| 第一阶段报告与设计说明 | [第一阶段公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
-| 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
-| 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
-| 测试范围、原始结果与需求对应 | [测试报告](docs/test-report.md)、[第一阶段及逐轮追踪](docs/requirements.md)、[第二阶段逐项验收](docs/phase2-acceptance.md) |
-| 接口参数 | [API说明](docs/api.md)、[OpenAPI快照](docs/api-openapi.json)；运行后也可打开 `/docs` |
-| AI辅助过程、问题与修改 | [AI使用说明](docs/ai-use-summary.md)、[第二阶段真实案例](docs/phase2-ai-cases.md)、[详细日志](docs/ai-log.md) |
+| 第二阶段完成了什么 | [实验报告](docs/phase2-report.md)、[需求验收](docs/phase2-acceptance.md)、[开发进度](docs/phase2-progress.md) |
+| 怎样演示和讲解 | [演示步骤](docs/phase2-demo.md)、[讲解与自查](docs/phase2-walkthrough.md) |
+| 怎样复验结果 | [测试报告](docs/test-report.md)、[连续验收运行方法](docs/phase2-verification.md)、[533/216回归结果](docs/evidence/phase2-review-results-20261029.json) |
+| 数据库与接口 | [数据库设计](docs/schema.md)、[业务协议](docs/protocol.md)、[API说明](docs/api.md)、[OpenAPI](docs/api-openapi.json) |
+| 版本、共享与题库 | [独立题目](docs/phase2-question-versions.md)、[固定引用](docs/phase2-question-reuse.md)、[共享](docs/phase2-question-sharing.md)、[题库](docs/phase2-question-banks.md) |
+| 统计、影响与兼容 | [跨问卷统计](docs/phase2-question-statistics.md)、[修改影响](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[读取优化](docs/phase2-optimization.md) |
+| 交付材料与AI使用 | [交付清单](docs/phase2-submission.md)、[AI使用说明](docs/ai-use-summary.md)、[第二阶段案例](docs/phase2-ai-cases.md)、[开发日志](docs/ai-log.md) |
+| 第一阶段资料 | [第一阶段报告](docs/phase1-report.md)、[操作演示](docs/demo.md)、[需求记录](docs/requirements.md) |
 
-当前报告正文已加入10月29日公开复验工具及533/216新回归，本地PDF为“问川第二阶段实验报告_交付复验版20261029.pdf”，15页已逐页检查。此前14页PDF“问川第二阶段实验报告_20261029.pdf”及对应正文归档、待校稿Word和10月27日副本保留为历史材料；Word尚未核对原生分页，不作为当前正式排版交付。仓库提供脱敏Markdown正文；真实配置、运行数据和原始截图不公开，见[公开材料说明](PRIVACY.md)。两份原始Word没有指定必须提交PDF或Word，也没有规定姓名学号或录屏格式；实际上传格式和身份信息按课程平台的实际要求另行确认，不代填个人贡献或学习陈述。
-
-评分表出自《大作业一第一阶段》第八节：MongoDB设计35、后端25、测试10、文档15、AI使用说明15，两阶段沿用；总评为第一阶段30%加第二阶段70%。《大作业一：需求变更》列出八项新增要求，没有另列评分表。需求解释、证据与仍需确认的口径集中在[逐项验收](docs/phase2-acceptance.md)。
+报告的Markdown正文随仓库提供；PDF、本地交付包和历史Word保留在本机。当前PDF为“问川第二阶段实验报告_交付复验版20261029.pdf”，历史Word仍待核对分页。配置、密钥和运行数据不公开，详见[公开材料说明](PRIVACY.md)。
 
 ## 安装、运行和停止
 
@@ -54,7 +52,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 第二阶段的版本、共享、题库和跨卷统计演示见[第二阶段演示](docs/phase2-demo.md)。第一阶段完整手工流程见[demo.md](docs/demo.md)：注册 → 创建 → 添加四种题型 → 配置年龄跳转 → 保存并发布 → 匿名/实名填写 → 查看统计。
 
-第二阶段可从“题目管理”的“我的题目”创建或打开题目，查看历史、编辑、恢复、查询本人使用情况并按用户名共享；接收者可在“共享给我的”只读查看。问卷编辑器通过“从已保存题目选用”选择本人或共享题目的具体版本，再保存、发布。引用题可更换同系列版本或解除引用，均先改草稿，发布后才供新填写使用。恢复和题目更新不会自动改变已有问卷；操作说明与本轮实际验证范围见[选题界面说明](docs/phase2-question-ui.md)。 可在“题库”页建立和整理固定版本条目，再在问卷选题窗口切到“从题库选择”。题库换版、归档或移出条目不改变已有问卷，步骤与实测边界见[题库界面说明](docs/phase2-question-banks-ui.md)。
+第二阶段先在“题目管理”保存题目，再到问卷编辑器通过“从已保存题目选用”选择具体版本。常用版本可以整理到题库，别人授权的题目在“共享给我的”中查看。换版、解绑和题库操作的详细步骤见上方演示手册。
 
 也可在应用启动后，从根目录导入六份教学样例：
 
@@ -81,7 +79,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近完整后端533项通过、3项既有Windows权限相关跳过、251个子测试通过；前端216项通过，类型检查和生产构建通过。见[本轮证据](docs/evidence/phase2-review-results-20261029.json)；此前读取优化批次502/216保留原记录。组件、浏览器和各次历史批次分别记录，不合并相加。
+10月29日完整回归：后端533通过、3项Windows权限相关跳过，另有251个子测试；前端216通过，类型检查和生产构建通过。日志和测试范围见[回归结果](docs/evidence/phase2-review-results-20261029.json)。下表是第一阶段的历史记录，定向测试和页面检查另列在测试报告中。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|
@@ -91,7 +89,7 @@ Set-Location ..
 
 ## 主要增强内容
 
-以下是基础流程之外的设计与实现，具体评分由课程标准决定。每项的代码、测试与结果入口集中在[功能说明与测试](docs/功能说明.md)。
+各项实现、测试方法和结果见[功能说明与测试](docs/功能说明.md)。
 
 | 增强内容 | 说明与证据 |
 |---|---|
@@ -123,4 +121,4 @@ docs/              设计、报告、需求追踪、AI记录与实测结果
 requirements.txt   锁定的Python依赖
 ```
 
-第一阶段开发历史保留在 `docs/开发记录/` 和 [测试报告](docs/test-report.md)。第二阶段当前范围、实际结果和待完成项见[进度与待办](docs/phase2-progress.md)及[共享界面说明](docs/phase2-sharing-ui.md)。
+第一阶段开发记录保留在 `docs/开发记录/`。第二阶段的实现顺序和历史批次见[开发进度](docs/phase2-progress.md)。

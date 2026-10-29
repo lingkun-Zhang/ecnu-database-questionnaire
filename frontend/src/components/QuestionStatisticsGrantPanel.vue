@@ -71,7 +71,7 @@ defineExpose({canLeave,hasUnsavedChanges})
 
 <template>
   <section class="panel statistics-grants">
-    <div class="section-heading"><div><h3>向题目作者提供统计汇总</h3><p class="hint">这里只列出本问卷已发布过的他人题目。逐题授权后，题目作者可把本问卷纳入跨问卷汇总；不会获得逐条答案、填写者身份或其他题目的内容。题目共享与统计授权分别管理。</p></div><button class="button secondary small" :disabled="busy||!!pending" @click="load">重新读取</button></div>
+    <div class="section-heading"><div><h3>向题目作者提供统计汇总</h3><p class="hint">这里列出本问卷发布过的他人题目。逐题授权后，作者可查看该题的汇总，不会获得逐条答案、填写者身份或其他题目的内容。题目共享与统计授权分别设置。</p></div><button class="button secondary small" :disabled="busy||!!pending" @click="load">重新读取</button></div>
     <p v-if="failure" role="alert" class="error-message">{{failure}}</p><p v-if="note" role="status">{{note}}</p>
     <p v-if="loaded&&!rows.length" class="hint">还没有发布过他人的题目。自己的题目可直接统计，无需授权。</p>
     <article v-for="row in rows" :key="row.questionId" class="grant-row"><div><strong>{{row.questionTitle}}</strong><small>题目作者：{{row.recipientUsername||'账号不可用'}} · {{row.grant?.active?'已授权汇总':'未授权汇总'}}<template v-if="row.grant"> · 修订 {{row.grant.revision}}</template></small></div><button class="button secondary small" :disabled="busy||!!pending" @click="decide(row,!row.grant?.active)">{{row.grant?.active?'撤销统计授权':'授权统计汇总'}}</button></article>

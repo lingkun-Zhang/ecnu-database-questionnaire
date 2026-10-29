@@ -75,7 +75,7 @@ async function readAnswers(s:RequestScope,append=false){
 async function readSaved(s:RequestScope){
   const saved=pendingScope.value!.result!;scope.value=saved;answerVersion.value=saved.questionVersionId||''
   await readSummary(s);await readSources(s);await readAnswers(s);check(s)
-  pendingScope.value=null;note.value='汇总、来源和本人明细均已读回；后续新提交需获取新范围后才会纳入。'
+  pendingScope.value=null;note.value='结果已更新。新增答卷需点击“刷新并获取新范围”后才会纳入。'
 }
 async function executeScope(){
   if(!pendingScope.value||busy.value)return
@@ -138,8 +138,8 @@ defineExpose({canLeave,hasUnsavedChanges})
 
 <template>
   <section class="question-statistics">
-    <div class="qstats-heading"><div><p class="eyebrow">题目 · 跨问卷统计</p><h2>把同一道题的作答放在一起看</h2></div><button type="button" class="button secondary" :disabled="busy" @click="back">{{returnToEditor?'返回问卷编辑':'返回题目管理'}}</button></div>
-    <p class="muted qstats-intro">统计只认已发布问卷保存的题目来源。自己的问卷自动纳入；其他人的问卷须由其所有者另行授权，且只参与汇总。不同题目版本分别计算。</p>
+    <div class="qstats-heading"><div><p class="eyebrow">题目 · 跨问卷统计</p><h2>跨问卷统计</h2></div><button type="button" class="button secondary" :disabled="busy" @click="back">{{returnToEditor?'返回问卷编辑':'返回题目管理'}}</button></div>
+    <p class="muted qstats-intro">统计已发布问卷中固定引用这道题的数据。自己的问卷直接纳入；他人的问卷需由所有者授权，只提供汇总。各版本分开计算。</p>
     <div v-if="failure" role="alert" class="feedback error"><strong>{{failure.message}}</strong><small v-if="failure.requestId">请求编号：{{failure.requestId}}</small></div>
     <p v-if="note" role="status" class="feedback neutral">{{note}}</p>
     <form class="panel qstats-controls" @submit.prevent="refreshScope">

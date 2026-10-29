@@ -1,0 +1,16 @@
+........................................................................ [ 13%]
+...............uu..uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu [ 16%]
+uuuuuuuuuuu.uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu [ 16%]
+uuuuuuuuuuuuuuuuuuuuu....uuuuuuuuu..uu.......uuuu..uuuuuuuu..........uu. [ 21%]
+......uuuuu.uuuu..uuuuuuuuu.uuu.uuuuu....uuuu..........uu....uuuuu.uuuu. [ 27%]
+..uuuuuuuuuuuu....uuuuuu.uu............................................. [ 37%]
+........................................................................ [ 50%]
+........................................................................ [ 63%]
+........................................................................ [ 77%]
+..............................................................uu.......s [ 90%]
+ssuuuuuuu..uuuuuuuuu...............................................      [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] [LOCAL_SOURCE]\tests\test_runner_control.py:231: Symlinks unavailable: OSError
+SKIPPED [1] [LOCAL_SOURCE]\tests\test_runner_control.py:240: Symlinks unavailable: OSError
+SKIPPED [1] [LOCAL_SOURCE]\tests\test_runner_control.py:248: Symlinks unavailable: OSError
+533 passed, 3 skipped, 251 subtests passed in 220.91s (0:03:40)

@@ -1,0 +1,1306 @@
+TAP version 13
+# Subtest: wrapping a configured numeric answer retains its operator and value
+ok 1 - wrapping a configured numeric answer retains its operator and value
+  ---
+  duration_ms: 4.0446
+  type: 'test'
+  ...
+# Subtest: AND to OR and back preserves siblings, nested groups, boundaries and ordering
+ok 2 - AND to OR and back preserves siblings, nested groups, boundaries and ordering
+  ---
+  duration_ms: 1.3044
+  type: 'test'
+  ...
+# Subtest: number wrapping and repeated group changes retain the configured answer
+ok 3 - number wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.608
+  type: 'test'
+  ...
+# Subtest: single wrapping and repeated group changes retain the configured answer
+ok 4 - single wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.4847
+  type: 'test'
+  ...
+# Subtest: multi wrapping and repeated group changes retain the configured answer
+ok 5 - multi wrapping and repeated group changes retain the configured answer
+  ---
+  duration_ms: 0.568
+  type: 'test'
+  ...
+# Subtest: a saved validation error follows question and rule IDs after independent reordering
+ok 6 - a saved validation error follows question and rule IDs after independent reordering
+  ---
+  duration_ms: 8.3809
+  type: 'test'
+  ...
+# Subtest: a globally unique rule ID can locate its current owner, while an explicit former owner cannot
+ok 7 - a globally unique rule ID can locate its current owner, while an explicit former owner cannot
+  ---
+  duration_ms: 0.6572
+  type: 'test'
+  ...
+# Subtest: nested any/all condition paths preserve the exact edited leaf and range boundary
+ok 8 - nested any/all condition paths preserve the exact edited leaf and range boundary
+  ---
+  duration_ms: 0.8721
+  type: 'test'
+  ...
+# Subtest: index-only backend errors locate legal existing fields, including option wording and required properties
+ok 9 - index-only backend errors locate legal existing fields, including option wording and required properties
+  ---
+  duration_ms: 0.4671
+  type: 'test'
+  ...
+# Subtest: definition metadata and entry errors open their actual editor sections
+ok 10 - definition metadata and entry errors open their actual editor sections
+  ---
+  duration_ms: 0.2093
+  type: 'test'
+  ...
+# Subtest: whole constraint errors direct users to the first bound and explicitly cover both bounds
+ok 11 - whole constraint errors direct users to the first bound and explicitly cover both bounds
+  ---
+  duration_ms: 0.2334
+  type: 'test'
+  ...
+# Subtest: deleted or duplicate stable IDs cannot fall back to a different item at the old index
+ok 12 - deleted or duplicate stable IDs cannot fall back to a different item at the old index
+  ---
+  duration_ms: 0.3053
+  type: 'test'
+  ...
+# Subtest: stable ID edits and collection structure errors retain their original JSON paths
+ok 13 - stable ID edits and collection structure errors retain their original JSON paths
+  ---
+  duration_ms: 0.3293
+  type: 'test'
+  ...
+# Subtest: unknown fields, malformed paths, and absent nested nodes never select a nearby control
+ok 14 - unknown fields, malformed paths, and absent nested nodes never select a nearby control
+  ---
+  duration_ms: 0.6793
+  type: 'test'
+  ...
+# Subtest: unrenderable condition or config structures are handled without throwing
+ok 15 - unrenderable condition or config structures are handled without throwing
+  ---
+  duration_ms: 0.4974
+  type: 'test'
+  ...
+# Subtest: single and multiple choice comparisons resolve to their value controls
+ok 16 - single and multiple choice comparisons resolve to their value controls
+  ---
+  duration_ms: 0.34
+  type: 'test'
+  ...
+# Subtest: resolving an error does not rewrite the draft or backend diagnostic
+ok 17 - resolving an error does not rewrite the draft or backend diagnostic
+  ---
+  duration_ms: 0.4367
+  type: 'test'
+  ...
+# Subtest: the JSON rendering guard rejects null containers and malformed records before component rendering
+ok 18 - the JSON rendering guard rejects null containers and malformed records before component rendering
+  ---
+  duration_ms: 0.8739
+  type: 'test'
+  ...
+# Subtest: the rendering guard preserves semantic failures for backend diagnostics without changing the import
+ok 19 - the rendering guard preserves semantic failures for backend diagnostics without changing the import
+  ---
+  duration_ms: 0.3464
+  type: 'test'
+  ...
+# Subtest: the rendering guard bounds deep, cyclic and oversized condition trees
+ok 20 - the rendering guard bounds deep, cyclic and oversized condition trees
+  ---
+  duration_ms: 19.6295
+  type: 'test'
+  ...
+# Subtest: bank cursors remain opaque and previous/archive navigation resets the cursor
+ok 21 - bank cursors remain opaque and previous/archive navigation resets the cursor
+  ---
+  duration_ms: 359.8789
+  type: 'test'
+  ...
+# Subtest: member paging preserves unavailable records and never substitutes a question ID for the cursor
+ok 22 - member paging preserves unavailable records and never substitutes a question ID for the cursor
+  ---
+  duration_ms: 101.9981
+  type: 'test'
+  ...
+# Subtest: creating a bank captures one key and body then reads the saved bank without replaying the write
+ok 23 - creating a bank captures one key and body then reads the saved bank without replaying the write
+  ---
+  duration_ms: 78.0005
+  type: 'test'
+  ...
+# Subtest: network and server-unknown outcomes retry only the original bank creation key and body
+ok 24 - network and server-unknown outcomes retry only the original bank creation key and body
+  ---
+  duration_ms: 146.68
+  type: 'test'
+  ...
+# Subtest: a successful metadata PUT with failed read-back recovers with GET only
+ok 25 - a successful metadata PUT with failed read-back recovers with GET only
+  ---
+  duration_ms: 55.4191
+  type: 'test'
+  ...
+# Subtest: a conflicting decision needs a fresh read and explicit confirmation before a separate new write
+ok 26 - a conflicting decision needs a fresh read and explicit confirmation before a separate new write
+  ---
+  duration_ms: 53.621
+  type: 'test'
+  ...
+# Subtest: metadata revision changes do not silently update the original pending body during conflict review
+ok 27 - metadata revision changes do not silently update the original pending body during conflict review
+  ---
+  duration_ms: 56.642
+  type: 'test'
+  ...
+# Subtest: member conflict review finds the target through opaque pages and rejects a revision change between pages
+ok 28 - member conflict review finds the target through opaque pages and rejects a revision change between pages
+  ---
+  duration_ms: 85.6445
+  type: 'test'
+  ...
+# Subtest: ending an uncertain creation requires in-page confirmation and keeps its local form for review
+ok 29 - ending an uncertain creation requires in-page confirmation and keeps its local form for review
+  ---
+  duration_ms: 52.4036
+  type: 'test'
+  ...
+# Subtest: archive confirmation captures the original bank revision and cancellation performs no write
+ok 30 - archive confirmation captures the original bank revision and cancellation performs no write
+  ---
+  duration_ms: 39.2016
+  type: 'test'
+  ...
+# Subtest: removal confirmation freezes the member identity and supports cancel without a request
+ok 31 - removal confirmation freezes the member identity and supports cancel without a request
+  ---
+  duration_ms: 37.7927
+  type: 'test'
+  ...
+# Subtest: an unknown removal retries the same DELETE and recovers its success without interpreting the absent row as failure
+ok 32 - an unknown removal retries the same DELETE and recovers its success without interpreting the absent row as failure
+  ---
+  duration_ms: 40.3001
+  type: 'test'
+  ...
+# Subtest: adding a chosen version pins exactly that version and uses the current bank revision
+ok 33 - adding a chosen version pins exactly that version and uses the current bank revision
+  ---
+  duration_ms: 37.957
+  type: 'test'
+  ...
+# Subtest: updating a member locks its question series and rejects a different question result
+ok 34 - updating a member locks its question series and rejects a different question result
+  ---
+  duration_ms: 34.6683
+  type: 'test'
+  ...
+# Subtest: a child picker cannot submit its version until its busy state has ended
+ok 35 - a child picker cannot submit its version until its busy state has ended
+  ---
+  duration_ms: 38.3067
+  type: 'test'
+  ...
+# Subtest: unavailable members cannot be selected, previewed through choose, or used to update a pin
+ok 36 - unavailable members cannot be selected, previewed through choose, or used to update a pin
+  ---
+  duration_ms: 41.0495
+  type: 'test'
+  ...
+# Subtest: archived banks allow reading but block member changes and question selection
+ok 37 - archived banks allow reading but block member changes and question selection
+  ---
+  duration_ms: 96.5774
+  type: 'test'
+  ...
+# Subtest: pick mode is read-only and a locked series cannot emit another question
+ok 38 - pick mode is read-only and a locked series cannot emit another question
+  ---
+  duration_ms: 32.6025
+  type: 'test'
+  ...
+# Subtest: choosing from a bank revalidates and emits the exact fixed version after clearing busy
+ok 39 - choosing from a bank revalidates and emits the exact fixed version after clearing busy
+  ---
+  duration_ms: 32.0347
+  type: 'test'
+  ...
+# Subtest: a revoked question during choose clears its cached content and cannot emit a stale version
+ok 40 - a revoked question during choose clears its cached content and cannot emit a stale version
+  ---
+  duration_ms: 30.4154
+  type: 'test'
+  ...
+# Subtest: bank revision changes detected while choosing require a new explicit selection
+ok 41 - bank revision changes detected while choosing require a new explicit selection
+  ---
+  duration_ms: 33.9563
+  type: 'test'
+  ...
+# Subtest: dirty forms, child busy states and pending confirmation protect leaving and navigation
+ok 42 - dirty forms, child busy states and pending confirmation protect leaving and navigation
+  ---
+  duration_ms: 41.5288
+  type: 'test'
+  ...
+# Subtest: an old write after token change or unmount cannot report success or issue another account read
+ok 43 - an old write after token change or unmount cannot report success or issue another account read
+  ---
+  duration_ms: 68.0762
+  type: 'test'
+  ...
+# Subtest: current unauthorized reads notify the parent but late unauthorized results cannot clear a new session
+ok 44 - current unauthorized reads notify the parent but late unauthorized results cannot clear a new session
+  ---
+  duration_ms: 51.6036
+  type: 'test'
+  ...
+# Subtest: a question prop change clears old selection and stale read completion cannot select another series
+ok 45 - a question prop change clears old selection and stale read completion cannot select another series
+  ---
+  duration_ms: 31.6966
+  type: 'test'
+  ...
+# Subtest: the child reads the selected source and waits for a deliberate confirmation
+ok 46 - the child reads the selected source and waits for a deliberate confirmation
+  ---
+  duration_ms: 158.7249
+  type: 'test'
+  ...
+# Subtest: failed reads are not empty success and cannot authorize a version write
+ok 47 - failed reads are not empty success and cannot authorize a version write
+  ---
+  duration_ms: 43.173
+  type: 'test'
+  ...
+# Subtest: failed later page keeps its prior label but disables confirmation until a successful read
+ok 48 - failed later page keeps its prior label but disables confirmation until a successful read
+  ---
+  duration_ms: 28.1672
+  type: 'test'
+  ...
+# Subtest: changing to series and paging uses the same filter without confusing source identity
+ok 49 - changing to series and paging uses the same filter without confusing source identity
+  ---
+  duration_ms: 16.6974
+  type: 'test'
+  ...
+# Subtest: 401 clears the private review and expires only the current account
+ok 50 - 401 clears the private review and expires only the current account
+  ---
+  duration_ms: 16.6191
+  type: 'test'
+  ...
+# Subtest: late old-account success cannot install data or expire the new account
+ok 51 - late old-account success cannot install data or expire the new account
+  ---
+  duration_ms: 14.5983
+  type: 'test'
+  ...
+# Subtest: late old-account 401 cannot install data or expire the new account
+ok 52 - late old-account 401 cannot install data or expire the new account
+  ---
+  duration_ms: 13.7985
+  type: 'test'
+  ...
+# Subtest: changing decision or version rejects the old in-flight read and confirms only the new source
+ok 53 - changing decision or version rejects the old in-flight read and confirms only the new source
+  ---
+  duration_ms: 21.4586
+  type: 'test'
+  ...
+# Subtest: cancel sends no confirmation and busy guards stop duplicate reads and decisions
+ok 54 - cancel sends no confirmation and busy guards stop duplicate reads and decisions
+  ---
+  duration_ms: 19.9405
+  type: 'test'
+  ...
+# Subtest: unmount invalidates a late response and releases the parent busy state
+ok 55 - unmount invalidates a late response and releases the parent busy state
+  ---
+  duration_ms: 14.7802
+  type: 'test'
+  ...
+# Subtest: wrong-question or wrong-filter responses cannot authorize saving
+ok 56 - wrong-question or wrong-filter responses cannot authorize saving
+  ---
+  duration_ms: 16.6457
+  type: 'test'
+  ...
+# Subtest: saved versions are chosen explicitly and picker mode cannot create or edit content
+ok 57 - saved versions are chosen explicitly and picker mode cannot create or edit content
+  ---
+  duration_ms: 330.2853
+  type: 'test'
+  ...
+# Subtest: a version switch picker opens its original question and explicitly reads a missing historical version
+ok 58 - a version switch picker opens its original question and explicitly reads a missing historical version
+  ---
+  duration_ms: 90.3271
+  type: 'test'
+  ...
+# Subtest: editing a historical version binds its source while retaining the separately read current head
+ok 59 - editing a historical version binds its source while retaining the separately read current head
+  ---
+  duration_ms: 82.3839
+  type: 'test'
+  ...
+# Subtest: creating a single question sends only reusable content and then selects its saved version
+ok 60 - creating a single question sends only reusable content and then selects its saved version
+  ---
+  duration_ms: 66.4527
+  type: 'test'
+  ...
+# Subtest: creating a multi question sends only reusable content and then selects its saved version
+ok 61 - creating a multi question sends only reusable content and then selects its saved version
+  ---
+  duration_ms: 64.5571
+  type: 'test'
+  ...
+# Subtest: creating a text question sends only reusable content and then selects its saved version
+ok 62 - creating a text question sends only reusable content and then selects its saved version
+  ---
+  duration_ms: 54.2288
+  type: 'test'
+  ...
+# Subtest: creating a number question sends only reusable content and then selects its saved version
+ok 63 - creating a number question sends only reusable content and then selects its saved version
+  ---
+  duration_ms: 45.5423
+  type: 'test'
+  ...
+# Subtest: an uncertain create retries the original key and body and holds busy through readback
+ok 64 - an uncertain create retries the original key and body and holds busy through readback
+  ---
+  duration_ms: 47.4508
+  type: 'test'
+  ...
+# Subtest: a successful write followed by failed refresh is refreshed without sending another write
+ok 65 - a successful write followed by failed refresh is refreshed without sending another write
+  ---
+  duration_ms: 49.0773
+  type: 'test'
+  ...
+# Subtest: restoring an old version uses target and current identifiers without client supplied content
+ok 66 - restoring an old version uses target and current identifiers without client supplied content
+  ---
+  duration_ms: 44.36
+  type: 'test'
+  ...
+# Subtest: an unconfirmed restore result is retried with the original restore key and request body
+ok 67 - an unconfirmed restore result is retried with the original restore key and request body
+  ---
+  duration_ms: 35.315
+  type: 'test'
+  ...
+# Subtest: a version conflict preserves local edits and blocks blind resubmission until explicit review
+ok 68 - a version conflict preserves local edits and blocks blind resubmission until explicit review
+  ---
+  duration_ms: 30.7153
+  type: 'test'
+  ...
+# Subtest: reviewing a changed head preserves local content and requires another explicit save with a new key
+ok 69 - reviewing a changed head preserves local content and requires another explicit save with a new key
+  ---
+  duration_ms: 35.6922
+  type: 'test'
+  ...
+# Subtest: usage queries bind the selected version and preserve their scope for later pages
+ok 70 - usage queries bind the selected version and preserve their scope for later pages
+  ---
+  duration_ms: 42.5041
+  type: 'test'
+  ...
+# Subtest: dirty content blocks leaving or switching questions when native confirmation is declined
+ok 71 - dirty content blocks leaving or switching questions when native confirmation is declined
+  ---
+  duration_ms: 31.5983
+  type: 'test'
+  ...
+# Subtest: a late read after token-change cannot replace selection or emit a choice
+ok 72 - a late read after token-change cannot replace selection or emit a choice
+  ---
+  duration_ms: 24.5028
+  type: 'test'
+  ...
+# Subtest: a late read after unmount cannot replace selection or emit a choice
+ok 73 - a late read after unmount cannot replace selection or emit a choice
+  ---
+  duration_ms: 36.5909
+  type: 'test'
+  ...
+# Subtest: an authorization failure notifies the parent only for the still current account
+ok 74 - an authorization failure notifies the parent only for the still current account
+  ---
+  duration_ms: 36.1855
+  type: 'test'
+  ...
+# Subtest: shared question discovery follows opaque grant cursors and returns to a previous page
+ok 75 - shared question discovery follows opaque grant cursors and returns to a previous page
+  ---
+  duration_ms: 32.0296
+  type: 'test'
+  ...
+# Subtest: received shared questions can be inspected but cannot start any owner content write
+ok 76 - received shared questions can be inspected but cannot start any owner content write
+  ---
+  duration_ms: 32.7474
+  type: 'test'
+  ...
+# Subtest: the shared picker emits the exact selected historical version without creating a private copy
+ok 77 - the shared picker emits the exact selected historical version without creating a private copy
+  ---
+  duration_ms: 37.7249
+  type: 'test'
+  ...
+# Subtest: a readable detail outside the personal list never becomes an owner selection
+ok 78 - a readable detail outside the personal list never becomes an owner selection
+  ---
+  duration_ms: 32.3353
+  type: 'test'
+  ...
+# Subtest: a failed shared read clears the prior version so it cannot emit a stale choice
+ok 79 - a failed shared read clears the prior version so it cannot emit a stale choice
+  ---
+  duration_ms: 31.5338
+  type: 'test'
+  ...
+# Subtest: switching collection respects unsaved owner content instead of dropping it
+ok 80 - switching collection respects unsaved owner content instead of dropping it
+  ---
+  duration_ms: 25.0816
+  type: 'test'
+  ...
+# Subtest: pending sharing decisions and sharing busy state participate in library navigation guards
+ok 81 - pending sharing decisions and sharing busy state participate in library navigation guards
+  ---
+  duration_ms: 24.6077
+  type: 'test'
+  ...
+# Subtest: a revoked shared history or usage read invalidates its previously selectable cache
+ok 82 - a revoked shared history or usage read invalidates its previously selectable cache
+  ---
+  duration_ms: 58.2472
+  type: 'test'
+  ...
+# Subtest: derive waits for review; cancellation preserves edits and sends no write
+ok 83 - derive waits for review; cancellation preserves edits and sends no write
+  ---
+  duration_ms: 34.6572
+  type: 'test'
+  ...
+# Subtest: review approval is bound to the operation, question, source and account
+ok 84 - review approval is bound to the operation, question, source and account
+  ---
+  duration_ms: 26.5924
+  type: 'test'
+  ...
+# Subtest: changing content while the review is pending requires a new review
+ok 85 - changing content while the review is pending requires a new review
+  ---
+  duration_ms: 29.5314
+  type: 'test'
+  ...
+# Subtest: restore review can be cancelled without creating a version or accepting stale approval
+ok 86 - restore review can be cancelled without creating a version or accepting stale approval
+  ---
+  duration_ms: 24.112
+  type: 'test'
+  ...
+# Subtest: a full personal page loads all twenty display summaries in one request and reads content only when opened
+ok 87 - a full personal page loads all twenty display summaries in one request and reads content only when opened
+  ---
+  duration_ms: 37.3178
+  type: 'test'
+  ...
+# Subtest: a received summary page needs one read while later revoked access cannot select its cached summary
+ok 88 - a received summary page needs one read while later revoked access cannot select its cached summary
+  ---
+  duration_ms: 24.1538
+  type: 'test'
+  ...
+# Subtest: a current summary with another question identity is rejected without fetching a guessed version
+ok 89 - a current summary with another question identity is rejected without fetching a guessed version
+  ---
+  duration_ms: 21.7518
+  type: 'test'
+  ...
+# Subtest: adding a saved version gives a local instance, entry and fixed source without changing inputs
+ok 90 - adding a saved version gives a local instance, entry and fixed source without changing inputs
+  ---
+  duration_ms: 4.4783
+  type: 'test'
+  ...
+# Subtest: using the same version twice produces independent instances and connects the default path
+ok 91 - using the same version twice produces independent instances and connects the default path
+  ---
+  duration_ms: 0.4776
+  type: 'test'
+  ...
+# Subtest: switching content preserves the local ID, requiredness and rules for backend compatibility checks
+ok 92 - switching content preserves the local ID, requiredness and rules for backend compatibility checks
+  ---
+  duration_ms: 1.8541
+  type: 'test'
+  ...
+# Subtest: a missing instance or a different question series cannot be used as a version switch
+ok 93 - a missing instance or a different question series cannot be used as a version switch
+  ---
+  duration_ms: 0.6489
+  type: 'test'
+  ...
+# Subtest: detaching removes provenance while retaining content and the remaining source mapping
+ok 94 - detaching removes provenance while retaining content and the remaining source mapping
+  ---
+  duration_ms: 0.5057
+  type: 'test'
+  ...
+# Subtest: the one hundred question limit rejects insertion without changing the questionnaire
+ok 95 - the one hundred question limit rejects insertion without changing the questionnaire
+  ---
+  duration_ms: 1.594
+  type: 'test'
+  ...
+# Subtest: share pages use opaque server cursors and restore the previous page without writes
+ok 96 - share pages use opaque server cursors and restore the previous page without writes
+  ---
+  duration_ms: 197.9017
+  type: 'test'
+  ...
+# Subtest: a new grant sends explicit revision zero and clears only its submitted username after reading back
+ok 97 - a new grant sends explicit revision zero and clears only its submitted username after reading back
+  ---
+  duration_ms: 52.154
+  type: 'test'
+  ...
+# Subtest: network and 503 outcomes retain the complete original decision and retry only that body
+ok 98 - network and 503 outcomes retain the complete original decision and retry only that body
+  ---
+  duration_ms: 66.0325
+  type: 'test'
+  ...
+# Subtest: a confirmed PUT followed by failed read-back is recovered by GET without another PUT
+ok 99 - a confirmed PUT followed by failed read-back is recovered by GET without another PUT
+  ---
+  duration_ms: 38.0467
+  type: 'test'
+  ...
+# Subtest: 409 review follows later pages and needs a separate confirmed submission with the read revision
+ok 100 - 409 review follows later pages and needs a separate confirmed submission with the read revision
+  ---
+  duration_ms: 28.6292
+  type: 'test'
+  ...
+# Subtest: 409 review ends an already achieved target without repeating a state change
+ok 101 - 409 review ends an already achieved target without repeating a state change
+  ---
+  duration_ms: 23.4283
+  type: 'test'
+  ...
+# Subtest: known-recipient conflicts reject another row and canceled confirmations preserve the original intent
+ok 102 - known-recipient conflicts reject another row and canceled confirmations preserve the original intent
+  ---
+  duration_ms: 35.6057
+  type: 'test'
+  ...
+# Subtest: a question change discards its old write response without clearing the new question input or busy state
+ok 103 - a question change discards its old write response without clearing the new question input or busy state
+  ---
+  duration_ms: 45.2373
+  type: 'test'
+  ...
+# Subtest: a late write after token change cannot acknowledge success or issue a read for the new account
+ok 104 - a late write after token change cannot acknowledge success or issue a read for the new account
+  ---
+  duration_ms: 38.7056
+  type: 'test'
+  ...
+# Subtest: unmounting suppresses a late unauthorized error and the old completion busy event
+ok 105 - unmounting suppresses a late unauthorized error and the old completion busy event
+  ---
+  duration_ms: 35.6105
+  type: 'test'
+  ...
+# Subtest: current 401 reads and writes emit unauthorized without retaining a repeatable write
+ok 106 - current 401 reads and writes emit unauthorized without retaining a repeatable write
+  ---
+  duration_ms: 46.0098
+  type: 'test'
+  ...
+# Subtest: dirty inputs and unknown outcomes require explicit leave or abandon while busy requests cannot leave
+ok 107 - dirty inputs and unknown outcomes require explicit leave or abandon while busy requests cannot leave
+  ---
+  duration_ms: 23.2118
+  type: 'test'
+  ...
+# Subtest: the in-page toggle confirmation locks other decisions and cancellation submits nothing
+ok 108 - the in-page toggle confirmation locks other decisions and cancellation submits nothing
+  ---
+  duration_ms: 18.1903
+  type: 'test'
+  ...
+# Subtest: confirming a toggle submits the captured row and revision even if the visible row later changes
+ok 109 - confirming a toggle submits the captured row and revision even if the visible row later changes
+  ---
+  duration_ms: 22.8822
+  type: 'test'
+  ...
+# Subtest: expired token, changed question and unmount cannot confirm a captured toggle
+ok 110 - expired token, changed question and unmount cannot confirm a captured toggle
+  ---
+  duration_ms: 56.1082
+  type: 'test'
+  ...
+# Subtest: opening the component does not create a statistical range without a click
+ok 111 - opening the component does not create a statistical range without a click
+  ---
+  duration_ms: 245.1833
+  type: 'test'
+  ...
+# Subtest: one explicit range supplies summary, sources, answers and fixed filter labels
+ok 112 - one explicit range supplies summary, sources, answers and fixed filter labels
+  ---
+  duration_ms: 63.2008
+  type: 'test'
+  ...
+# Subtest: uncertain creation retries the same key and frozen body despite locally changed filters
+ok 113 - uncertain creation retries the same key and frozen body despite locally changed filters
+  ---
+  duration_ms: 59.5877
+  type: 'test'
+  ...
+# Subtest: a committed range followed by summary failure retries GET only
+ok 114 - a committed range followed by summary failure retries GET only
+  ---
+  duration_ms: 43.1267
+  type: 'test'
+  ...
+# Subtest: a later source or answer read failure retains the saved range for GET recovery
+ok 115 - a later source or answer read failure retains the saved range for GET recovery
+  ---
+  duration_ms: 42.8747
+  type: 'test'
+  ...
+# Subtest: STATISTICS_SCOPE_EXPIRED clears all old range data without expiring the login
+ok 116 - STATISTICS_SCOPE_EXPIRED clears all old range data without expiring the login
+  ---
+  duration_ms: 44.8887
+  type: 'test'
+  ...
+# Subtest: STATISTICS_SCOPE_INVALIDATED clears all old range data without expiring the login
+ok 117 - STATISTICS_SCOPE_INVALIDATED clears all old range data without expiring the login
+  ---
+  duration_ms: 32.5278
+  type: 'test'
+  ...
+# Subtest: 401 clears visible data and tells the parent to expire the session
+ok 118 - 401 clears visible data and tells the parent to expire the session
+  ---
+  duration_ms: 31.9564
+  type: 'test'
+  ...
+# Subtest: a range POST finishing after the account token changed cannot show its result
+ok 119 - a range POST finishing after the account token changed cannot show its result
+  ---
+  duration_ms: 30.9691
+  type: 'test'
+  ...
+# Subtest: a question change clears old rows and ignores late range results
+ok 120 - a question change clears old rows and ignores late range results
+  ---
+  duration_ms: 35.3908
+  type: 'test'
+  ...
+# Subtest: an unmounted component ignores a late raw-answer response
+ok 121 - an unmounted component ignores a late raw-answer response
+  ---
+  duration_ms: 22.7462
+  type: 'test'
+  ...
+# Subtest: version keyset paging replaces the page, preserves known versions, and goes back
+ok 122 - version keyset paging replaces the page, preserves known versions, and goes back
+  ---
+  duration_ms: 25.8204
+  type: 'test'
+  ...
+# Subtest: source paging sends the opaque cursor and appends authorized aggregate rows
+ok 123 - source paging sends the opaque cursor and appends authorized aggregate rows
+  ---
+  duration_ms: 22.5042
+  type: 'test'
+  ...
+# Subtest: raw pagination cannot reuse the old cursor after a version selection change
+ok 124 - raw pagination cannot reuse the old cursor after a version selection change
+  ---
+  duration_ms: 23.8343
+  type: 'test'
+  ...
+# Subtest: CSV uses the displayed detail filter, same fixed scope, and a live account guard
+ok 125 - CSV uses the displayed detail filter, same fixed scope, and a live account guard
+  ---
+  duration_ms: 23.6645
+  type: 'test'
+  ...
+# Subtest: CSV grant invalidation removes prior summary and detail data
+ok 126 - CSV grant invalidation removes prior summary and detail data
+  ---
+  duration_ms: 20.6681
+  type: 'test'
+  ...
+# Subtest: a new refresh freezes changed filters under a fresh key and clears the preceding range before I/O
+ok 127 - a new refresh freezes changed filters under a fresh key and clears the preceding range before I/O
+  ---
+  duration_ms: 21.9314
+  type: 'test'
+  ...
+# Subtest: an uncertain request older than 30 minutes cannot silently create another range
+ok 128 - an uncertain request older than 30 minutes cannot silently create another range
+  ---
+  duration_ms: 17.478
+  type: 'test'
+  ...
+# Subtest: busy work prevents leaving; uncertain requests require explicit confirmation before losing retry
+ok 129 - busy work prevents leaving; uncertain requests require explicit confirmation before losing retry
+  ---
+  duration_ms: 12.5868
+  type: 'test'
+  ...
+# Subtest: answer formatting preserves zero and text and maps labels using that immutable version
+ok 130 - answer formatting preserves zero and text and maps labels using that immutable version
+  ---
+  duration_ms: 23.9907
+  type: 'test'
+  ...
+# Subtest: single details after the tenth version use their fixed labels before that summary page is loaded
+ok 131 - single details after the tenth version use their fixed labels before that summary page is loaded
+  ---
+  duration_ms: 20.6579
+  type: 'test'
+  ...
+# Subtest: multi details after the tenth version use their fixed labels before that summary page is loaded
+ok 132 - multi details after the tenth version use their fixed labels before that summary page is loaded
+  ---
+  duration_ms: 18.8341
+  type: 'test'
+  ...
+# Subtest: grant candidates come from the published-source endpoint and loading changes no grants
+ok 133 - grant candidates come from the published-source endpoint and loading changes no grants
+  ---
+  duration_ms: 159.1223
+  type: 'test'
+  ...
+# Subtest: an empty published-source list is a loaded empty result rather than an inferred authorization
+ok 134 - an empty published-source list is a loaded empty result rather than an inferred authorization
+  ---
+  duration_ms: 34.0115
+  type: 'test'
+  ...
+# Subtest: choosing a candidate only opens inline confirmation and cancelling sends no write
+ok 135 - choosing a candidate only opens inline confirmation and cancelling sends no write
+  ---
+  duration_ms: 26.945
+  type: 'test'
+  ...
+# Subtest: confirmed grant and revoke use the captured question and revision then read authoritative state
+ok 136 - confirmed grant and revoke use the captured question and revision then read authoritative state
+  ---
+  duration_ms: 46.5191
+  type: 'test'
+  ...
+# Subtest: unknown PUT outcomes freeze the original decision and retry that body without rebasing
+ok 137 - unknown PUT outcomes freeze the original decision and retry that body without rebasing
+  ---
+  duration_ms: 50.813
+  type: 'test'
+  ...
+# Subtest: a saved PUT with failed read-back recovers by GET without repeating the write
+ok 138 - a saved PUT with failed read-back recovers by GET without repeating the write
+  ---
+  duration_ms: 23.9461
+  type: 'test'
+  ...
+# Subtest: a conflict blocks retries and rebasing until explicit abandonment reads the current grant
+ok 139 - a conflict blocks retries and rebasing until explicit abandonment reads the current grant
+  ---
+  duration_ms: 27.3986
+  type: 'test'
+  ...
+# Subtest: abandoning an unknown operation explicitly reads current state without issuing its PUT again
+ok 140 - abandoning an unknown operation explicitly reads current state without issuing its PUT again
+  ---
+  duration_ms: 16.4479
+  type: 'test'
+  ...
+# Subtest: current-session 401 during a PUT or its read-back clears private rows and informs the parent
+ok 141 - current-session 401 during a PUT or its read-back clears private rows and informs the parent
+  ---
+  duration_ms: 31.8546
+  type: 'test'
+  ...
+# Subtest: definitive non-409 client rejection ends the decision and does not retry automatically
+ok 142 - definitive non-409 client rejection ends the decision and does not retry automatically
+  ---
+  duration_ms: 14.527
+  type: 'test'
+  ...
+# Subtest: late old-token GET success or 401 cannot replace rows or expire the new session
+ok 143 - late old-token GET success or 401 cannot replace rows or expire the new session
+  ---
+  duration_ms: 27.3318
+  type: 'test'
+  ...
+# Subtest: late old-token PUT success or 401 cannot start read-back or emit unauthorized
+ok 144 - late old-token PUT success or 401 cannot start read-back or emit unauthorized
+  ---
+  duration_ms: 27.4377
+  type: 'test'
+  ...
+# Subtest: changing survey starts a new read and late old-survey GET cannot overwrite it or clear its busy state
+ok 145 - changing survey starts a new read and late old-survey GET cannot overwrite it or clear its busy state
+  ---
+  duration_ms: 25.7545
+  type: 'test'
+  ...
+# Subtest: changing survey discards old pending state and ignores a late old-survey PUT
+ok 146 - changing survey discards old pending state and ignores a late old-survey PUT
+  ---
+  duration_ms: 15.0762
+  type: 'test'
+  ...
+# Subtest: unmount releases parent busy state and late GET or PUT responses make no further changes
+ok 147 - unmount releases parent busy state and late GET or PUT responses make no further changes
+  ---
+  duration_ms: 52.3989
+  type: 'test'
+  ...
+# Subtest: busy guards prevent duplicate writes and navigation, while a pending decision needs explicit leave confirmation
+ok 148 - busy guards prevent duplicate writes and navigation, while a pending decision needs explicit leave confirmation
+  ---
+  duration_ms: 9.6127
+  type: 'test'
+  ...
+# Subtest: switching only a source version is dirty and saves the explicit mapping with the same content
+ok 149 - switching only a source version is dirty and saves the explicit mapping with the same content
+  ---
+  duration_ms: 189.3613
+  type: 'test'
+  ...
+# Subtest: detaching a source marks unchanged content dirty and sends an explicit empty list
+ok 150 - detaching a source marks unchanged content dirty and sends an explicit empty list
+  ---
+  duration_ms: 90.1044
+  type: 'test'
+  ...
+# Subtest: a picker opened for another survey or an expired account cannot apply its version
+ok 151 - a picker opened for another survey or an expired account cannot apply its version
+  ---
+  duration_ms: 73.597
+  type: 'test'
+  ...
+# Subtest: source validation errors locate the editor and expire when provenance is explicitly detached
+ok 152 - source validation errors locate the editor and expire when provenance is explicitly detached
+  ---
+  duration_ms: 54.1046
+  type: 'test'
+  ...
+# Subtest: personal-question pending work protects navigation and page unload
+ok 153 - personal-question pending work protects navigation and page unload
+  ---
+  duration_ms: 58.9048
+  type: 'test'
+  ...
+# Subtest: an expired library session clears credentials even when manual logout confirmation is declined
+ok 154 - an expired library session clears credentials even when manual logout confirmation is declined
+  ---
+  duration_ms: 49.5619
+  type: 'test'
+  ...
+# Subtest: settings refresh preserves the local draft revision and sources when another page has saved a new version
+ok 155 - settings refresh preserves the local draft revision and sources when another page has saved a new version
+  ---
+  duration_ms: 45.8044
+  type: 'test'
+  ...
+# Subtest: saveDraft stays busy through its write, refreshed draft and first version-summary page
+ok 156 - saveDraft stays busy through its write, refreshed draft and first version-summary page
+  ---
+  duration_ms: 52.2388
+  type: 'test'
+  ...
+# Subtest: saveDraft releases a failed write without losing local content and can be retried
+ok 157 - saveDraft releases a failed write without losing local content and can be retried
+  ---
+  duration_ms: 63.331
+  type: 'test'
+  ...
+# Subtest: saveDraft unlocks after its draft refresh fails and preserves the correct saved baseline
+ok 158 - saveDraft unlocks after its draft refresh fails and preserves the correct saved baseline
+  ---
+  duration_ms: 53.4626
+  type: 'test'
+  ...
+# Subtest: saveDraft unlocks after its versions refresh fails and preserves the correct saved baseline
+ok 159 - saveDraft unlocks after its versions refresh fails and preserves the correct saved baseline
+  ---
+  duration_ms: 51.4802
+  type: 'test'
+  ...
+# Subtest: saveDraft cannot restore account A after logout while waiting for write
+ok 160 - saveDraft cannot restore account A after logout while waiting for write
+  ---
+  duration_ms: 40.7453
+  type: 'test'
+  ...
+# Subtest: saveDraft cannot restore account A after logout while waiting for versions
+ok 161 - saveDraft cannot restore account A after logout while waiting for versions
+  ---
+  duration_ms: 40.2196
+  type: 'test'
+  ...
+# Subtest: publish stays busy through its write, refreshed draft and first version-summary page
+ok 162 - publish stays busy through its write, refreshed draft and first version-summary page
+  ---
+  duration_ms: 39.6081
+  type: 'test'
+  ...
+# Subtest: publish releases a failed write without losing local content and can be retried
+ok 163 - publish releases a failed write without losing local content and can be retried
+  ---
+  duration_ms: 47.7014
+  type: 'test'
+  ...
+# Subtest: publish unlocks after its draft refresh fails and preserves the correct saved baseline
+ok 164 - publish unlocks after its draft refresh fails and preserves the correct saved baseline
+  ---
+  duration_ms: 46.8322
+  type: 'test'
+  ...
+# Subtest: publish unlocks after its versions refresh fails and preserves the correct saved baseline
+ok 165 - publish unlocks after its versions refresh fails and preserves the correct saved baseline
+  ---
+  duration_ms: 32.4063
+  type: 'test'
+  ...
+# Subtest: publish cannot restore account A after logout while waiting for write
+ok 166 - publish cannot restore account A after logout while waiting for write
+  ---
+  duration_ms: 43.9815
+  type: 'test'
+  ...
+# Subtest: publish cannot restore account A after logout while waiting for versions
+ok 167 - publish cannot restore account A after logout while waiting for versions
+  ---
+  duration_ms: 39.7349
+  type: 'test'
+  ...
+# Subtest: a busy editor rejects duplicate writes, reload, history actions and navigation without issuing HTTP
+ok 168 - a busy editor rejects duplicate writes, reload, history actions and navigation without issuing HTTP
+  ---
+  duration_ms: 37.9274
+  type: 'test'
+  ...
+# Subtest: collection settings stay busy through metadata refresh and retain the unsaved definition
+ok 169 - collection settings stay busy through metadata refresh and retain the unsaved definition
+  ---
+  duration_ms: 63.0092
+  type: 'test'
+  ...
+# Subtest: copying a historical version stays busy until the refreshed draft is available
+ok 170 - copying a historical version stays busy until the refreshed draft is available
+  ---
+  duration_ms: 34.2116
+  type: 'test'
+  ...
+# Subtest: saving a sourced draft keeps only sources for retained instances (no deletions)
+ok 171 - saving a sourced draft keeps only sources for retained instances (no deletions)
+  ---
+  duration_ms: 38.3265
+  type: 'test'
+  ...
+# Subtest: saving a sourced draft keeps only sources for retained instances (q_note)
+ok 172 - saving a sourced draft keeps only sources for retained instances (q_note)
+  ---
+  duration_ms: 33.002
+  type: 'test'
+  ...
+# Subtest: saving a sourced draft keeps only sources for retained instances (q_age,q_note)
+ok 173 - saving a sourced draft keeps only sources for retained instances (q_age,q_note)
+  ---
+  duration_ms: 32.5925
+  type: 'test'
+  ...
+# Subtest: editing a retained sourced instance preserves its source and local edits when the server rejects mismatched content
+ok 174 - editing a retained sourced instance preserves its source and local edits when the server rejects mismatched content
+  ---
+  duration_ms: 41.587
+  type: 'test'
+  ...
+# Subtest: copying history restores its fixed sources
+ok 175 - copying history restores its fixed sources
+  ---
+  duration_ms: 31.4979
+  type: 'test'
+  ...
+# Subtest: copying history explicitly clears the current sources when history has none
+ok 176 - copying history explicitly clears the current sources when history has none
+  ---
+  duration_ms: 30.4789
+  type: 'test'
+  ...
+# Subtest: submit preflight preserves SURVEY_CLOSED and the answer without creating a recovery key or POST submission
+ok 177 - submit preflight preserves SURVEY_CLOSED and the answer without creating a recovery key or POST submission
+  ---
+  duration_ms: 30.1723
+  type: 'test'
+  ...
+# Subtest: a stale open invitation adopts closed after a rejected start and resets with the account
+ok 178 - a stale open invitation adopts closed after a rejected start and resets with the account
+  ---
+  duration_ms: 28.7513
+  type: 'test'
+  ...
+# Subtest: submit preflight preserves SURVEY_EXPIRED and the answer without creating a recovery key or POST submission
+ok 179 - submit preflight preserves SURVEY_EXPIRED and the answer without creating a recovery key or POST submission
+  ---
+  duration_ms: 37.6192
+  type: 'test'
+  ...
+# Subtest: a stale open invitation adopts expired after a rejected start and resets with the account
+ok 180 - a stale open invitation adopts expired after a rejected start and resets with the account
+  ---
+  duration_ms: 29.5876
+  type: 'test'
+  ...
+# Subtest: closing requires a separate confirmation, Escape cancels, and confirm uses the displayed revision
+ok 181 - closing requires a separate confirmation, Escape cancels, and confirm uses the displayed revision
+  ---
+  duration_ms: 28.6482
+  type: 'test'
+  ...
+# Subtest: an old close confirmation cannot act on a different active survey or survive logout
+ok 182 - an old close confirmation cannot act on a different active survey or survive logout
+  ---
+  duration_ms: 31.7869
+  type: 'test'
+  ...
+# Subtest: 401 clears account A data before account B signs in
+ok 183 - 401 clears account A data before account B signs in
+  ---
+  duration_ms: 29.8563
+  type: 'test'
+  ...
+# Subtest: late 401 from A cannot log out a newly authenticated B
+ok 184 - late 401 from A cannot log out a newly authenticated B
+  ---
+  duration_ms: 36.9571
+  type: 'test'
+  ...
+# Subtest: late successful statistics from A cannot repopulate account B view
+ok 185 - late successful statistics from A cannot repopulate account B view
+  ---
+  duration_ms: 30.2903
+  type: 'test'
+  ...
+# Subtest: late submission receipt stays out of B and keeps A recovery record
+ok 186 - late submission receipt stays out of B and keeps A recovery record
+  ---
+  duration_ms: 29.3318
+  type: 'test'
+  ...
+# Subtest: submitFill retains its original request and recovery record after a simulated 503
+ok 187 - submitFill retains its original request and recovery record after a simulated 503
+  ---
+  duration_ms: 30.0577
+  type: 'test'
+  ...
+# Subtest: same-account login after logout and refresh replays only the exact saved submission
+ok 188 - same-account login after logout and refresh replays only the exact saved submission
+  ---
+  duration_ms: 68.948
+  type: 'test'
+  ...
+# Subtest: token change in another page clears this view without deleting its new token
+ok 189 - token change in another page clears this view without deleting its new token
+  ---
+  duration_ms: 38.3568
+  type: 'test'
+  ...
+# Subtest: CSV download allows current session and discards a blob after switching accounts
+ok 190 - CSV download allows current session and discards a blob after switching accounts
+  ---
+  duration_ms: 42.1658
+  type: 'test'
+  ...
+# Subtest: respondent filter preserves the boundary for details, pagination and CSV
+ok 191 - respondent filter preserves the boundary for details, pagination and CSV
+  ---
+  duration_ms: 54.7273
+  type: 'test'
+  ...
+# Subtest: late statistics cannot replace a newer respondent filter
+ok 192 - late statistics cannot replace a newer respondent filter
+  ---
+  duration_ms: 45.9433
+  type: 'test'
+  ...
+# Subtest: late question details cannot replace a newer selection in the same filtered view
+ok 193 - late question details cannot replace a newer selection in the same filtered view
+  ---
+  duration_ms: 43.7832
+  type: 'test'
+  ...
+# Subtest: opening another survey statistics clears the previous question and respondent filter
+ok 194 - opening another survey statistics clears the previous question and respondent filter
+  ---
+  duration_ms: 50.6316
+  type: 'test'
+  ...
+# Subtest: definition errors mount the editor before focusing and expire on the next edit
+ok 195 - definition errors mount the editor before focusing and expire on the next edit
+  ---
+  duration_ms: 49.6852
+  type: 'test'
+  ...
+# Subtest: a preview response arriving during the edit debounce cannot restore an obsolete definition error
+ok 196 - a preview response arriving during the edit debounce cannot restore an obsolete definition error
+  ---
+  duration_ms: 65.5825
+  type: 'test'
+  ...
+# Subtest: design warnings focus the editor without becoming blocking errors and expire on edit
+ok 197 - design warnings focus the editor without becoming blocking errors and expire on edit
+  ---
+  duration_ms: 50.7184
+  type: 'test'
+  ...
+# Subtest: late design warnings cannot restore results after editing, navigation, or account changes
+ok 198 - late design warnings cannot restore results after editing, navigation, or account changes
+  ---
+  duration_ms: 48.0559
+  type: 'test'
+  ...
+# Subtest: the latest design check wins and failed checks cannot display a clean result
+ok 199 - the latest design check wins and failed checks cannot display a clean result
+  ---
+  duration_ms: 47.7609
+  type: 'test'
+  ...
+# Subtest: bank pending work protects every workspace exit and page unload
+ok 200 - bank pending work protects every workspace exit and page unload
+  ---
+  duration_ms: 48.5774
+  type: 'test'
+  ...
+# Subtest: opening banks checks question work then clears the old survey editing context
+ok 201 - opening banks checks question work then clears the old survey editing context
+  ---
+  duration_ms: 58.7317
+  type: 'test'
+  ...
+# Subtest: bank navigation preserves an unsaved survey when leaving is declined
+ok 202 - bank navigation preserves an unsaved survey when leaving is declined
+  ---
+  duration_ms: 51.5429
+  type: 'test'
+  ...
+# Subtest: picker source switches, close and escape respect active source work and busy state
+ok 203 - picker source switches, close and escape respect active source work and busy state
+  ---
+  duration_ms: 49.2543
+  type: 'test'
+  ...
+# Subtest: bank expiry clears busy refs and picker source even when manual departure is blocked
+ok 204 - bank expiry clears busy refs and picker source even when manual departure is blocked
+  ---
+  duration_ms: 45.276
+  type: 'test'
+  ...
+# Subtest: pending cross-survey statistics protects navigation, logout and page unload
+ok 205 - pending cross-survey statistics protects navigation, logout and page unload
+  ---
+  duration_ms: 45.6259
+  type: 'test'
+  ...
+# Subtest: unconfirmed statistics grants block settings tab exits and workspace navigation
+ok 206 - unconfirmed statistics grants block settings tab exits and workspace navigation
+  ---
+  duration_ms: 56.4948
+  type: 'test'
+  ...
+# Subtest: the question statistics detour retains unsaved draft and fixed sources when returning
+ok 207 - the question statistics detour retains unsaved draft and fixed sources when returning
+  ---
+  duration_ms: 48.1583
+  type: 'test'
+  ...
+# Subtest: 401 forcibly clears both statistics refs and selected question before another account logs in
+ok 208 - 401 forcibly clears both statistics refs and selected question before another account logs in
+  ---
+  duration_ms: 45.9807
+  type: 'test'
+  ...
+# Subtest: a fixed-source statistics entry resolves the current question mapping without changing drafts or granting data access
+ok 209 - a fixed-source statistics entry resolves the current question mapping without changing drafts or granting data access
+  ---
+  duration_ms: 48.7952
+  type: 'test'
+  ...
+# Subtest: opening a 201-version survey reads one summary page and no complete history
+ok 210 - opening a 201-version survey reads one summary page and no complete history
+  ---
+  duration_ms: 49.5577
+  type: 'test'
+  ...
+# Subtest: older history summaries load only on request and preserve the earlier page on failure
+ok 211 - older history summaries load only on request and preserve the earlier page on failure
+  ---
+  duration_ms: 51.755
+  type: 'test'
+  ...
+# Subtest: history comparison reads only the two selected immutable definitions and reuses them
+ok 212 - history comparison reads only the two selected immutable definitions and reuses them
+  ---
+  duration_ms: 42.514
+  type: 'test'
+  ...
+# Subtest: a failed history detail does not claim identical definitions and can retry
+ok 213 - a failed history detail does not claim identical definitions and can retry
+  ---
+  duration_ms: 56.3561
+  type: 'test'
+  ...
+# Subtest: copying an unloaded history summary first reads its complete definition and fixed sources
+ok 214 - copying an unloaded history summary first reads its complete definition and fixed sources
+  ---
+  duration_ms: 52.3216
+  type: 'test'
+  ...
+# Subtest: an unloaded history detail cannot trigger a draft write after switching accounts
+ok 215 - an unloaded history detail cannot trigger a draft write after switching accounts
+  ---
+  duration_ms: 51.1846
+  type: 'test'
+  ...
+# Subtest: single-survey statistics loads only its selected full version to interpret answer labels
+ok 216 - single-survey statistics loads only its selected full version to interpret answer labels
+  ---
+  duration_ms: 41.9579
+  type: 'test'
+  ...
+1..216
+# tests 216
+# suites 0
+# pass 216
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4660.4193

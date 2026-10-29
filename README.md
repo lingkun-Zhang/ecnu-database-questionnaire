@@ -9,6 +9,7 @@
 | 内容 | 入口 |
 |---|---|
 | 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[修改影响检查](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[跨问卷单题统计](docs/phase2-question-statistics.md)、[题库管理与选题界面](docs/phase2-question-banks-ui.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
+| 本轮复核与独立复验 | [复验入口、隔离运行与实际结果](docs/phase2-verification.md)、[演示讲解与自查](docs/phase2-walkthrough.md) |
 | 查询与页面加载优化 | [五项改动与实测](docs/phase2-optimization.md)、[本轮结果](docs/evidence/phase2-optimization-results-20261029.json) |
 | 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[当前完整回归](docs/evidence/phase2-optimization-results-20261029.json)、[新目录安装与连续验收](docs/phase2-delivery-review.md)、[交付清单](docs/phase2-submission.md) |
 | 第一阶段报告与设计说明 | [第一阶段公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
@@ -65,7 +66,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1 -Pyt
 
 ## 怎样运行测试
 
-先完成安装并启动项目MongoDB，然后在仓库根目录执行后端测试。集成测试连接真实MongoDB，创建随机命名的独立测试库，完成后只清理自己创建的库。
+先完成安装并启动项目MongoDB，然后在仓库根目录执行后端测试。集成测试连接真实MongoDB，创建随机命名的独立测试库，完成后只清理自己创建的库。API与数据库组件测试共用一次会话的数据库入口：显式MONGO_URI优先，其次兼容MONGODB_URI，均未设置时读取本机配置；显式空值报错。专用连续验收脚本另用显式测试副本集，运行步骤见[公开复验](docs/phase2-verification.md)。
 
 ```powershell
 .venv\Scripts\python.exe -m pytest -q
@@ -80,7 +81,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近完整后端502项通过、3项既有Windows权限相关跳过、251个子测试通过；前端216项通过，类型检查和生产构建通过。见[本轮证据](docs/evidence/phase2-optimization-results-20261029.json)。组件、浏览器和各次历史批次分别记录，不合并相加。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近完整后端533项通过、3项既有Windows权限相关跳过、251个子测试通过；前端216项通过，类型检查和生产构建通过。见[本轮证据](docs/evidence/phase2-review-results-20261029.json)；此前读取优化批次502/216保留原记录。组件、浏览器和各次历史批次分别记录，不合并相加。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|

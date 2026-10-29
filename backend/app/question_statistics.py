@@ -1,4 +1,11 @@
-"""Question statistics over persistent, short-lived published-source ranges."""
+"""Question statistics over persistent, short-lived published-source ranges.
+
+Scoped reads recheck ownership and aggregate grants in their current snapshot.
+Metadata maps belong to one transaction callback, so retries rebuild them.
+Summary, source-page and answer-page reads keep full definitions only for the
+current publication window; this does not cap the total source/version count.
+Aggregate-only sources contribute summaries, never raw answers or CSV rows.
+"""
 from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
@@ -15,6 +22,12 @@ from .question_content import canonical_question_content
 from .question_sharing import grant_filter
 from .repositories import Repository
 from .security import decode_token, digest, token, utcnow
+
+
+PUBLICATION_WINDOW_SIZE = 32
+METADATA_LOOKUP_BATCH_SIZE = 100
+SCOPE_SOURCE_INSERT_BATCH_SIZE = 100
+CSV_ANSWER_PAGE_SIZE = 100
 
 
 def scope_view(row):
@@ -156,8 +169,9 @@ class QuestionStatisticsServices:
             children = []
             version_rows = {}
             for index, pub in enumerate(pubs):
-                if index % 32 == 0:
-                    await self.load_question_versions(scope, pubs[index:index + 32], session, version_rows)
+                if index % PUBLICATION_WINDOW_SIZE == 0:
+                    await self.load_question_versions(
+                        scope, pubs[index:index + PUBLICATION_WINDOW_SIZE], session, version_rows)
                 own = pub['survey']['ownerId'] == user['_id']
                 grant = by_survey.get(pub['surveyId'])
                 if not own and (not grant or grant['ownerId'] != pub['survey']['ownerId']):
@@ -179,8 +193,9 @@ class QuestionStatisticsServices:
             scope['publicationCount'], scope['surveyCount'] = len(children), len(seen)
             await self.hook('after_question_stats_capture', scope=scope, session=session)
             await self.db.question_stat_scopes.insert_one(scope, session=session)
-            for offset in range(0, len(children), 100):
-                await self.db.question_stat_sources.insert_many(children[offset:offset+100], session=session)
+            for offset in range(0, len(children), SCOPE_SOURCE_INSERT_BATCH_SIZE):
+                await self.db.question_stat_sources.insert_many(
+                    children[offset:offset + SCOPE_SOURCE_INSERT_BATCH_SIZE], session=session)
             await self.hook('after_question_stats_scope_write', scope=scope, session=session)
             return scope_view(scope), False
 
@@ -191,8 +206,8 @@ class QuestionStatisticsServices:
         # retained on the service or across transaction callback retries.
         rows = {}
         ordered = sorted(set(ids))
-        for offset in range(0, len(ordered), 100):
-            query = {'_id': {'$in': ordered[offset:offset + 100]}, **conditions}
+        for offset in range(0, len(ordered), METADATA_LOOKUP_BATCH_SIZE):
+            query = {'_id': {'$in': ordered[offset:offset + METADATA_LOOKUP_BATCH_SIZE]}, **conditions}
             values = await collection.find(query, projection, session=session).to_list(length=None)
             rows.update((row['_id'], row) for row in values)
         return rows
@@ -212,10 +227,12 @@ class QuestionStatisticsServices:
         return rows
 
     async def publication_context(self, scope, sources, session, cache):
+        """Reuse only the current window within one transaction callback."""
         pubs, versions = cache.setdefault('publications', {}), cache.setdefault('versions', {})
         ids = {source['surveyVersionId'] for source in sources}
-        if len(ids) > 32:
-            raise ValueError('Publication metadata must be read in batches of at most 32')
+        if len(ids) > PUBLICATION_WINDOW_SIZE:
+            raise ValueError(
+                f'Publication metadata must be read in batches of at most {PUBLICATION_WINDOW_SIZE}')
         # Complete definitions can be large. Keep only the current batch; the
         # CSV cursor may revisit it, but cannot accumulate every old snapshot.
         for version_id in list(pubs):
@@ -250,6 +267,7 @@ class QuestionStatisticsServices:
         return dict(groups), versions
 
     async def validate_scope(self, user, qid, scope_id, session):
+        """Recheck ownership and grant revisions in this read snapshot."""
         scope = await self.db.question_stat_scopes.find_one({'_id': scope_id}, session=session)
         if not scope:
             raise ServiceError('STATISTICS_SCOPE_EXPIRED', '统计范围不存在或已过期，请刷新', 410)
@@ -292,8 +310,8 @@ class QuestionStatisticsServices:
                 instanceCount=scope['instanceCount'], responseCount=0, answeredResponseCount=0, anonymousResponses=0, namedResponses=0)
             contexts = []
             metadata = {}
-            for offset in range(0, len(sources), 32):
-                batch = sources[offset:offset + 32]
+            for offset in range(0, len(sources), PUBLICATION_WINDOW_SIZE):
+                batch = sources[offset:offset + PUBLICATION_WINDOW_SIZE]
                 publications, version_rows = await self.publication_context(scope, batch, session, metadata)
                 for source in batch:
                     pub = publications[source['surveyVersionId']]
@@ -405,8 +423,8 @@ class QuestionStatisticsServices:
             rows = [source for source in sources if not after or source['_id']>after][:limit+1]
             items=[]
             metadata = {}
-            for offset in range(0, min(limit, len(rows)), 32):
-                batch = rows[offset:min(offset + 32, limit)]
+            for offset in range(0, min(limit, len(rows)), PUBLICATION_WINDOW_SIZE):
+                batch = rows[offset:min(offset + PUBLICATION_WINDOW_SIZE, limit)]
                 publications, version_rows = await self.publication_context(scope, batch, session, metadata)
                 for source in batch:
                     pub=publications[source['surveyVersionId']]
@@ -431,6 +449,7 @@ class QuestionStatisticsServices:
             raise ServiceError('INVALID_STATISTICS_CURSOR','分页位置与当前范围或筛选不一致',422) from exc
 
     async def raw_rows(self,scope,sources,session,version_id=None,cursor=None,limit=31,metadata=None):
+        """Read owner-source answers; aggregate grants never expose rows."""
         items=[]
         if cursor and not any(source['_id']==cursor['sourceId'] and source['accessMode']=='owner' for source in sources):
             raise ServiceError('INVALID_STATISTICS_CURSOR','分页来源不属于当前范围',422)
@@ -439,8 +458,8 @@ class QuestionStatisticsServices:
             and (not cursor or source['_id']>=cursor['sourceId'])]
         # Load only a bounded next group, not every full definition for a page.
         # CSV reuses this map inside the same transaction, never on a later read.
-        for offset in range(0, len(eligible), 32):
-            batch = eligible[offset:offset + 32]
+        for offset in range(0, len(eligible), PUBLICATION_WINDOW_SIZE):
+            batch = eligible[offset:offset + PUBLICATION_WINDOW_SIZE]
             publications, version_rows = await self.publication_context(scope, batch, session, metadata)
             for source in batch:
                 pub=publications[source['surveyVersionId']]
@@ -510,7 +529,7 @@ class QuestionStatisticsServices:
             writer.writerow(['问卷','问卷版本','题目版本','卷内题目标识','回执','提交序号','提交时间UTC','匿名','答案'])
             size=3+len(buffer.getvalue().encode('utf-8'));count=0;cursor=None;pieces=[buffer.getvalue()];metadata={}
             while True:
-                rows=await self.raw_rows(scope,sources,session,version_id,cursor,100,metadata)
+                rows=await self.raw_rows(scope,sources,session,version_id,cursor,CSV_ANSWER_PAGE_SIZE,metadata)
                 for row in rows:
                     count+=1
                     value=row['value'] if not isinstance(row['value'],list) else '；'.join(map(str,row['value']))
@@ -524,7 +543,7 @@ class QuestionStatisticsServices:
                     if count>20000 or size>8*1024*1024:
                         raise ServiceError('EXPORT_TOO_LARGE','导出最多20000条作答且不超过8MiB，请按版本缩小范围',422)
                     pieces.append(fragment)
-                if len(rows)<100: break
+                if len(rows)<CSV_ANSWER_PAGE_SIZE: break
                 last=rows[-1];cursor={'sourceId':last['_sourceId'],'acceptedSeq':last['acceptedSeq'],'instanceId':last['instanceId']}
             return '\ufeff'+''.join(pieces)
         return await self.repo.transaction(operation)

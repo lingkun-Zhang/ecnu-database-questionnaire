@@ -1,18 +1,36 @@
 from dataclasses import replace
+import os
 from types import SimpleNamespace
 from uuid import uuid4
 
 import httpx
+import pytest
 import pytest_asyncio
+from dotenv import load_dotenv
 from asgi_lifespan import LifespanManager
 
-from app.config import Settings
+from app.config import ROOT, Settings
+from mongo_settings import resolve_test_mongo_uri
+# app.main creates its default app during import and may load .env. Freeze
+# caller-supplied URI keys first, so a legacy explicit URI keeps precedence.
+_EXPLICIT_MONGO_ENV = {name: os.environ[name] for name in ("MONGO_URI", "MONGODB_URI")
+                       if name in os.environ}
 from app.main import create_app
 
 
+@pytest.fixture(scope="session")
+def mongo_uri():
+    def local_uri():
+        load_dotenv(ROOT / ".env", override=False)
+        return os.getenv("MONGO_URI", "mongodb://127.0.0.1:27117/?replicaSet=rs0")
+
+    return resolve_test_mongo_uri(_EXPLICIT_MONGO_ENV, local_uri)
+
+
 @pytest_asyncio.fixture
-async def context():
-    settings = replace(Settings.from_env(), database="survey_test_" + uuid4().hex, testing=True)
+async def context(mongo_uri):
+    settings = replace(Settings.from_env(), mongo_uri=mongo_uri,
+                       database="survey_test_" + uuid4().hex, testing=True)
     application = create_app(settings)
     async with LifespanManager(application):
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=application), base_url="http://test") as client:

@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-29",
+  "baseCommit": "9a20722bfec060657505d41b3321bf3b79ec4755",
+  "scope": "Independent rubric recheck, public continuous verifier, consistent test configuration and lifecycle snapshots",
+  "backend": {
+    "passed": 533,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 220.91,
+    "junitTestcaseElements": 536,
+    "newTestsIncluded": 31,
+    "onlyExplicitMongoUriVariable": "MONGO_URI",
+    "legacyVariableAbsentDuringFullRun": true
+  },
+  "frontend": {
+    "passed": 216,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 4660.4193,
+    "typecheckPassed": true,
+    "productionBuildPassed": true,
+    "buildSeconds": 1.5
+  },
+  "focused": {
+    "initial": {
+      "passed": 70,
+      "failed": 2,
+      "seconds": 36.74,
+      "failure": "New lifecycle fingerprint tool used asynchronous start_transaction without awaiting; no product behavior was loosened."
+    },
+    "correctedConfigAndFingerprint": {
+      "passed": 10,
+      "seconds": 2.8
+    },
+    "legacyOnlyApiAndDatabase": {
+      "passed": 6,
+      "seconds": 4.89,
+      "onlyExplicitMongoUriVariable": "MONGODB_URI",
+      "canonicalVariableAbsent": true
+    },
+    "importOrderRegression": "A fresh subprocess simulates dotenv injecting MONGO_URI during app import; the original explicit legacy test URI remains selected."
+  },
+  "continuousHttp": {
+    "passed": true,
+    "requests": 67,
+    "databaseCleanedWithExactOwnership": true,
+    "ownHttpServerStoppedNormally": true,
+    "newInstallOrShippedStartStopClaimed": false,
+    "newBrowserClicksClaimed": false
+  },
+  "statisticsMaintenance": {
+    "valuesChanged": false,
+    "publicationWindow": 32,
+    "metadataBatch": 100,
+    "sourceInsertBatch": 100,
+    "csvPage": 100,
+    "changedBusinessBehavior": false,
+    "queryChanges": false
+  },
+  "testedSourceSha256": {
+    "backend/app/question_statistics.py": "dd23ae1832d4409f07c2edfa5a3b03521ae9397475f923013e4dc3a1b339f665",
+    "tests/conftest.py": "0ebad27b517a9cd85a313775003456f06ac88e8a32cb354b0ad392750472f585",
+    "tests/test_database.py": "d525e306dfc05d3fc3df258507d0c8646907078deea9362e6d89018ec449f7d3",
+    "tests/mongo_settings.py": "854a0d3ec152e543e3537eedd00925d54bf1a0698e9471a1591ff13abfd2b518",
+    "tests/test_mongo_settings.py": "86a31e94f9be474f3c6277d89e592511ff6bbc26ec80b036b89fad1142dae374",
+    "tests/support/lifecycle_snapshot.py": "6986fa71eb84904477b38813557833063ca913a90f7c4a4c175b0c1e046d8f8e",
+    "tests/test_lifecycle_snapshot.py": "44a22fe0b68644d6a9ed5057105ec80a5fa837f58222181509b4edf0364ac398",
+    "scripts/phase2_delivery_check.py": "5e693a40bbe3824d2bf40542e84f615bfd26006f2cf43cea0018ab6f3e49f4e6",
+    "tests/test_phase2_delivery_check.py": "1cf2c42c869af32a139f39cb7086b88d6a3707cc6331202b41daddd4dd375059"
+  },
+  "counting": "Focused, legacy and continuous steps are not added to the full backend count. Subtests and browser checkpoints are not separate pytest cases.",
+  "privacy": "Only known local path text and synthetic credential URI labels are masked in public logs; original private logs retained.",
+  "courseSubmission": false
+}

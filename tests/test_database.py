@@ -1,10 +1,10 @@
 """Real MongoDB component tests. Each test owns a disposable survey_test_ database.
 
 Run with PYTHONPATH=backend and the project's virtualenv. MongoDB must be a
-replica set; the default URI is the isolated local rs0 on port 27117.
+replica set. API and component fixtures share one session URI: explicit
+MONGO_URI, then legacy MONGODB_URI, then the installed local configuration.
 """
 
-import os
 from copy import deepcopy
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -76,9 +76,9 @@ def fixture_documents():
 
 
 @pytest_asyncio.fixture
-async def component_db():
+async def component_db(mongo_uri):
     client = AsyncMongoClient(
-        os.getenv("MONGODB_URI", "mongodb://127.0.0.1:27117/?replicaSet=rs0"),
+        mongo_uri,
         serverSelectionTimeoutMS=5000,
     )
     name = "survey_test_components_" + uuid4().hex

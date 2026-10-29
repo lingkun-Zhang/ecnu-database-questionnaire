@@ -1,0 +1,684 @@
+{
+  "mode": "owned real TCP HTTP API workflow",
+  "startedAt": "2026-10-29T11:21:29.885891+00:00",
+  "passed": true,
+  "steps": [
+    {
+      "number": 1,
+      "actor": "unauthenticated",
+      "method": "GET",
+      "route": "/health",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 2,
+      "actor": "unauthenticated",
+      "method": "POST",
+      "route": "/auth/register",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 3,
+      "actor": "unauthenticated",
+      "method": "POST",
+      "route": "/auth/register",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 4,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 5,
+      "actor": "author",
+      "method": "POST",
+      "route": "/question-banks",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 6,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/question-banks/{id}/questions/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 7,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/questions/{id}/shares",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 8,
+      "actor": "author",
+      "method": "POST",
+      "route": "/surveys",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 9,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 10,
+      "actor": "author",
+      "method": "POST",
+      "route": "/surveys/{id}/publish",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 11,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 12,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/surveys",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 13,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 14,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/surveys/{id}/publish",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 15,
+      "actor": "recipient",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 16,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/impact",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 17,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/versions",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 18,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 19,
+      "actor": "author",
+      "method": "GET",
+      "route": "/question-banks/{id}/questions",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 20,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/question-banks/{id}/questions/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 21,
+      "actor": "author",
+      "method": "POST",
+      "route": "/surveys",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 22,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 23,
+      "actor": "author",
+      "method": "POST",
+      "route": "/surveys/{id}/publish",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 24,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 25,
+      "actor": "author",
+      "method": "PUT",
+      "route": "/questions/{id}/shares",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 26,
+      "actor": "recipient",
+      "method": "GET",
+      "route": "/questions/{id}",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "expectedCode": "NOT_FOUND"
+    },
+    {
+      "number": 27,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/surveys",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 28,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "expectedCode": "NOT_FOUND"
+    },
+    {
+      "number": 29,
+      "actor": "recipient",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 30,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "expectedCode": "NOT_FOUND"
+    },
+    {
+      "number": 31,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/draft",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 32,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/surveys/{id}/publish",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 33,
+      "actor": "recipient",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 34,
+      "actor": "author",
+      "method": "POST",
+      "route": "/survey/{id}/start",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 35,
+      "actor": "author",
+      "method": "POST",
+      "route": "/survey/{id}/submit",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 36,
+      "actor": "author",
+      "method": "POST",
+      "route": "/survey/{id}/start",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 37,
+      "actor": "author",
+      "method": "POST",
+      "route": "/survey/{id}/submit",
+      "expectedStatus": 422,
+      "status": 422,
+      "passed": true
+    },
+    {
+      "number": 38,
+      "actor": "author",
+      "method": "POST",
+      "route": "/survey/{id}/submit",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 39,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/survey/{id}/start",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 40,
+      "actor": "recipient",
+      "method": "POST",
+      "route": "/survey/{id}/submit",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 41,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/statistics/scopes",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 42,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 43,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/question-statistics-grants/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 44,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 45,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/statistics/scopes",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 46,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 47,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/sources",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 48,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/answers",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 49,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/export",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 50,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}/stats",
+      "expectedStatus": 404,
+      "status": 404,
+      "passed": true,
+      "expectedCode": "NOT_FOUND"
+    },
+    {
+      "number": 51,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/question-statistics-grants/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 52,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 409,
+      "status": 409,
+      "passed": true,
+      "expectedCode": "STATISTICS_SCOPE_INVALIDATED"
+    },
+    {
+      "number": 53,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/sources",
+      "expectedStatus": 409,
+      "status": 409,
+      "passed": true,
+      "expectedCode": "STATISTICS_SCOPE_INVALIDATED"
+    },
+    {
+      "number": 54,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/answers",
+      "expectedStatus": 409,
+      "status": 409,
+      "passed": true,
+      "expectedCode": "STATISTICS_SCOPE_INVALIDATED"
+    },
+    {
+      "number": 55,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics/export",
+      "expectedStatus": 409,
+      "status": 409,
+      "passed": true,
+      "expectedCode": "STATISTICS_SCOPE_INVALIDATED"
+    },
+    {
+      "number": 56,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/statistics/scopes",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 57,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 58,
+      "actor": "recipient",
+      "method": "PUT",
+      "route": "/surveys/{id}/question-statistics-grants/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 59,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 409,
+      "status": 409,
+      "passed": true,
+      "expectedCode": "STATISTICS_SCOPE_INVALIDATED"
+    },
+    {
+      "number": 60,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/statistics/scopes",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 61,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/statistics",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 62,
+      "actor": "author",
+      "method": "POST",
+      "route": "/questions/{id}/restore",
+      "expectedStatus": 201,
+      "status": 201,
+      "passed": true
+    },
+    {
+      "number": 63,
+      "actor": "author",
+      "method": "GET",
+      "route": "/questions/{id}/versions/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 64,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 65,
+      "actor": "author",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 66,
+      "actor": "recipient",
+      "method": "GET",
+      "route": "/surveys/{id}",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    },
+    {
+      "number": 67,
+      "actor": "author",
+      "method": "GET",
+      "route": "/question-banks/{id}/questions",
+      "expectedStatus": 200,
+      "status": 200,
+      "passed": true
+    }
+  ],
+  "requestCount": 67,
+  "backendSourceSha256": {
+    "backend/app/__init__.py": "ff92ff63e4c40be83303fedc5b3aa41a27eb28576e951ab2e3846bb311742a5c",
+    "backend/app/config.py": "1d204563a8e3dec87d1df6d489681852932b04f0b6a82dd6445b572cff0bbae6",
+    "backend/app/database.py": "98fb592c30f17047b5291fe756eab7172bf36a89fcf4b75bfaaababd309a8596",
+    "backend/app/design_checks.py": "106ad649dff63915fe364ac3fc971d6792ee9e9ea9ffb14c2a11364fda1996e9",
+    "backend/app/domain.py": "13813d06e06b54bac4d3ed527eeb8d73d40de7d916a30340f32eee49e3a0ee87",
+    "backend/app/errors.py": "7b7ded2db663080211c3d640f65ce3c661009f2b15dc13df46e96a7869ad3653",
+    "backend/app/main.py": "586abf5c0d09da005d83126256d19bfa2dab1369e04f8c85a5a05633a42eebec",
+    "backend/app/question_banks.py": "869ac7508fde261adbfb6a6d039e880ade1b6f5e7fdc4f59719501072ec70bb3",
+    "backend/app/question_content.py": "34e5d43d79ab95716e50c74f88cea4bdc8f2156d9222fc08115f4959dc76af62",
+    "backend/app/question_sharing.py": "eea9dbc6d73eee86f02057458422b33f07c4b8b78c6f3577440811ff7b31f04e",
+    "backend/app/question_statistics.py": "dd23ae1832d4409f07c2edfa5a3b03521ae9397475f923013e4dc3a1b339f665",
+    "backend/app/question_statistics_api.py": "52b94cf09ec6ecd6979573c7875a73a8a647e6c2186f1e5735985321371fa129",
+    "backend/app/question_usage.py": "d88d2bfcdbb79ba81f268eeb69b08737781f5fccfd3d39165bb80963399fdd7e",
+    "backend/app/questions.py": "318d6f00998a492c8afc653402b27b4c27a21943083ee7c9e64b142fb9bbcb6f",
+    "backend/app/repositories.py": "ea24aeb297da2fedd66b639b5d73b6676c372b17e21655b7e6327dd4e4aa3279",
+    "backend/app/security.py": "76bb019cadb32e0b07bf2f298542831ebf8563ee71c926d8db03353b539b8ead",
+    "backend/app/services.py": "cf695b4e0afc448e4f9401d83b653ab1f0ec650d470d802ac72ff6eaf337714b",
+    "backend/app/statistics.py": "6f504dc79fbf1095d9ed9e3bb176187c40f3962889aeefe527c78120a34bfc84"
+  },
+  "runnerSha256": "5e693a40bbe3824d2bf40542e84f615bfd26006f2cf43cea0018ab6f3e49f4e6",
+  "temporarySyntheticDataOnly": true,
+  "installationOrShippedLifecycleTested": false,
+  "browserClicksTested": false,
+  "mongoServerStartedOrStopped": false,
+  "databaseCleanup": {
+    "ownedDatabaseAbsent": true,
+    "exactOwnershipVerified": true
+  },
+  "serverStoppedNormally": true,
+  "health": {
+    "status": "ok",
+    "database": "MongoDB",
+    "mongoVersion": "6.0.29",
+    "replicaSetRequired": true
+  },
+  "checks": {
+    "versionPinsPreserved": true,
+    "foreignImpactMetadataHidden": true,
+    "revocationDeniesNewBindingAndVersionSwitch": true,
+    "revokedSavedBindingRepublished": true,
+    "zeroRejectedByV2SubmitApi": true,
+    "acceptedResponses": 3,
+    "authorizedV1": {
+      "A": 2,
+      "sum": 3,
+      "avg": 1.5
+    },
+    "authorizedV2": {
+      "A": 1,
+      "sum": 3,
+      "avg": 3
+    },
+    "ownDetailAndCsvValues": [
+      0,
+      3
+    ],
+    "foreignRawAccessDenied": true,
+    "grantRevocationInvalidatesAllFourReadEndpoints": true,
+    "regrantDoesNotReviveOldScope": true,
+    "restoreAppendsV3WithoutChangingV1OrPins": true
+  },
+  "sourceFilesUnchangedDuringRun": true,
+  "finishedAt": "2026-10-29T11:21:32.662470+00:00"
+}

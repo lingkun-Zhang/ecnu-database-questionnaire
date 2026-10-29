@@ -2,7 +2,7 @@
 
 华东师范大学数据库课程项目。用户可以创建带条件跳转的问卷、发布版本、登录填写，再查看统计与导出原始回答。业务数据全部保存在 MongoDB。第二阶段已接入个人题目管理、内容版本与恢复、使用查询，以及问卷固定选版、换版和解绑界面；已接入指定账号的共享管理与共享选题界面；题库已接入私有库管理、固定选版、收录、换版与移除界面；跨问卷单题统计已接入固定范围、按版本分组、总体分布、本人明细和CSV；他人问卷由其所有者逐题授权汇总。保存与恢复前已接入本人/他人引用影响检查，并完成两版真实代码的隔离升级、回退边界及备份恢复演练；第二阶段报告、演示步骤与逐项验收材料已整理，入口见下表。当前整体进展见[第二阶段进度](docs/phase2-progress.md)。
 
-仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`；本地第二阶段工作尚未推送。
+仓库地址：[lingkun-Zhang/ecnu-database-questionnaire](https://github.com/lingkun-Zhang/ecnu-database-questionnaire)。第一阶段基线为 `99b66d1e637fa3b4ecb13719c0230ecb7e958701`，保留在 `main`。第二阶段使用 [`phase2-question-versions`](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions) 分支，查看本阶段代码时请选择该分支。
 
 ## 先看哪些文件
 

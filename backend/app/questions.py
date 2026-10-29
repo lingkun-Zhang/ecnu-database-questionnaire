@@ -9,18 +9,21 @@ from uuid import uuid4
 from pymongo.errors import PyMongoError
 
 from .question_content import canonical_question_content, validate_question_content
-from .question_sharing import readable_question
+from .question_sharing import readable_question, with_current_version_summaries
 from .question_usage import (DRAFT_USAGE_PROJECTION, draft_usage_filter,
                              matching_instances, published_usage_pipeline,
-                             question_impact_pipeline, question_impact_view)
+                             read_question_impact, question_impact_view)
 from .repositories import Repository
 from .security import digest, utcnow
 from .services import ServiceError
 
 
 def question_view(document):
-    return {"id": document["_id"], **{key: document[key] for key in
-            ("currentVersionId", "lastVersionNo", "createdAt", "updatedAt")}}
+    result = {"id": document["_id"], **{key: document[key] for key in
+              ("currentVersionId", "lastVersionNo", "createdAt", "updatedAt")}}
+    if "currentVersion" in document:
+        result["currentVersion"] = document["currentVersion"]
+    return result
 
 
 def question_version_view(document):
@@ -56,6 +59,15 @@ class QuestionServices:
         if not document:
             raise ServiceError("QUESTION_VERSION_NOT_FOUND", "题目版本不存在", 404)
         return document
+
+    async def list_questions(self, user, limit=30, offset=0, include_current_version=False):
+        async def read(session=None):
+            rows = await self.db.questions.find({"ownerId": user["_id"]}, session=session).sort(
+                [("createdAt", -1), ("_id", -1)]).skip(offset).limit(limit).to_list(length=limit)
+            if include_current_version:
+                rows = await with_current_version_summaries(self.db, rows, session)
+            return {"items": [question_view(row) for row in rows], "offset": offset, "limit": limit}
+        return await self.repo.transaction(read) if include_current_version else await read()
 
     async def usages(self, user, question_id, scope, version_id=None, limit=30, after_id=None):
         await self.readable(question_id, user)
@@ -94,11 +106,9 @@ class QuestionServices:
             if version_id is not None:
                 await self.version(question_id, version_id, session)
             checked_at = self.clock()
-            cursor = await self.db.surveys.aggregate(
-                question_impact_pipeline(user["_id"], question_id, version_id, offset, limit),
-                session=session, maxTimeMS=10000)
-            rows = await cursor.to_list(length=1)
-            return question_impact_view(rows[0] if rows else {}, question_id, version_id, checked_at,
+            data = await read_question_impact(
+                self.db, user["_id"], question_id, version_id, offset, limit, session)
+            return question_impact_view(data, question_id, version_id, checked_at,
                                         self.settings.participant_secret, offset, limit)
         return await self.repo.transaction(operation)
 

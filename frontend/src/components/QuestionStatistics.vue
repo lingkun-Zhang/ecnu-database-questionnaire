@@ -8,7 +8,7 @@ interface Scope {id:string;questionId:string;questionVersionId:string|null;respo
 interface Overview {surveyCount:number;publicationCount:number;instanceCount:number;responseCount:number;answeredResponseCount:number;anonymousResponses:number;namedResponses:number}
 interface VersionRow {questionVersionId:string;versionNo:number;kind:'single'|'multi'|'text'|'number';title:string;config:{options?:{id:string;label:string}[]};R:number;V:number;A:number;U:number;S:number;responseCount:number;answeredResponseCount:number;anonymousResponses:number;namedResponses:number;surveyCount:number;publicationCount:number;instanceCount:number;sum?:number;avg?:number|null;min?:number|null;max?:number|null;histogram?:{from:number;to:number;includeTo:boolean;count:number}[];options?:{id:string;label:string;count:number;percentage:number}[];totalSelections?:number}
 interface SourceRow {id:string;surveyTitle:string;surveyVersionNo:number;asOfSeq:number;instanceCount:number;accessMode:'owner'|'aggregate';canReadAnswers:boolean}
-interface AnswerRow {surveyTitle:string;surveyVersionNo:number;instanceId:string;questionVersionId:string;questionVersionNo:number;responseId:string;acceptedSeq:number;acceptedAt:string;anonymous:boolean;kind:string;value:string|number|string[]}
+interface AnswerRow {surveyTitle:string;surveyVersionNo:number;instanceId:string;questionVersionId:string;questionVersionNo:number;responseId:string;acceptedSeq:number;acceptedAt:string;anonymous:boolean;kind:string;value:string|number|string[];displayValue?:string|string[]}
 interface Filters {questionVersionId:string|null;respondentType:Scope['respondentType']}
 interface PendingScope {key:string;body:Filters;startedAt:number;uncertain:boolean;result?:Scope}
 interface RequestScope {token:string;generation:number;questionId:string}
@@ -123,6 +123,8 @@ async function exportCSV(){
   await run(async s=>{const params:Record<string,string>={};if(displayedAnswerVersion.value)params.questionVersionId=displayedAnswerVersion.value;await download(`${path()}/export?${query(params)}`,'题目跨问卷统计明细.csv',()=>current(s));check(s)})
 }
 function answerText(row:AnswerRow){
+  if(row.kind==='single'&&typeof row.displayValue==='string')return row.displayValue
+  if(row.kind==='multi'&&Array.isArray(row.displayValue)&&row.displayValue.every(value=>typeof value==='string'))return row.displayValue.join('；')
   const options=knownVersions.value.find(v=>v.questionVersionId===row.questionVersionId)?.config.options
   const label=(value:string)=>options?.find(o=>o.id===value)?.label||value
   return Array.isArray(row.value)?row.value.map(label).join('；'):row.kind==='single'?label(String(row.value)):String(row.value)

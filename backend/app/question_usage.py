@@ -113,6 +113,66 @@ def question_impact_pipeline(owner_id, question_id, version_id=None, offset=0, l
     ]
 
 
+
+async def impact_candidate_batches(db, question_id, version_id, session, batch_size=100):
+    """Merge sorted reference IDs without a global array or transaction union.
+
+    Publications can outlive a malformed/orphan survey; the later real-survey
+    aggregate, not this candidate stream, decides which references count.
+    """
+    drafts = db.surveys.find(source_filter("draftQuestionSources", question_id, version_id),
+        {"_id": 1}, session=session).sort("_id", 1).batch_size(batch_size).max_time_ms(10000)
+    publications = await db.survey_versions.aggregate([
+        {"$match": source_filter("questionSources", question_id, version_id)},
+        {"$group": {"_id": "$surveyId"}}, {"$sort": {"_id": 1}}],
+        session=session, batchSize=batch_size, maxTimeMS=10000)
+    try:
+        draft = await anext(drafts, None)
+        publication = await anext(publications, None)
+        batch = []
+        while draft is not None or publication is not None:
+            identifier = min(row["_id"] for row in (draft, publication) if row is not None)
+            batch.append(identifier)
+            if draft is not None and draft["_id"] == identifier:
+                draft = await anext(drafts, None)
+            if publication is not None and publication["_id"] == identifier:
+                publication = await anext(publications, None)
+            if len(batch) == batch_size:
+                yield batch
+                batch = []
+        if batch:
+            yield batch
+    finally:
+        await drafts.close()
+        await publications.close()
+
+
+async def read_question_impact(db, owner_id, question_id, version_id, offset, limit, session):
+    """Keep exact totals and global ID paging while visiting only candidates."""
+    summaries, items, position = {}, [], 0
+    async for identifiers in impact_candidate_batches(db, question_id, version_id, session):
+        # Each ID list is bounded. A completed page needs no further titles,
+        # but all candidates still contribute to the accurate summary.
+        collect_items = len(items) <= limit
+        pipeline = [{"$match": {"_id": {"$in": identifiers}}}, *question_impact_pipeline(
+            owner_id, question_id, version_id, 0, len(identifiers) if collect_items else 0)]
+        rows = await (await db.surveys.aggregate(pipeline, session=session, maxTimeMS=10000)).to_list(length=1)
+        data = rows[0] if rows else {}
+        count = 0
+        for row in data.get("summary", []):
+            total = summaries.setdefault(row["_id"], {"_id": row["_id"],
+                **dict.fromkeys(IMPACT_SUMMARY_FIELDS, 0)})
+            for field in IMPACT_SUMMARY_FIELDS:
+                total[field] += row[field]
+            count += row["surveyCount"]
+        if collect_items:
+            for index, row in enumerate(data.get("items", [])):
+                if position + index >= offset and len(items) <= limit:
+                    items.append(row)
+        position += count
+    return {"summary": list(summaries.values()), "items": items}
+
+
 def question_impact_view(data, question_id, version_id, checked_at, secret, offset, limit):
     # Reuse the structured HMAC primitive with a separate purpose namespace.
     # The alias is metadata, never an authorization or survey navigation token.

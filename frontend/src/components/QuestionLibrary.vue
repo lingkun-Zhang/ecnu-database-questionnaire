@@ -9,7 +9,9 @@ import type { Answer, FieldError, Kind, Question, QuestionContent, QuestionUsage
 
 const props=withDefaults(defineProps<{mode?:'manage'|'pick';questionId?:string;versionId?:string;destination?:'survey'|'bank'}>(),{mode:'manage',destination:'survey'})
 const emit=defineEmits<{choose:[QuestionVersion];'busy-change':[boolean];unauthorized:[];statistics:[questionId:string]}>()
-interface Entry { root:ReusableQuestion; current:QuestionVersion }
+interface CurrentVersionSummary {id:string;questionId:string;versionNo:number;content:Pick<QuestionContent,'kind'|'title'>}
+interface ListQuestion extends ReusableQuestion {currentVersion:CurrentVersionSummary}
+interface Entry { root:ReusableQuestion; current:CurrentVersionSummary }
 interface Scope { token:string; generation:number }
 interface HistoryPage { items:QuestionVersion[];offset:number;limit:number }
 interface PendingWrite { kind:'create'|'derive'|'restore';key:string;path:string;body:Record<string,unknown>;result?:QuestionVersion;uncertain:boolean }
@@ -81,13 +83,14 @@ function uniqueVersions(items:QuestionVersion[]){return [...new Map(items.map(it
 async function fetchList(offset:number,scope:Scope){
   const shared=collection.value==='shared',pageIndex=Math.floor(offset/20)
   const after=sharedCursors.value[pageIndex]
-  const path=shared?`/shared-questions?limit=20${after?`&afterId=${encodeURIComponent(after)}`:''}`:`/questions?limit=20&offset=${offset}`
-  const page=await request<{items:ReusableQuestion[];nextAfterId?:string|null}>(path);check(scope)
+  const path=shared?`/shared-questions?limit=20&includeCurrentVersion=true${after?`&afterId=${encodeURIComponent(after)}`:''}`:`/questions?limit=20&offset=${offset}&includeCurrentVersion=true`
+  const page=await request<{items:ListQuestion[];nextAfterId?:string|null}>(path);check(scope)
   if(shared){sharedCursors.value=sharedCursors.value.slice(0,pageIndex+1);if(page.nextAfterId)sharedCursors.value.push(page.nextAfterId)}
-  const items=await Promise.all(page.items.map(async root=>{
-    check(scope);const value=await request<QuestionVersion>(`${pathQuestion(root.id)}/versions/${encodeURIComponent(root.currentVersionId)}`);check(scope)
+  const items=page.items.map(root=>{
+    const value=root.currentVersion
+    if(!value||value.id!==root.currentVersionId||value.questionId!==root.id||!value.content||typeof value.content.title!=='string'||!(value.content.kind in kindNames))throw new ApiError(0,'INVALID_QUESTION_SUMMARY','题目摘要未完整读取，请刷新列表。')
     return {root,current:value}
-  }));check(scope)
+  });check(scope)
   return {items,more:shared?Boolean(page.nextAfterId):page.items.length===20&&offset+20<=100000}
 }
 async function readQuestion(id:string,preferred:string|undefined,scope:Scope){

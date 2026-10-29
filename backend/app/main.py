@@ -25,7 +25,7 @@ from pymongo.errors import PyMongoError, WriteError
 from .config import Settings, ROOT
 from .database import init_database
 from .security import decode_token, utcnow
-from .services import Services, ServiceError, public_user, survey_view, version_view, response_view
+from .services import Services, ServiceError, public_user, survey_view, version_view, version_summary_view, response_view
 from .statistics import get_stats, StatsError, RespondentType, build_response_scope
 from .questions import QuestionServices, question_view, question_version_view
 from .question_sharing import QuestionSharingServices
@@ -355,16 +355,16 @@ def create_app(settings=None):
 
     @api.get("/questions")
     async def list_questions(limit: int = Query(30, ge=1, le=100), offset: int = Query(0, ge=0, le=100000),
+                             includeCurrentVersion: bool = False,
                              user=Depends(current_user), svc=Depends(question_service)):
-        items = await svc.db.questions.find({"ownerId": user["_id"]}).sort(
-            [("createdAt", -1), ("_id", -1)]).skip(offset).limit(limit).to_list(length=limit)
-        return {"items": [question_view(item) for item in items], "offset": offset, "limit": limit}
+        return await svc.list_questions(user, limit, offset, includeCurrentVersion)
 
     @api.get("/shared-questions")
     async def shared_questions(limit: int = Query(30, ge=1, le=100),
                                afterId: str | None = Query(None, min_length=1, max_length=160),
+                               includeCurrentVersion: bool = False,
                                user=Depends(current_user), svc=Depends(question_sharing_service)):
-        result = await svc.received_questions(user, limit, afterId)
+        result = await svc.received_questions(user, limit, afterId, includeCurrentVersion)
         return {**result, "items": [question_view(item) for item in result["items"]]}
 
     @api.put("/questions/{question_id}/shares", responses={201: {"description": "First use grant created"}})
@@ -480,10 +480,12 @@ def create_app(settings=None):
 
     @api.get("/surveys/{survey_id}/versions")
     async def versions(survey_id: str, limit: int = Query(100, ge=1, le=100), offset: int = Query(0, ge=0),
-                       user=Depends(current_user), svc=Depends(service)):
+                       summary: bool = False, user=Depends(current_user), svc=Depends(service)):
         await svc.owned(survey_id, user)
-        items = await svc.db.survey_versions.find({"surveyId": survey_id}).sort("versionNo", -1).skip(offset).limit(limit).to_list(length=limit)
-        return {"items": [version_view(item) for item in items]}
+        projection = {"surveyId": 1, "versionNo": 1, "sourceDraftRevision": 1,
+                      "publishedAt": 1, "definition.title": 1} if summary else None
+        items = await svc.db.survey_versions.find({"surveyId": survey_id}, projection).sort("versionNo", -1).skip(offset).limit(limit).to_list(length=limit)
+        return {"items": [version_summary_view(item) if summary else version_view(item) for item in items]}
 
     @api.get("/surveys/{survey_id}/versions/{version_id}")
     async def version(survey_id: str, version_id: str, user=Depends(current_user), svc=Depends(service)):

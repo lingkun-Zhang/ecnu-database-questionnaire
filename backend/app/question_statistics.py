@@ -154,7 +154,10 @@ class QuestionStatisticsServices:
                 'surveyCount': 0, 'instanceCount': 0, 'hasForeignSources': False, 'schemaVersion': 1}
             seen = set()
             children = []
-            for pub in pubs:
+            version_rows = {}
+            for index, pub in enumerate(pubs):
+                if index % 32 == 0:
+                    await self.load_question_versions(scope, pubs[index:index + 32], session, version_rows)
                 own = pub['survey']['ownerId'] == user['_id']
                 grant = by_survey.get(pub['surveyId'])
                 if not own and (not grant or grant['ownerId'] != pub['survey']['ownerId']):
@@ -163,7 +166,7 @@ class QuestionStatisticsServices:
                             and (not version_id or x['questionVersionId'] == version_id)]
                 if not mappings:
                     continue
-                await self.publication_versions(scope, pub, session)
+                await self.publication_versions(scope, pub, session, version_rows)
                 child = {'_id': str(uuid4()), 'scopeId': scope_id, 'surveyId': pub['surveyId'],
                     'surveyVersionId': pub['_id'], 'asOfSeq': pub['survey']['submitSequence'],
                     'accessMode': 'owner' if own else 'aggregate', 'expiresAt': scope['expiresAt'], 'schemaVersion': 1}
@@ -183,16 +186,63 @@ class QuestionStatisticsServices:
 
         return await self.write(operation, recover, 'STATISTICS_SCOPE_WRITE_OUTCOME_UNKNOWN')
 
-    async def publication_versions(self, scope, pub, session):
+    async def indexed_rows(self, collection, ids, session, projection=None, **conditions):
+        # Bounded $in batches use the existing identity indexes. Nothing is
+        # retained on the service or across transaction callback retries.
+        rows = {}
+        ordered = sorted(set(ids))
+        for offset in range(0, len(ordered), 100):
+            query = {'_id': {'$in': ordered[offset:offset + 100]}, **conditions}
+            values = await collection.find(query, projection, session=session).to_list(length=None)
+            rows.update((row['_id'], row) for row in values)
+        return rows
+
+    async def load_question_versions(self, scope, pubs, session, rows=None):
+        rows = {} if rows is None else rows
+        ids = {source['questionVersionId'] for pub in pubs for source in pub.get('questionSources', [])
+            if source['questionId'] == scope['questionId']
+            and (not scope['questionVersionId'] or source['questionVersionId'] == scope['questionVersionId'])}
+        # Fixed content can also be large. Reuse overlap within the current
+        # bounded publication batch, without retaining every range version.
+        for version_id in list(rows):
+            if version_id not in ids:
+                del rows[version_id]
+        rows.update(await self.indexed_rows(self.db.question_versions, ids - rows.keys(), session,
+            questionId=scope['questionId']))
+        return rows
+
+    async def publication_context(self, scope, sources, session, cache):
+        pubs, versions = cache.setdefault('publications', {}), cache.setdefault('versions', {})
+        ids = {source['surveyVersionId'] for source in sources}
+        if len(ids) > 32:
+            raise ValueError('Publication metadata must be read in batches of at most 32')
+        # Complete definitions can be large. Keep only the current batch; the
+        # CSV cursor may revisit it, but cannot accumulate every old snapshot.
+        for version_id in list(pubs):
+            if version_id not in ids:
+                del pubs[version_id]
+        pubs.update(await self.indexed_rows(self.db.survey_versions, ids - pubs.keys(), session))
+        selected = []
+        for source in sources:
+            pub = pubs.get(source['surveyVersionId'])
+            if not pub or pub['surveyId'] != source['surveyId']:
+                raise ServiceError('DATA_INVARIANT', '固定发布快照缺失或所属问卷不一致', 500)
+            selected.append(pub)
+        await self.load_question_versions(scope, selected, session, versions)
+        return pubs, versions
+
+    async def publication_versions(self, scope, pub, session, version_rows=None):
         if not pub:
             raise ServiceError('DATA_INVARIANT', '固定发布快照缺失', 500)
+        if version_rows is None:
+            version_rows = await self.load_question_versions(scope, [pub], session)
         questions = {x['id']: x for x in pub['definition']['questions']}
         groups, versions, seen = defaultdict(list), {}, set()
         for source in pub.get('questionSources', []):
             if source['questionId'] != scope['questionId'] or scope['questionVersionId'] and source['questionVersionId'] != scope['questionVersionId']:
                 continue
             qvid, iid = source['questionVersionId'], source['instanceId']
-            row = await self.db.question_versions.find_one({'_id': qvid, 'questionId': scope['questionId']}, session=session)
+            row = version_rows.get(qvid)
             local = questions.get(iid)
             if not row or not local or iid in seen or canonical_question_content({k: local[k] for k in ('kind','title','config')}) != row['content']:
                 raise ServiceError('DATA_INVARIANT', '发布题目来源与内容不一致', 500)
@@ -210,14 +260,19 @@ class QuestionStatisticsServices:
         sources = await self.db.question_stat_sources.find({'scopeId': scope_id}, session=session).sort('_id', 1).to_list(length=None)
         if len(sources) != scope['publicationCount']:
             raise ServiceError('STATISTICS_SCOPE_INVALIDATED', '统计范围已失效，请刷新')
+        surveys = await self.indexed_rows(self.db.surveys, (source['surveyId'] for source in sources),
+            session, {'ownerId': 1})
+        grants = await self.indexed_rows(self.db.question_stat_grants,
+            (source['grantId'] for source in sources if source['accessMode'] == 'aggregate'), session,
+            {'surveyId': 1, 'ownerId': 1, 'revision': 1}, questionId=qid,
+            recipientId=user['_id'], active=True, permission='aggregate')
         for source in sources:
-            survey = await self.db.surveys.find_one({'_id': source['surveyId']}, {'ownerId': 1}, session=session)
-            valid = survey and survey['ownerId'] == user['_id'] if source['accessMode'] == 'owner' else False
+            survey = surveys.get(source['surveyId'])
+            valid = bool(survey and survey['ownerId'] == user['_id']) if source['accessMode'] == 'owner' else False
             if source['accessMode'] == 'aggregate' and survey:
-                valid = await self.db.question_stat_grants.find_one({'_id': source['grantId'],
-                    'surveyId': source['surveyId'], 'questionId': qid, 'ownerId': survey['ownerId'],
-                    'recipientId': user['_id'], 'revision': source['grantRevision'], 'active': True,
-                    'permission': 'aggregate'}, {'_id': 1}, session=session)
+                grant = grants.get(source['grantId'])
+                valid = bool(grant and grant['surveyId'] == source['surveyId']
+                    and grant['ownerId'] == survey['ownerId'] and grant['revision'] == source['grantRevision'])
             if not valid:
                 raise ServiceError('STATISTICS_SCOPE_INVALIDATED', '统计授权或问卷归属已变化，请重新获取范围')
         return scope, sources
@@ -236,59 +291,61 @@ class QuestionStatisticsServices:
             overview = dict(surveyCount=scope['surveyCount'], publicationCount=len(sources),
                 instanceCount=scope['instanceCount'], responseCount=0, answeredResponseCount=0, anonymousResponses=0, namedResponses=0)
             contexts = []
-            for source in sources:
-                pub = await self.db.survey_versions.find_one({'_id': source['surveyVersionId'], 'surveyId': source['surveyId']}, session=session)
-                if not pub:
-                    raise ServiceError('DATA_INVARIANT', '固定发布快照缺失', 500)
-                groups, versions = await self.publication_versions(scope, pub, session)
-                contexts.append((source, groups))
-                all_ids = [iid for ids in groups.values() for iid in ids]
-                facets = {'overview': [{'$group': {'_id': None, 'responseCount': {'$sum': 1},
-                    'answeredResponseCount': {'$sum': {'$cond': [{'$gt': [{'$size': {'$setIntersection': ['$answers.questionId', {'$literal': all_ids}]}}, 0]}, 1, 0]}},
-                    'anonymousResponses': {'$sum': {'$cond': ['$anonymous', 1, 0]}},
-                    'namedResponses': {'$sum': {'$cond': ['$anonymous', 0, 1]}}}}]}
-                for index, (vid, ids) in enumerate(groups.items()):
-                    literal = {'$literal': ids}
-                    reached = {'$setIntersection': [literal, '$path']}
-                    answered = {'$setIntersection': [literal, '$answers.questionId']}
-                    facets[f'c{index}'] = [{'$group': {'_id': None,
-                        'R': {'$sum': len(ids)}, 'V': {'$sum': {'$size': reached}}, 'A': {'$sum': {'$size': answered}},
-                        'U': {'$sum': {'$size': {'$setDifference': [reached, '$answers.questionId']}}},
-                        'S': {'$sum': {'$size': {'$setDifference': [literal, '$path']}}},
-                        'responseCount': {'$sum': 1}, 'answeredResponseCount': {'$sum': {'$cond': [{'$gt': [{'$size': answered}, 0]}, 1, 0]}},
+            metadata = {}
+            for offset in range(0, len(sources), 32):
+                batch = sources[offset:offset + 32]
+                publications, version_rows = await self.publication_context(scope, batch, session, metadata)
+                for source in batch:
+                    pub = publications[source['surveyVersionId']]
+                    groups, versions = await self.publication_versions(scope, pub, session, version_rows)
+                    contexts.append((source, groups))
+                    all_ids = [iid for ids in groups.values() for iid in ids]
+                    facets = {'overview': [{'$group': {'_id': None, 'responseCount': {'$sum': 1},
+                        'answeredResponseCount': {'$sum': {'$cond': [{'$gt': [{'$size': {'$setIntersection': ['$answers.questionId', {'$literal': all_ids}]}}, 0]}, 1, 0]}},
                         'anonymousResponses': {'$sum': {'$cond': ['$anonymous', 1, 0]}},
-                        'namedResponses': {'$sum': {'$cond': ['$anonymous', 0, 1]}}}}]
-                    answer_rows = [{'$unwind': '$answers'}, {'$match': {'answers.questionId': {'$in': ids}}}]
-                    kind = versions[vid]['content']['kind']
-                    if kind == 'number':
-                        facets[f'v{index}'] = answer_rows + [{'$match': {'answers.kind': 'number'}}, {'$group': {'_id': None,
-                            'count': {'$sum': 1}, 'sum': {'$sum': '$answers.value'}, 'min': {'$min': '$answers.value'}, 'max': {'$max': '$answers.value'}}}]
-                    elif kind in ('single', 'multi'):
-                        facets[f'v{index}'] = answer_rows + [{'$project': {'values': {'$cond': [
-                            {'$eq': ['$answers.kind', 'multi']}, '$answers.value', ['$answers.value']]}}},
-                            {'$unwind': '$values'}, {'$group': {'_id': '$values', 'count': {'$sum': 1}}}]
-                    if vid not in accum:
-                        content = versions[vid]['content']
-                        accum[vid] = {'questionVersionId': vid, 'versionNo': versions[vid]['versionNo'], **deepcopy(content),
-                            **{name: 0 for name in ('R','V','A','U','S','responseCount','answeredResponseCount','anonymousResponses','namedResponses','publicationCount','instanceCount')},
-                            '_surveys': set(), '_options': defaultdict(int), '_numericCount': 0, 'sum': 0, 'min': None, 'max': None}
-                    accum[vid]['_surveys'].add(source['surveyId']); accum[vid]['publicationCount'] += 1
-                    accum[vid]['instanceCount'] += len(ids)
-                rows = await (await self.db.responses.aggregate([{'$match': self.response_query(scope, source)}, {'$facet': facets}], session=session, maxTimeMS=30000)).to_list(length=1)
-                data = rows[0]
-                for key, value in next(iter(data['overview']), {}).items():
-                    if key != '_id': overview[key] += value
-                for index, vid in enumerate(groups):
-                    row = accum[vid]
-                    for key, value in next(iter(data[f'c{index}']), {}).items():
-                        if key != '_id': row[key] += value
-                    values = data.get(f'v{index}', [])
-                    if row['kind'] == 'number' and values:
-                        value = values[0]; row['sum'] += value['sum']; row['_numericCount'] += value['count']
-                        row['min'] = value['min'] if row['min'] is None else min(row['min'], value['min'])
-                        row['max'] = value['max'] if row['max'] is None else max(row['max'], value['max'])
-                    elif row['kind'] in ('single', 'multi'):
-                        for value in values: row['_options'][value['_id']] += value['count']
+                        'namedResponses': {'$sum': {'$cond': ['$anonymous', 0, 1]}}}}]}
+                    for index, (vid, ids) in enumerate(groups.items()):
+                        literal = {'$literal': ids}
+                        reached = {'$setIntersection': [literal, '$path']}
+                        answered = {'$setIntersection': [literal, '$answers.questionId']}
+                        facets[f'c{index}'] = [{'$group': {'_id': None,
+                            'R': {'$sum': len(ids)}, 'V': {'$sum': {'$size': reached}}, 'A': {'$sum': {'$size': answered}},
+                            'U': {'$sum': {'$size': {'$setDifference': [reached, '$answers.questionId']}}},
+                            'S': {'$sum': {'$size': {'$setDifference': [literal, '$path']}}},
+                            'responseCount': {'$sum': 1}, 'answeredResponseCount': {'$sum': {'$cond': [{'$gt': [{'$size': answered}, 0]}, 1, 0]}},
+                            'anonymousResponses': {'$sum': {'$cond': ['$anonymous', 1, 0]}},
+                            'namedResponses': {'$sum': {'$cond': ['$anonymous', 0, 1]}}}}]
+                        answer_rows = [{'$unwind': '$answers'}, {'$match': {'answers.questionId': {'$in': ids}}}]
+                        kind = versions[vid]['content']['kind']
+                        if kind == 'number':
+                            facets[f'v{index}'] = answer_rows + [{'$match': {'answers.kind': 'number'}}, {'$group': {'_id': None,
+                                'count': {'$sum': 1}, 'sum': {'$sum': '$answers.value'}, 'min': {'$min': '$answers.value'}, 'max': {'$max': '$answers.value'}}}]
+                        elif kind in ('single', 'multi'):
+                            facets[f'v{index}'] = answer_rows + [{'$project': {'values': {'$cond': [
+                                {'$eq': ['$answers.kind', 'multi']}, '$answers.value', ['$answers.value']]}}},
+                                {'$unwind': '$values'}, {'$group': {'_id': '$values', 'count': {'$sum': 1}}}]
+                        if vid not in accum:
+                            content = versions[vid]['content']
+                            accum[vid] = {'questionVersionId': vid, 'versionNo': versions[vid]['versionNo'], **deepcopy(content),
+                                **{name: 0 for name in ('R','V','A','U','S','responseCount','answeredResponseCount','anonymousResponses','namedResponses','publicationCount','instanceCount')},
+                                '_surveys': set(), '_options': defaultdict(int), '_numericCount': 0, 'sum': 0, 'min': None, 'max': None}
+                        accum[vid]['_surveys'].add(source['surveyId']); accum[vid]['publicationCount'] += 1
+                        accum[vid]['instanceCount'] += len(ids)
+                    rows = await (await self.db.responses.aggregate([{'$match': self.response_query(scope, source)}, {'$facet': facets}], session=session, maxTimeMS=30000)).to_list(length=1)
+                    data = rows[0]
+                    for key, value in next(iter(data['overview']), {}).items():
+                        if key != '_id': overview[key] += value
+                    for index, vid in enumerate(groups):
+                        row = accum[vid]
+                        for key, value in next(iter(data[f'c{index}']), {}).items():
+                            if key != '_id': row[key] += value
+                        values = data.get(f'v{index}', [])
+                        if row['kind'] == 'number' and values:
+                            value = values[0]; row['sum'] += value['sum']; row['_numericCount'] += value['count']
+                            row['min'] = value['min'] if row['min'] is None else min(row['min'], value['min'])
+                            row['max'] = value['max'] if row['max'] is None else max(row['max'], value['max'])
+                        elif row['kind'] in ('single', 'multi'):
+                            for value in values: row['_options'][value['_id']] += value['count']
             ordered = sorted(accum.values(), key=lambda row: row['versionNo'])
             page = [row for row in ordered if row['versionNo'] > after][:limit+1]
             result = []
@@ -347,14 +404,18 @@ class QuestionStatisticsServices:
             scope, sources = await self.validate_scope(user,qid,scope_id,session)
             rows = [source for source in sources if not after or source['_id']>after][:limit+1]
             items=[]
-            for source in rows[:limit]:
-                pub=await self.db.survey_versions.find_one({'_id':source['surveyVersionId']},session=session)
-                groups,_=await self.publication_versions(scope,pub,session)
-                item={'id':source['_id'],'surveyTitle':pub['definition']['title'] if source['accessMode']=='owner' else '已获授权的其他问卷',
-                    'surveyVersionNo':pub['versionNo'],'asOfSeq':source['asOfSeq'],'instanceCount':sum(map(len,groups.values())),
-                    'accessMode':source['accessMode'],'canReadAnswers':source['accessMode']=='owner'}
-                if source['accessMode']=='owner': item.update(surveyId=source['surveyId'],surveyVersionId=source['surveyVersionId'])
-                items.append(item)
+            metadata = {}
+            for offset in range(0, min(limit, len(rows)), 32):
+                batch = rows[offset:min(offset + 32, limit)]
+                publications, version_rows = await self.publication_context(scope, batch, session, metadata)
+                for source in batch:
+                    pub=publications[source['surveyVersionId']]
+                    groups,_=await self.publication_versions(scope,pub,session,version_rows)
+                    item={'id':source['_id'],'surveyTitle':pub['definition']['title'] if source['accessMode']=='owner' else '已获授权的其他问卷',
+                        'surveyVersionNo':pub['versionNo'],'asOfSeq':source['asOfSeq'],'instanceCount':sum(map(len,groups.values())),
+                        'accessMode':source['accessMode'],'canReadAnswers':source['accessMode']=='owner'}
+                    if source['accessMode']=='owner': item.update(surveyId=source['surveyId'],surveyVersionId=source['surveyVersionId'])
+                    items.append(item)
             return {'scope':scope_view(scope),'items':items,'nextAfterId':rows[limit-1]['_id'] if len(rows)>limit else None}
         return await self.repo.transaction(operation)
 
@@ -369,31 +430,54 @@ class QuestionStatisticsServices:
         except (jwt.PyJWTError,ValueError,KeyError,TypeError) as exc:
             raise ServiceError('INVALID_STATISTICS_CURSOR','分页位置与当前范围或筛选不一致',422) from exc
 
-    async def raw_rows(self,scope,sources,session,version_id=None,cursor=None,limit=31):
+    async def raw_rows(self,scope,sources,session,version_id=None,cursor=None,limit=31,metadata=None):
         items=[]
         if cursor and not any(source['_id']==cursor['sourceId'] and source['accessMode']=='owner' for source in sources):
             raise ServiceError('INVALID_STATISTICS_CURSOR','分页来源不属于当前范围',422)
-        for source in sources:
-            if source['accessMode']!='owner' or cursor and source['_id']<cursor['sourceId']: continue
-            pub=await self.db.survey_versions.find_one({'_id':source['surveyVersionId']},session=session)
-            groups,versions=await self.publication_versions(scope,pub,session)
-            mapping={iid:vid for vid,ids in groups.items() if not version_id or vid==version_id for iid in ids}
-            pipeline=[{'$match':self.response_query(scope,source)},{'$unwind':'$answers'},
-                {'$match':{'answers.questionId':{'$in':list(mapping)}}}]
-            if cursor and source['_id']==cursor['sourceId']:
-                pipeline.append({'$match':{'$or':[{'acceptedSeq':{'$gt':cursor['acceptedSeq']}},
-                    {'acceptedSeq':cursor['acceptedSeq'],'answers.questionId':{'$gt':cursor['instanceId']}}]}})
-            pipeline += [{'$sort':{'acceptedSeq':1,'answers.questionId':1}},{'$limit':limit-len(items)},
-                {'$project':{'_id':1,'acceptedSeq':1,'acceptedAt':1,'anonymous':1,'answers':1}}]
-            rows=await (await self.db.responses.aggregate(pipeline,session=session,maxTimeMS=30000)).to_list(length=limit-len(items))
-            for row in rows:
-                answer=row['answers'];vid=mapping[answer['questionId']]
-                items.append({'surveyId':source['surveyId'],'surveyTitle':pub['definition']['title'],
-                    'surveyVersionId':pub['_id'],'surveyVersionNo':pub['versionNo'],'instanceId':answer['questionId'],
-                    'questionVersionId':vid,'questionVersionNo':versions[vid]['versionNo'],'responseId':row['_id'],
-                    'acceptedSeq':row['acceptedSeq'],'acceptedAt':row['acceptedAt'],'anonymous':row['anonymous'],
-                    'kind':answer['kind'],'value':answer['value'],'_sourceId':source['_id']})
-            if len(items)>=limit: break
+        metadata = {} if metadata is None else metadata
+        eligible = [source for source in sources if source['accessMode']=='owner'
+            and (not cursor or source['_id']>=cursor['sourceId'])]
+        # Load only a bounded next group, not every full definition for a page.
+        # CSV reuses this map inside the same transaction, never on a later read.
+        for offset in range(0, len(eligible), 32):
+            batch = eligible[offset:offset + 32]
+            publications, version_rows = await self.publication_context(scope, batch, session, metadata)
+            for source in batch:
+                pub=publications[source['surveyVersionId']]
+                groups,versions=await self.publication_versions(scope,pub,session,version_rows)
+                mapping={iid:vid for vid,ids in groups.items() if not version_id or vid==version_id for iid in ids}
+                if not mapping:
+                    continue
+                query = self.response_query(scope,source)
+                if cursor and source['_id']==cursor['sourceId']:
+                    # Keep equal-sequence answers: another instance in the same
+                    # response may be the first answer of this page.
+                    query['acceptedSeq']['$gte'] = cursor['acceptedSeq']
+                pipeline=[{'$match':query},{'$unwind':'$answers'},
+                    {'$match':{'answers.questionId':{'$in':list(mapping)}}}]
+                if cursor and source['_id']==cursor['sourceId']:
+                    pipeline.append({'$match':{'$or':[{'acceptedSeq':{'$gt':cursor['acceptedSeq']}},
+                        {'acceptedSeq':cursor['acceptedSeq'],'answers.questionId':{'$gt':cursor['instanceId']}}]}})
+                pipeline += [{'$sort':{'acceptedSeq':1,'answers.questionId':1}},{'$limit':limit-len(items)},
+                    {'$project':{'_id':1,'acceptedSeq':1,'acceptedAt':1,'anonymous':1,'answers':1}}]
+                rows=await (await self.db.responses.aggregate(pipeline,session=session,maxTimeMS=30000)).to_list(length=limit-len(items))
+                for row in rows:
+                    answer=row['answers'];vid=mapping[answer['questionId']]
+                    item={'surveyId':source['surveyId'],'surveyTitle':pub['definition']['title'],
+                        'surveyVersionId':pub['_id'],'surveyVersionNo':pub['versionNo'],'instanceId':answer['questionId'],
+                        'questionVersionId':vid,'questionVersionNo':versions[vid]['versionNo'],'responseId':row['_id'],
+                        'acceptedSeq':row['acceptedSeq'],'acceptedAt':row['acceptedAt'],'anonymous':row['anonymous'],
+                        'kind':answer['kind'],'value':answer['value'],'_sourceId':source['_id']}
+                    if answer['kind'] in ('single','multi'):
+                        labels={option['id']:option['label'] for option in versions[vid]['content']['config']['options']}
+                        values=answer['value'] if answer['kind']=='multi' else [answer['value']]
+                        if any(value not in labels for value in values):
+                            raise ServiceError('DATA_INVARIANT','选项答案不属于固定版本',500)
+                        display=[labels[value] for value in values]
+                        item['displayValue']=display if answer['kind']=='multi' else display[0]
+                    items.append(item)
+                if len(items)>=limit:
+                    return items
         return items
 
     async def answers(self,user,qid,scope_id,version_id=None,cursor=None,limit=30):
@@ -424,9 +508,9 @@ class QuestionStatisticsServices:
                 raise ServiceError('QUESTION_VERSION_NOT_FOUND','题目版本不存在',404)
             buffer=io.StringIO();writer=csv.writer(buffer)
             writer.writerow(['问卷','问卷版本','题目版本','卷内题目标识','回执','提交序号','提交时间UTC','匿名','答案'])
-            size=3+len(buffer.getvalue().encode('utf-8'));count=0;cursor=None;pieces=[buffer.getvalue()]
+            size=3+len(buffer.getvalue().encode('utf-8'));count=0;cursor=None;pieces=[buffer.getvalue()];metadata={}
             while True:
-                rows=await self.raw_rows(scope,sources,session,version_id,cursor,100)
+                rows=await self.raw_rows(scope,sources,session,version_id,cursor,100,metadata)
                 for row in rows:
                     count+=1
                     value=row['value'] if not isinstance(row['value'],list) else '；'.join(map(str,row['value']))

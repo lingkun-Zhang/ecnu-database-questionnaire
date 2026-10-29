@@ -107,12 +107,16 @@ function fixture(h) {
       createdAt: saved.createdAt }), currentVersionId: saved.id, lastVersionNo: saved.versionNo,
       updatedAt: saved.createdAt })
   }
+  function listItem(root){
+    const saved=versions.get(root.id).find(item=>item.id===root.currentVersionId)
+    return {...plain(root),currentVersion:{id:saved.id,questionId:saved.questionId,versionNo:saved.versionNo,content:{kind:saved.content.kind,title:saved.content.title}}}
+  }
   add('q-a'); add('q-b')
   h.network.request = async path => {
     reads.push(path)
     const url = new URL(`http://test${path}`), parts = url.pathname.split('/').filter(Boolean)
     const offset = Number(url.searchParams.get('offset') || 0), limit = Number(url.searchParams.get('limit') || 30)
-    if (parts.length === 1 && parts[0] === 'questions') return { items: plain([...roots.values()].slice(offset, offset + limit)), offset, limit }
+    if (parts.length === 1 && parts[0] === 'questions') return { items: [...roots.values()].slice(offset, offset + limit).map(listItem), offset, limit }
     const id = parts[1]
     if (parts.length === 2 && roots.has(id)) return plain(roots.get(id))
     if (parts[2] === 'versions' && parts.length === 3) return { items: plain((versions.get(id) || []).slice(offset, offset + limit)), offset, limit }
@@ -124,7 +128,7 @@ function fixture(h) {
       scope: url.searchParams.get('scope') || 'draft', limit, items: [], nextAfterId: null }
     throw new Error(`Unexpected fixture read: ${path}`)
   }
-  return { roots, versions, reads, add, commit }
+  return { roots, versions, reads, add, commit, listItem }
 }
 
 async function selected(h, id = 'q-a') {
@@ -484,7 +488,7 @@ function sharedFixture(h) {
     assert.equal(params.has('offset'), false)
     const cursor = params.get('afterId')
     assert.ok(cursor === null || cursor === 'grant-page-2&opaque')
-    return { items: [plain(data.roots.get(cursor ? 'q-b' : 'q-a'))], limit: 20,
+    return { items: [data.listItem(data.roots.get(cursor ? 'q-b' : 'q-a'))], limit: 20,
       nextAfterId: cursor ? null : 'grant-page-2&opaque' }
   }
   return { ...data, sharedReads }
@@ -544,7 +548,7 @@ test('a readable detail outside the personal list never becomes an owner selecti
   try {
     const read = h.network.request
     h.network.request = async path => path.startsWith('/questions?')
-      ? { items: [plain(data.roots.get('q-a'))], offset: 0, limit: 20 } : read(path)
+      ? { items: [data.listItem(data.roots.get('q-a'))], offset: 0, limit: 20 } : read(path)
     await h.state.loadQuestions(); await h.state.openQuestion('q-b')
     assert.equal(h.state.selectedRoot.value.id, 'q-b')
     assert.equal(h.state.ownerSelection.value, false)
@@ -616,7 +620,7 @@ test('a revoked shared history or usage read invalidates its previously selectab
     try {
       const original = h.network.request
       h.network.request = async path => path.startsWith('/shared-questions?')
-        ? { items: plain([...data.roots.values()]), nextAfterId: null } : original(path)
+        ? { items: [...data.roots.values()].map(data.listItem), nextAfterId: null } : original(path)
       await h.state.changeCollection('shared')
       await h.state.openQuestion('q-a')
       h.network.request = async path => { throw new ApiError(404, 'NOT_FOUND', '题目当前不可读取') }
@@ -667,4 +671,43 @@ test('restore review can be cancelled without creating a version or accepting st
  assert.deepEqual(plain(h.state.impactDecision.value.body),{targetVersionId:'q-a-v1',expectedCurrentVersionId:'q-a-v2'});assert.equal(writes,0)
  h.state.cancelImpact();await h.state.confirmImpact(a);assert.equal(writes,0);assert.equal(h.state.pendingWrite.value,null)
  }finally{h.dispose()}
+})
+
+test('a full personal page loads all twenty display summaries in one request and reads content only when opened', async()=>{
+  const h=component(),data=fixture(h)
+  try{
+    for(let i=0;i<18;i++)data.add('extra-'+i)
+    await h.state.loadQuestions()
+    assert.equal(h.state.failure.value,null);assert.equal(h.state.entries.value.length,20)
+    assert.equal(data.reads.length,1)
+    assert.equal(new URL('http://test'+data.reads[0]).searchParams.get('includeCurrentVersion'),'true')
+    assert.equal(h.state.entries.value[0].current.content.title,'内容 q-a V2')
+    assert.equal(Object.hasOwn(h.state.entries.value[0].current.content,'config'),false)
+    await h.state.openQuestion('q-a')
+    assert.ok(h.state.selectedVersion.value.content.config)
+    assert.equal(h.state.selectedVersion.value.id,'q-a-v2')
+    assert.ok(data.reads.some(path=>path.includes('/questions/q-a/versions?')))
+  }finally{h.dispose()}
+})
+test('a received summary page needs one read while later revoked access cannot select its cached summary',async()=>{
+  const h=component('pick'),data=sharedFixture(h)
+  try{
+    await h.state.changeCollection('shared')
+    assert.equal(data.sharedReads.length,1);assert.equal(data.reads.length,0)
+    assert.equal(new URL('http://test'+data.sharedReads[0]).searchParams.get('includeCurrentVersion'),'true')
+    h.network.request=async()=>{throw new ApiError(404,'NOT_FOUND')}
+    await h.state.openQuestion('q-a');h.state.chooseVersion()
+    assert.equal(h.state.selectedVersion.value,null)
+    assert.equal(h.events.some(event=>event.name==='choose'),false)
+  }finally{h.dispose()}
+})
+test('a current summary with another question identity is rejected without fetching a guessed version',async()=>{
+  const h=component(),data=fixture(h)
+  try{
+    const root=data.listItem(data.roots.get('q-a'));root.currentVersion.questionId='another-question'
+    const calls=[];h.network.request=async path=>{calls.push(path);return {items:[root]}}
+    await h.state.loadQuestions()
+    assert.equal(h.state.failure.value.code,'INVALID_QUESTION_SUMMARY')
+    assert.equal(calls.length,1);assert.equal(h.state.entries.value.length,0)
+  }finally{h.dispose()}
 })

@@ -31,6 +31,13 @@ def survey_view(survey):
     return result
 
 
+def version_summary_view(version):
+    """History-list metadata; full immutable definitions stay on detail reads."""
+    return {"id": version["_id"], **{key: version[key] for key in
+            ("surveyId", "versionNo", "sourceDraftRevision", "publishedAt")},
+            "title": version["definition"]["title"]}
+
+
 def version_view(version):
     result = {"id": version["_id"], **{key: version[key] for key in
               ["surveyId", "versionNo", "sourceDraftRevision", "definition", "publishedAt"]}}

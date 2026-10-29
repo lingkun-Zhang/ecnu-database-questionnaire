@@ -166,3 +166,28 @@ test('answer formatting preserves zero and text and maps labels using that immut
   const h=component();fixture(h)
   try{await h.state.refreshScope();h.state.knownVersions.value.push({...row(2),kind:'multi',config:{options:[{id:'same',label:'V2标签'},{id:'other',label:'另一项'}]}});assert.equal(h.state.answerText({questionVersionId:'q-a-v1',kind:'number',value:0}),'0');assert.equal(h.state.answerText({questionVersionId:'q-a-v2',kind:'multi',value:['same','other']}),'V2标签；另一项');assert.equal(h.state.answerText({questionVersionId:'q-a-v1',kind:'text',value:'=原始文本\n下一行'}),'=原始文本\n下一行')}finally{h.dispose()}
 })
+
+for(const kind of ['single','multi'])test(`${kind} details after the tenth version use their fixed labels before that summary page is loaded`,async()=>{
+  const h=component(),fixed=range({publicationCount:11,surveyCount:11,instanceCount:11,hasForeignSources:false})
+  const versions=Array.from({length:11},(_,i)=>({...row(i+1),kind,config:{options:[{id:'same',label:`V${i+1}同一选项`},{id:'other',label:`V${i+1}另一项`}]}}))
+  const answer={surveyTitle:'教学问卷11',surveyVersionNo:1,instanceId:'choice',questionVersionId:'q-a-v11',questionVersionNo:11,responseId:'teaching-11',acceptedSeq:1,acceptedAt:'2026-10-29T00:00:00Z',anonymous:true,kind,value:kind==='single'?'same':['same','other'],displayValue:kind==='single'?'V11同一选项':['V11同一选项','V11另一项']}
+  h.network.request=async call=>{
+    const parsed=url(call)
+    if(call.method==='POST')return plain(fixed)
+    if(parsed.pathname.endsWith('/sources'))return {items:[],nextAfterId:null}
+    if(parsed.pathname.endsWith('/answers'))return {items:[plain(answer)],nextCursor:null,coverage:{ownOnly:true,hasForeignAggregateSources:false}}
+    const next=parsed.searchParams.get('afterVersionNo')==='10'
+    return {scope:plain(fixed),overview:{surveyCount:11,publicationCount:11,instanceCount:11,responseCount:1,answeredResponseCount:1,anonymousResponses:1,namedResponses:0},versions:plain(next?versions.slice(10):versions.slice(0,10)),nextAfterVersionNo:next?null:10}
+  }
+  try{
+    await h.state.refreshScope();assert.equal(h.state.failure.value,null)
+    assert.equal(h.state.knownVersions.value.length,10)
+    assert.equal(h.state.knownVersions.value.some(v=>v.questionVersionId==='q-a-v11'),false)
+    const expected=kind==='single'?'V11同一选项':'V11同一选项；V11另一项'
+    assert.equal(h.state.answerText(h.state.answerRows.value[0]),expected)
+    assert.deepEqual(plain(h.state.answerRows.value[0].value),answer.value)
+    await h.state.loadNextVersions()
+    assert.equal(h.state.answerText(h.state.answerRows.value[0]),expected)
+    assert.equal(writes(h).length,1)
+  }finally{h.dispose()}
+})

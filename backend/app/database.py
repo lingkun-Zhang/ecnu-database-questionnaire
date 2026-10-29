@@ -279,6 +279,13 @@ INDEXES: dict[str, list[IndexModel]] = {
         IndexModel([("ownerId", ASCENDING), ("draftQuestionSources.questionId", ASCENDING),
                     ("draftQuestionSources.questionVersionId", ASCENDING), ("_id", ASCENDING)],
                    name="ix_surveys_question_version_usage"),
+        # Author impact spans owners; owner-prefixed usage indexes cannot
+        # efficiently provide this question-specific candidate ID stream.
+        IndexModel([("draftQuestionSources.questionId", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_surveys_question_impact"),
+        IndexModel([("draftQuestionSources.questionId", ASCENDING),
+                    ("draftQuestionSources.questionVersionId", ASCENDING), ("_id", ASCENDING)],
+                   name="ix_surveys_question_version_impact"),
     ],
     "survey_versions": [
         IndexModel([("surveyId", ASCENDING), ("versionNo", ASCENDING)], unique=True, name="uq_versions_survey_number"),

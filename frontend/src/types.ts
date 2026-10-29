@@ -14,7 +14,8 @@ export interface ReusableQuestion { id: string; currentVersionId: string; lastVe
 export interface QuestionVersion { id: string; questionId: string; versionNo: number; parentVersionId: string | null; content: QuestionContent; createdAt: string; operation?: 'restore'; previousCurrentVersionId?: string }
 export interface QuestionUsage { surveyId: string; surveyTitle: string; surveyStatus: string; instances: Array<{instanceId: string; questionVersionId: string}>; draftRevision?: number; surveyVersionId?: string; versionNo?: number; publishedAt?: string; isCurrent?: boolean }
 export interface Survey { id: string; publicId: string; draft: Definition; draftQuestionSources?: QuestionSource[]; draftRevision: number; currentVersionId: string | null; lastVersionNo: number; status: string; deadlineAt: string | null; allowMultiple: boolean; policyLocked: boolean; settingsRevision: number; createdAt: string; updatedAt?: string }
-export interface Version { id: string; versionNo: number; sourceDraftRevision: number; publishedAt: string; definition: Definition; questionSources?: QuestionSource[] }
+export interface VersionSummary { id: string; surveyId?: string; versionNo: number; sourceDraftRevision: number; publishedAt: string; title?: string }
+export interface Version extends VersionSummary { definition: Definition; questionSources?: QuestionSource[] }
 export interface Evaluation { path: string[]; activeAnswers: Answers; trace: Array<Record<string, unknown>>; errors: FieldError[]; blockedAt: string | null; complete: boolean; provisional: boolean; warnings?: DesignWarning[] }
 export interface FieldError { questionId?: string; ruleId?: string; field?: string; code?: string; message: string }
 export interface DesignWarning extends FieldError { relatedRuleIds?: string[] }

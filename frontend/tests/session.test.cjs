@@ -63,7 +63,7 @@ function component(pathname = '/', sharedStorage = {}) {
     setToken: token => token ? localStorage.setItem('wenchuan_token', token) : localStorage.removeItem('wenchuan_token'),
     request: (...args) => network.request(...args), post: (...args) => network.post(...args), download: async () => {} }
   const module = { exports: {} }
-  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged,questionBanks,pickerLibrary,pickerBanks,pickerCollection,openBanks,changePickerCollection,closeQuestionPicker,questionStatistics,statQuestionId,statisticsGrants,questionWork,openQuestionStatistics,returnToEditor,changeEditorTab,openSourceQuestionStatistics'
+  const exposed = 'user,page,active,definition,savedDefinition,dirty,editorTab,editorFieldErrors,currentDesignWarnings,definitionEditor,focusEditorIssue,focusDesignWarning,runPreview,previewResult,stats,statsVersion,statsQuestion,statsRespondentType,detailItems,nextDetailCursor,loadDetails,exportCSV,openSurvey,versions,showHistory,receipt,pending,error,notice,busy,username,password,authenticate,logout,perform,refreshStats,submitFill,rememberPending,sessionChanged,fillDefinition,fillVersionId,fillToken,fillAnswers,anonymous,publicInfo,availabilityMessage,startFill,closeConfirmation,requestCloseSurvey,closeSurvey,escapeDialog,saveDraft,publish,goDashboard,createSurvey,showStats,settings,openHistory,copyVersion,reloadCurrent,deadlineInput,allowMultipleInput,questionLibrary,questionBusy,questionPicker,localQuestionSources,currentQuestionSources,openQuestions,openQuestionPicker,chooseQuestionVersion,detachQuestion,beforeUnload,expireQuestionSession,remoteDraftChanged,questionBanks,pickerLibrary,pickerBanks,pickerCollection,openBanks,changePickerCollection,closeQuestionPicker,questionStatistics,statQuestionId,statisticsGrants,questionWork,openQuestionStatistics,returnToEditor,changeEditorTab,openSourceQuestionStatistics,versionDetails,nextVersionOffset,loadMoreVersions,readVersion,historyComparisonReady,historyLeft,historyRight,leftVersionId,rightVersionId,differences,compareHistory,viewVersion'
   vm.runInNewContext(compile(appSource + `\nmodule.exports={${exposed}}`), {
     module, exports: module.exports,
     require: name => {
@@ -219,7 +219,7 @@ function editorVersion(definition, versionNo = 1) {
 // These tests exercise operation boundaries and recovery through the real setup
 // code. Native fieldset inheritance is verified separately in a real browser.
 for (const operation of ['saveDraft', 'publish']) {
-  test(`${operation} stays busy through its write, refreshed draft and complete version list`, async () => {
+  test(`${operation} stays busy through its write, refreshed draft and first version-summary page`, async () => {
     const h = component(), original = seedEditor(h, operation === 'saveDraft')
     const submitted = plain(h.state.definition.value), write = deferred(), read = deferred(), versionList = deferred()
     const readStarted = deferred(), versionsStarted = deferred(), calls = []
@@ -829,6 +829,7 @@ test('respondent filter preserves the boundary for details, pagination and CSV',
 test('late statistics cannot replace a newer respondent filter', async () => {
   const h = component(); h.seedOwner()
   h.state.stats.value = filteredStats('all', 4)
+  h.state.versions.value = [{ id: 'private-version', versionNo: 1, definition: plain(typesModule.exports.exampleDefinition()) }]
   const old = deferred(), calls = []
   h.network.request = async path => {
     const url = new URL(path, 'http://test'); calls.push(url)
@@ -1183,4 +1184,136 @@ test('a fixed-source statistics entry resolves the current question mapping with
     active: h.state.active.value, sources: h.state.currentQuestionSources.value }), before)
   assert.equal(requests.length, 0, 'entry navigation must not silently grant access or create a range')
   h.state.expireQuestionSession()
+})
+
+
+function historySummary(number) {
+  return { id: `version-${number}`, surveyId: 'private-survey', versionNo: number,
+    title: `历史标题${number}`, sourceDraftRevision: number, publishedAt: '2026-10-29T00:00:00Z' }
+}
+function historyDefinition(number) {
+  return { ...historySummary(number), definition: { ...plain(typesModule.exports.exampleDefinition()), title: `历史标题${number}` } }
+}
+
+test('opening a 201-version survey reads one summary page and no complete history', async () => {
+  const h = component(), original = seedEditor(h), calls = []
+  h.network.request = async path => {
+    calls.push(path)
+    if (path === '/surveys/private-survey') return { ...original, lastVersionNo: 201, currentVersionId: 'version-201' }
+    const url = new URL(path, 'http://test')
+    assert.equal(url.searchParams.get('summary'), 'true'); assert.equal(url.searchParams.get('offset'), '0')
+    return { items: Array.from({ length: 100 }, (_, i) => historySummary(201 - i)) }
+  }
+  await h.state.openSurvey('private-survey')
+  assert.equal(h.state.error.value, null); assert.equal(calls.length, 2)
+  assert.equal(h.state.versions.value.length, 100); assert.equal(h.state.nextVersionOffset.value, 100)
+  assert.deepEqual(plain(h.state.versionDetails.value), {})
+  assert.equal(h.state.versions.value.some(v => 'definition' in v), false)
+  h.state.logout()
+})
+
+test('older history summaries load only on request and preserve the earlier page on failure', async () => {
+  const h = component(); seedEditor(h)
+  h.state.versions.value = Array.from({ length: 100 }, (_, i) => historySummary(201 - i))
+  h.state.nextVersionOffset.value = 100
+  const urls = []; let fail = true
+  h.network.request = async path => {
+    const url = new URL(path, 'http://test'); urls.push(url)
+    assert.equal(url.searchParams.get('summary'), 'true')
+    if (fail) throw new ApiError(503, 'TEMPORARY')
+    const offset = Number(url.searchParams.get('offset'))
+    return { items: offset === 100 ? Array.from({ length: 100 }, (_, i) => historySummary(101 - i)) : [historySummary(1)] }
+  }
+  await h.state.loadMoreVersions(); assert.equal(h.state.versions.value.length, 100); assert.equal(h.state.nextVersionOffset.value, 100)
+  fail = false; await h.state.loadMoreVersions(); assert.equal(h.state.versions.value.length, 200); assert.equal(h.state.nextVersionOffset.value, 200)
+  await h.state.loadMoreVersions(); assert.equal(h.state.versions.value.length, 201); assert.equal(h.state.nextVersionOffset.value, null)
+  assert.deepEqual(urls.map(url => url.searchParams.get('offset')), ['100', '100', '200'])
+  assert.equal(new Set(h.state.versions.value.map(v => v.id)).size, 201)
+  h.state.logout()
+})
+
+test('history comparison reads only the two selected immutable definitions and reuses them', async () => {
+  const h = component(); seedEditor(h)
+  const calls = []
+  h.network.request = async path => {
+    calls.push(path)
+    if (path.includes('/versions?')) return { items: [historySummary(3), historySummary(2), historySummary(1)] }
+    return historyDefinition(Number(path.split('-').at(-1)))
+  }
+  await h.state.openHistory()
+  assert.equal(h.state.error.value, null); assert.equal(h.state.showHistory.value, true)
+  assert.equal(h.state.historyComparisonReady.value, true)
+  assert.deepEqual(calls.filter(path => !path.includes('?')), ['/surveys/private-survey/versions/version-2', '/surveys/private-survey/versions/version-3'])
+  await h.state.compareHistory(); assert.equal(calls.length, 3)
+  h.state.leftVersionId.value = 'version-1'; await h.state.compareHistory()
+  assert.equal(calls.at(-1), '/surveys/private-survey/versions/version-1'); assert.equal(calls.length, 4)
+  assert.ok(h.state.differences.value.some(row => row.title === '问卷标题'))
+  h.state.logout()
+})
+
+test('a failed history detail does not claim identical definitions and can retry', async () => {
+  const h = component(); seedEditor(h)
+  let fail = true
+  h.network.request = async path => {
+    if (path.includes('/versions?')) return { items: [historySummary(2), historySummary(1)] }
+    if (path.endsWith('version-1') && fail) throw new ApiError(503, 'TEMPORARY')
+    return historyDefinition(Number(path.split('-').at(-1)))
+  }
+  await h.state.openHistory()
+  assert.equal(h.state.showHistory.value, true); assert.equal(h.state.historyComparisonReady.value, false)
+  assert.equal(h.state.error.value.code, 'TEMPORARY')
+  fail = false; await h.state.compareHistory()
+  assert.equal(h.state.error.value, null); assert.equal(h.state.historyComparisonReady.value, true)
+  h.state.logout()
+})
+
+test('copying an unloaded history summary first reads its complete definition and fixed sources', async () => {
+  const h = component(), original = seedEditor(h), calls = []
+  const complete = { ...historyDefinition(1), questionSources: [{ instanceId: 'q_age', questionId: 'bank-age', questionVersionId: 'bank-age-v1' }] }
+  h.state.versions.value = [historySummary(1)]
+  h.network.request = async (path, options) => {
+    calls.push(path)
+    if (path.endsWith('/versions/version-1')) return complete
+    if (path.endsWith('/draft')) {
+      assert.deepEqual(JSON.parse(options.body), { definition: complete.definition, expectedDraftRevision: 4, questionSources: complete.questionSources })
+      return {}
+    }
+    if (path.includes('/versions?')) return { items: [historySummary(1)] }
+    return { ...original, draft: complete.definition, draftQuestionSources: complete.questionSources, draftRevision: 5 }
+  }
+  await h.state.copyVersion(historySummary(1))
+  assert.equal(h.state.error.value, null); assert.equal(calls[0], '/surveys/private-survey/versions/version-1')
+  assert.equal(h.state.definition.value.title, complete.definition.title)
+  assert.deepEqual(plain(h.state.currentQuestionSources.value), complete.questionSources)
+  h.state.logout()
+})
+
+test('an unloaded history detail cannot trigger a draft write after switching accounts', async () => {
+  const h = component(); seedEditor(h)
+  const wait = deferred(), calls = []
+  h.network.request = async (path, options) => { calls.push({ path, options }); return path.startsWith('/surveys?') ? { items: [] } : wait.promise }
+  const action = h.state.copyVersion(historySummary(1))
+  h.state.logout(); await h.loginB(); wait.resolve(historyDefinition(1)); await action
+  assert.equal(h.state.user.value.id, 'B'); assert.deepEqual(plain(h.state.versionDetails.value), {})
+  assert.equal(calls.some(call => call.options?.method === 'PUT'), false)
+  assert.equal(h.state.active.value, null); assert.equal(h.state.busy.value, false)
+  h.state.logout()
+})
+
+test('single-survey statistics loads only its selected full version to interpret answer labels', async () => {
+  const h = component(); seedEditor(h)
+  h.state.versions.value = [historySummary(2), historySummary(1)]
+  h.state.statsVersion.value = 'version-1'
+  const calls = [], complete = historyDefinition(1)
+  h.network.request = async path => {
+    calls.push(path)
+    if (path.endsWith('/versions/version-1')) return complete
+    if (path.includes('/stats?')) return { ...filteredStats('all'), versionId: 'version-1' }
+    return { items: [], nextCursor: null }
+  }
+  await h.state.refreshStats()
+  assert.equal(calls[0], '/surveys/private-survey/versions/version-1')
+  assert.equal(calls.length, 3); assert.equal(h.state.stats.value.versionId, 'version-1')
+  assert.deepEqual(Object.keys(h.state.versionDetails.value), ['version-1'])
+  h.state.logout()
 })

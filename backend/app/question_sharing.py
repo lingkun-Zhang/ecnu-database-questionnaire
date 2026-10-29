@@ -23,6 +23,26 @@ async def readable_question(db, question_id, user, session=None):
     raise ServiceError("NOT_FOUND", "题目不存在或当前不可读取", 404)
 
 
+async def with_current_version_summaries(db, questions, session):
+    """Attach only list display fields, using the same permission snapshot."""
+    if not questions:
+        return []
+    ids = list({row["currentVersionId"] for row in questions})
+    versions = await db.question_versions.find({"_id": {"$in": ids}},
+        {"questionId": 1, "versionNo": 1, "content.kind": 1, "content.title": 1},
+        session=session).to_list(length=len(ids))
+    by_id = {row["_id"]: row for row in versions}
+    result = []
+    for question in questions:
+        version = by_id.get(question["currentVersionId"])
+        if not version or version["questionId"] != question["_id"]:
+            raise ServiceError("DATA_INVARIANT", "题目当前版本缺失或不属于该题目", 500)
+        summary = {"id": version["_id"], "questionId": version["questionId"],
+                   "versionNo": version["versionNo"], "content": version["content"]}
+        result.append({**question, "currentVersion": summary})
+    return result
+
+
 def share_view(document, recipient_username=None):
     return {"id": document["_id"], **{key: document[key] for key in
             ("questionId", "recipientId", "active", "revision", "permission", "versionScope",
@@ -58,7 +78,7 @@ class QuestionSharingServices:
         return {"items": [share_view(row, names.get(row["recipientId"])) for row in rows[:limit]],
                 "limit": limit, "nextAfterId": rows[limit - 1]["_id"] if len(rows) > limit else None}
 
-    async def received_questions(self, user, limit, after_id=None):
+    async def received_questions(self, user, limit, after_id=None, include_current_version=False):
         query = {"recipientId": user["_id"], "active": True, "permission": "use", "versionScope": "series"}
         if after_id is not None:
             query["_id"] = {"$gt": after_id}
@@ -67,9 +87,19 @@ class QuestionSharingServices:
                     {"$unwind": "$question"},
                     {"$match": {"$expr": {"$eq": ["$ownerId", "$question.ownerId"]}}},
                     {"$limit": limit + 1}]
-        rows = await (await self.db.question_shares.aggregate(pipeline, maxTimeMS=10000)).to_list(length=limit + 1)
-        return {"items": [row["question"] for row in rows[:limit]], "limit": limit,
-                "nextAfterId": rows[limit - 1]["_id"] if len(rows) > limit else None}
+
+        async def read(session=None):
+            rows = await (await self.db.question_shares.aggregate(
+                pipeline, session=session, maxTimeMS=10000)).to_list(length=limit + 1)
+            questions = [row["question"] for row in rows[:limit]]
+            if include_current_version:
+                questions = await with_current_version_summaries(self.db, questions, session)
+            return {"items": questions, "limit": limit,
+                    "nextAfterId": rows[limit - 1]["_id"] if len(rows) > limit else None}
+
+        # Legacy root-only responses keep their shape. Opt-in summaries and
+        # active grants/current heads are read atomically, not in N HTTP calls.
+        return await self.repo.transaction(read) if include_current_version else await read()
 
     async def set_share(self, user, question_id, recipient_username, active, expected_revision):
         # Check ownership first: an unrelated caller cannot probe recipients via this endpoint.

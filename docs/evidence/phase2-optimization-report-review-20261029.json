@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-29",
+  "pdfFileName": "问川第二阶段实验报告_20261029.pdf",
+  "pdfPages": 14,
+  "allPagesVisuallyReviewed": true,
+  "primaryReviewerPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    13,
+    14
+  ],
+  "historyReviewerPages": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "queryReviewerUnchangedPages": [
+    11,
+    12
+  ],
+  "unchangedAfterLastPolishPages": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "lastChangedPagesReviewed": [
+    1,
+    13,
+    14
+  ],
+  "removedIsolatedConclusionTailPage": true,
+  "checks": [
+    "Readable Chinese and Latin glyphs",
+    "No clipped or overlapping content",
+    "Tables and diagram within margins",
+    "All evidence paths legible",
+    "Latest counts and comparison scope correct"
+  ],
+  "acceptableLayoutNotes": [
+    "Requirements table continues with repeated header",
+    "Long E06 evidence filename wraps within its cell"
+  ],
+  "pdfProducer": "ReportLab from reviewed Markdown, independently of Word",
+  "wordFileName": "问川第二阶段实验报告_20261029_待校稿.docx",
+  "wordStructuralXmlChecked": true,
+  "wordNativePaginationReviewed": false,
+  "wordStatus": "local editable draft only",
+  "wordRendererError": "LibreOffice soffice.exe was not found on PATH",
+  "nativeWordPermissionRetried": false,
+  "studentIdentityAdded": false,
+  "sourceSha256": "88f72cf1eff1c5ce8de830a01e2367841ea934d5b3993aaf2ca8c2520960d262",
+  "pdfSha256": "0e557eb733d270994d3032ef8c50a769182bc6e63043d709386ef27356f9cb36",
+  "wordSha256": "0b5cdec182127d33e4309ad3ccb04fb0ceff8451d5c9832233609913624b05c6",
+  "pageImageSha256": [
+    {
+      "page": 1,
+      "sha256": "7450b2eedde17a04f5c385035d802df815fddce49d5ef2a8c58e4270238fdcb0"
+    },
+    {
+      "page": 2,
+      "sha256": "0dc2476e057dbca6affb390371b12eb7252ea1cc43c2253a40ee91038f6660c0"
+    },
+    {
+      "page": 3,
+      "sha256": "ac7f085f53d84355807fcdf349bfc8ae9ee131d50b949779cad6575daebbd996"
+    },
+    {
+      "page": 4,
+      "sha256": "d9aa06f7d9ddbb20d0cd6d3630020ef300f21f1ee86da9d335ad7f5ec0a74635"
+    },
+    {
+      "page": 5,
+      "sha256": "bf140bda6c52d41594e939c48d53deb0ebbcf08b9eaa01be71f44c3c95d64497"
+    },
+    {
+      "page": 6,
+      "sha256": "44b3ebb8f1b7bf4d41bb09ec4715508f6aab27c8c3c7092c0938722c37ef1f10"
+    },
+    {
+      "page": 7,
+      "sha256": "c1dc8c989645de7d214778c8c6594c4a9eb361b64376e0514d5197d1db64ba3b"
+    },
+    {
+      "page": 8,
+      "sha256": "6994f29f5f52614b3801928d5f2707b9a0bf8fb33a1020be441d75c8d181c24a"
+    },
+    {
+      "page": 9,
+      "sha256": "5af5e01863c58df3779dc4f5edcc87019b3637e8ef6774193cd3d557f916a948"
+    },
+    {
+      "page": 10,
+      "sha256": "d71fa995567a107c3d9c8306042121734df17e0d867de0d395c44b20e3a885a4"
+    },
+    {
+      "page": 11,
+      "sha256": "f6ef28039ded717ab3b25e450c3c9c09e80f3d9309ec7c68aa80a519b956c496"
+    },
+    {
+      "page": 12,
+      "sha256": "3cb49386a29eada3958dc38b9e4a5043e9a93e56df31778accb09b8a25bc36e7"
+    },
+    {
+      "page": 13,
+      "sha256": "4ec08e27603c9e207aa45576be4852722f979c02a2ec0f2d2696a331dabfad2b"
+    },
+    {
+      "page": 14,
+      "sha256": "87063f2c83c0037ea8bea4a6f1401703d59c5f187056aab187a0f95a838c9ba2"
+    }
+  ]
+}

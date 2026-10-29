@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-29",
+  "baselineCommit": "4392fa63508106f8d83342d07a244cdea50f3abe",
+  "phaseOneBaselineCommit": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "implemented": [
+    "Fixed-version choice labels independent of summary paging",
+    "One-request current question summaries",
+    "Transaction-local batched metadata reads with a 32-publication window",
+    "On-demand full survey history with summary paging",
+    "Indexed draft/publication candidates for author impact query"
+  ],
+  "backendFull": {
+    "passed": 502,
+    "skipped": 3,
+    "subtestsPassed": 251,
+    "seconds": 257.37,
+    "junitTestcaseElements": 505,
+    "realMongoVersion": "6.0.29",
+    "skipReason": "Existing Windows symlink creation permission"
+  },
+  "frontendFull": {
+    "passed": 216,
+    "failed": 0,
+    "skipped": 0,
+    "milliseconds": 4740.0703,
+    "typecheckPassed": true,
+    "productionBuildPassed": true
+  },
+  "newCasesIncludedInFull": {
+    "backend": 18,
+    "frontend": 12,
+    "privateMeasurementScriptsCountedAsFormalTests": false
+  },
+  "targeted": {
+    "statistics": {
+      "passed": 37,
+      "seconds": 36.59
+    },
+    "listsAndImpact": {
+      "passed": 26,
+      "seconds": 21.76
+    },
+    "historyApi": {
+      "passed": 3,
+      "seconds": 2.25
+    },
+    "libraryAndStatisticsComponents": {
+      "passed": 55,
+      "milliseconds": 1843.3322
+    },
+    "historyAndSessionComponents": {
+      "passed": 83,
+      "milliseconds": 3559.5214
+    }
+  },
+  "measurementEvidence": {
+    "impact": "phase2-optimization-impact-20261029.json",
+    "statistics": "phase2-optimization-statistics-20261029.json",
+    "history": "phase2-optimization-history-20261029.json",
+    "browser": "phase2-optimization-browser-20261029.json"
+  },
+  "compatibility": {
+    "oldDefaultQuestionLists": true,
+    "oldDefaultFullHistory": true,
+    "rawAnswerValuesAndCsvUnchanged": true,
+    "newStoredBusinessFields": false,
+    "originalIndexesRetained": true,
+    "newIndexes": [
+      "ix_surveys_question_impact",
+      "ix_surveys_question_version_impact"
+    ],
+    "scopeAuthorizationRecheckedPerRequestAndTransactionRetry": true,
+    "completePublicationWindow": 32,
+    "questionVersionCacheBound": "Versions actually referenced by the current publication window; not universally 32 versions"
+  },
+  "report": {
+    "pdfFileName": "问川第二阶段实验报告_20261029.pdf",
+    "pdfPages": 14,
+    "pdfAllPagesReviewed": true,
+    "wordFileName": "问川第二阶段实验报告_20261029_待校稿.docx",
+    "wordDraftOnly": true,
+    "wordNativePaginationReviewed": false,
+    "oldDatedReportFilesPreserved": true,
+    "reviewEvidence": "phase2-optimization-report-review-20261029.json"
+  },
+  "failureHistory": [
+    {
+      "stage": "New statistics multi-choice fixture",
+      "result": "1 failed,35 passed",
+      "cause": "Expected input order rather than actual canonical stored order",
+      "resolution": "Corrected fixture expectations, not business logic"
+    },
+    {
+      "stage": "New snapshot query wrapper",
+      "result": "25 passed,1 failed",
+      "cause": "Wrapped internal find_one cursor too broadly"
+    },
+    {
+      "stage": "Projection observer",
+      "result": "92 passed,2 failed",
+      "cause": "Observed the wrong projection argument position"
+    },
+    {
+      "stage": "History components",
+      "result": "75 of76 passed, then another fixture waited on the wrong account request",
+      "resolution": "Corrected fixtures; final83 passed"
+    },
+    {
+      "stage": "Private measurement scripts",
+      "cause": "External pytest asyncio marker and internal/public user shape mistakes",
+      "resolution": "New isolated reruns; no fabricated measurements"
+    },
+    {
+      "stage": "Design review",
+      "cause": "Initial batching retained too many full publications/versions",
+      "resolution": "Bounded window added and37-source distinct-version test passed"
+    },
+    {
+      "stage": "Browser tooling",
+      "cause": "Locator timeout and temporary variable error; fixed count assertion ignored normal TTL expiry",
+      "resolution": "Used observed roles; verified actual expiry plus initial13-source audit before cleanup"
+    }
+  ],
+  "testedSourceSha256": {
+    "backend/app/database.py": "98fb592c30f17047b5291fe756eab7172bf36a89fcf4b75bfaaababd309a8596",
+    "backend/app/main.py": "586abf5c0d09da005d83126256d19bfa2dab1369e04f8c85a5a05633a42eebec",
+    "backend/app/question_sharing.py": "eea9dbc6d73eee86f02057458422b33f07c4b8b78c6f3577440811ff7b31f04e",
+    "backend/app/question_statistics.py": "509ec53e71fe456466d4bf574bc81286a2a692eef59bbbc6e66f3f1df99ccf22",
+    "backend/app/question_usage.py": "d88d2bfcdbb79ba81f268eeb69b08737781f5fccfd3d39165bb80963399fdd7e",
+    "backend/app/questions.py": "318d6f00998a492c8afc653402b27b4c27a21943083ee7c9e64b142fb9bbcb6f",
+    "backend/app/services.py": "cf695b4e0afc448e4f9401d83b653ab1f0ec650d470d802ac72ff6eaf337714b",
+    "frontend/src/App.vue": "1043ddaf605b89cc6cbe917e0c4011444208c0049970bb813ad9fae4bcc70ce3",
+    "frontend/src/components/QuestionLibrary.vue": "6470e3b8c4a0a313294b7a8438165fcf06ef02cbd91dd821389f3aee6a65011b",
+    "frontend/src/components/QuestionStatistics.vue": "336dc617337826ab503181336eb28553386f0032f77408790e2b8dd50220f801",
+    "frontend/src/types.ts": "8562c2d050aafdc6cc962e28f087b51fbf77295b2ff7c0ac3a68703f08b6ad26",
+    "frontend/tests/questionLibrary.test.cjs": "43fba5b734bce51ee4b812da66726e36841204ff531367e3e72aaa75d3bb242d",
+    "frontend/tests/questionStatistics.test.cjs": "d856eb476720585e82422914f07344f0788765cb30d49be2efc7d2d30a3f347d",
+    "frontend/tests/session.test.cjs": "1cf6c548a3164501bdb068dd95b41e4423a0136bea2d33a08600ecf51ecc18a3",
+    "tests/test_question_query_optimization.py": "c9b7a7413a2f1b70c2c87e943fd8f8d043f26eac04b962ff311528fcedd3511d",
+    "tests/test_question_statistics_optimization.py": "a2771c3e29418ee8a3187431a4118954e91fbe13579c6a8062d83b6c89ca5916",
+    "tests/test_version_summaries.py": "2221e1fb55f7191a3d941d4861ac18c4930473e5c6244d669fd772f100e41524"
+  },
+  "protection": {
+    "date": "2026-10-29",
+    "scope": "Five-optimization isolated MongoDB/API test service",
+    "mongoVersion": "6.0.29",
+    "mongoOwnershipVerified": true,
+    "onlySystemDatabasesBeforeShutdown": true,
+    "databasesBeforeShutdown": [
+      "admin",
+      "config",
+      "local"
+    ],
+    "mongoNormalExitCode": 0,
+    "processAbsent": true,
+    "portClosed": true,
+    "desktopBaselineFilesChecked": 163,
+    "desktopBaselineUnchanged": true,
+    "businessDatabaseConnected": false,
+    "realConfigurationRead": false,
+    "remotePush": false,
+    "courseSubmission": false
+  },
+  "limits": [
+    "Local controlled workloads, not a concurrency/throughput or RSS benchmark",
+    "Browser scene covers own single-choice details and three-version history",
+    "No new installation, real data migration, production cutover or lossless downgrade claim"
+  ],
+  "remotePush": false,
+  "courseSubmission": false,
+  "implementationCommit": "a62eb3e42985d1fa92aa8fae5d0448b99cc54eed",
+  "deliveryAudit": "phase2-optimization-audit-20261029.json"
+}

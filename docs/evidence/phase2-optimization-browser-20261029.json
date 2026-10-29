@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-29",
+  "realBrowser": true,
+  "realTcpApi": true,
+  "temporaryConfiguration": true,
+  "fixturePreparedViaRealApi": true,
+  "countsBeforeCleanup": {
+    "users": 1,
+    "questions": 20,
+    "question_versions": 30,
+    "surveys": 11,
+    "survey_versions": 13,
+    "responses": 1,
+    "question_stat_scopes": 1,
+    "question_stat_sources": 0
+  },
+  "businessDatabaseTouched": false,
+  "initialCapturedPublicationSources": 13,
+  "scopeExpiredDuringLaterDocumentation": true,
+  "ttlCleanupObservedAfterExpiration": true,
+  "personalListRows": 20,
+  "personalListReads": 1,
+  "perItemVersionReadsForList": 0,
+  "summaryPageVersions": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "answerVersion11ChineseLabelBeforeSummaryPaging": true,
+  "editorInitialCompleteHistoryReads": 0,
+  "historySummaryPageReads": 2,
+  "historyCompareFullVersionReads": [
+    2,
+    3
+  ],
+  "historyExpandedFullVersionRead": 1,
+  "browserSurveyEditsOrSubmissions": 0,
+  "browserCreatesStatisticsScope": true,
+  "uncovered": [
+    "Shared list and multi-choice display verified by API/component tests rather than this browser scene",
+    "201-version history pagination verified by component tests rather than this three-version browser scene",
+    "No browser CSV download content check or load-test"
+  ],
+  "screenshotsKeptPrivately": true,
+  "temporaryBrowserTabClosed": true,
+  "ownedDatabaseCleaned": true,
+  "ownershipVerified": true,
+  "browserServiceStopped": true,
+  "portClosed": true
+}

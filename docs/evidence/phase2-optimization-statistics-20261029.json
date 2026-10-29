@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-29",
+  "baseCommit": "4392fa63508106f8d83342d07a244cdea50f3abe",
+  "mongoVersion": "6.0.29",
+  "measurement": "Actual same API requests; MongoDB profiler records; one isolated synthetic database",
+  "fixture": {
+    "surveys": 2,
+    "publications": 6,
+    "questionVersionsInRange": 1,
+    "instances": 12,
+    "responses": 2
+  },
+  "sourceSnapshotAndFiltersIdentical": true,
+  "results": {
+    "summary": {
+      "beforeReads": {
+        "aggregate:responses": 6,
+        "find:question_stat_grants": 3,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 12,
+        "find:survey_versions": 6,
+        "find:surveys": 6,
+        "find:users": 1
+      },
+      "afterReads": {
+        "aggregate:responses": 6,
+        "find:question_stat_grants": 1,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 1,
+        "find:survey_versions": 1,
+        "find:surveys": 1,
+        "find:users": 1
+      },
+      "beforeMetadataFinds": 27,
+      "afterMetadataFinds": 4,
+      "resultEqualExceptNewDisplayValue": true,
+      "protectedBusinessDocumentsUnchanged": true
+    },
+    "sources": {
+      "beforeReads": {
+        "find:question_stat_grants": 3,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 12,
+        "find:survey_versions": 6,
+        "find:surveys": 6,
+        "find:users": 1
+      },
+      "afterReads": {
+        "find:question_stat_grants": 1,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 1,
+        "find:survey_versions": 1,
+        "find:surveys": 1,
+        "find:users": 1
+      },
+      "beforeMetadataFinds": 27,
+      "afterMetadataFinds": 4,
+      "resultEqualExceptNewDisplayValue": true,
+      "protectedBusinessDocumentsUnchanged": true
+    },
+    "answers": {
+      "beforeReads": {
+        "aggregate:responses": 3,
+        "find:question_stat_grants": 3,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 6,
+        "find:survey_versions": 3,
+        "find:surveys": 6,
+        "find:users": 1
+      },
+      "afterReads": {
+        "aggregate:responses": 3,
+        "find:question_stat_grants": 1,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 1,
+        "find:survey_versions": 1,
+        "find:surveys": 1,
+        "find:users": 1
+      },
+      "beforeMetadataFinds": 18,
+      "afterMetadataFinds": 4,
+      "resultEqualExceptNewDisplayValue": true,
+      "protectedBusinessDocumentsUnchanged": true
+    },
+    "export": {
+      "beforeReads": {
+        "aggregate:responses": 3,
+        "find:question_stat_grants": 3,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 6,
+        "find:survey_versions": 3,
+        "find:surveys": 6,
+        "find:users": 1
+      },
+      "afterReads": {
+        "aggregate:responses": 3,
+        "find:question_stat_grants": 1,
+        "find:question_stat_scopes": 1,
+        "find:question_stat_sources": 1,
+        "find:question_versions": 1,
+        "find:survey_versions": 1,
+        "find:surveys": 1,
+        "find:users": 1
+      },
+      "beforeMetadataFinds": 18,
+      "afterMetadataFinds": 4,
+      "resultEqualExceptNewDisplayValue": true,
+      "protectedBusinessDocumentsUnchanged": true
+    }
+  },
+  "timingClaimed": false,
+  "throughputClaimed": false,
+  "businessCollectionsCompared": 12,
+  "businessDocumentsUnchanged": true,
+  "fixtureOwnsCleanup": true
+}

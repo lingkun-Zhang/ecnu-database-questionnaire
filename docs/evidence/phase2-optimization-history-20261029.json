@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-29",
+  "source": "Three real API-created publications in a fixture-owned isolated MongoDB database",
+  "measurement": "Serialized HTTP response body bytes; identical three versions and pagination parameters",
+  "fullListBytes": 4898,
+  "summaryListBytes": 668,
+  "reductionBytes": 4230,
+  "reductionPercent": 86.36,
+  "versions": 3,
+  "fullDefinitionsInSummary": 0,
+  "sourceOrAnswerDataChanged": false,
+  "latencyOrLoadBenchmark": false,
+  "newInstallation": false
+}

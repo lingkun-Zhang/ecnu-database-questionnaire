@@ -1,0 +1,2794 @@
+{
+  "date": "2026-10-29",
+  "baselineCommit": "4392fa63508106f8d83342d07a244cdea50f3abe",
+  "mongoVersion": "6.0.29",
+  "syntheticDatabase": true,
+  "realBusinessDatabaseUsed": false,
+  "repeats": 7,
+  "seedMethod": "Real API creates templates; explicitly labelled schema-valid BSON clones create unrelated scale.",
+  "boundary": "Single local process, warm cache, no concurrency/throughput or general performance claim.",
+  "dataset": {
+    "surveys": 1042,
+    "publications": 1037,
+    "matchingExistingSurveys": 42,
+    "draftCandidateSurveys": 32,
+    "publicationCandidateSurveysIncludingOrphans": 37,
+    "mergedCandidateIdsIncludingOrphans": 47,
+    "boundedCandidateBatchSizes": [
+      47
+    ]
+  },
+  "summary": {
+    "own": {
+      "surveyCount": 21,
+      "draftSurveyCount": 16,
+      "draftInstanceCount": 16,
+      "publishedSurveyCount": 16,
+      "currentPublishedSurveyCount": 16,
+      "currentPublishedInstanceCount": 16,
+      "historicalSnapshotCount": 0,
+      "historicalInstanceCount": 0
+    },
+    "others": {
+      "surveyCount": 21,
+      "draftSurveyCount": 16,
+      "draftInstanceCount": 16,
+      "publishedSurveyCount": 16,
+      "currentPublishedSurveyCount": 16,
+      "currentPublishedInstanceCount": 16,
+      "historicalSnapshotCount": 0,
+      "historicalInstanceCount": 0
+    }
+  },
+  "allReturnedBodiesEqual": true,
+  "allTwelveCollectionDocumentsUnchanged": true,
+  "timingsMilliseconds": {
+    "baseline": [
+      468.1221,
+      470.2302,
+      459.5315,
+      448.4302,
+      455.1229,
+      457.566,
+      457.9572
+    ],
+    "optimized": [
+      32.2932,
+      28.2297,
+      29.3011,
+      28.4994,
+      29.9519,
+      33.7397,
+      33.5308
+    ],
+    "baselineMedian": 457.9572,
+    "optimizedMedian": 29.9519
+  },
+  "planSummary": {
+    "baseline": {
+      "documentsExaminedIncludingLookupStages": 2074,
+      "keysExaminedIncludingLookupStages": 1032,
+      "planStages": [
+        "COLLSCAN",
+        "PROJECTION_DEFAULT"
+      ]
+    },
+    "draftCandidates": {
+      "documentsExaminedIncludingLookupStages": 32,
+      "keysExaminedIncludingLookupStages": 32,
+      "planStages": [
+        "FETCH",
+        "IXSCAN",
+        "PROJECTION_SIMPLE",
+        "SORT"
+      ]
+    },
+    "publicationCandidates": {
+      "documentsExaminedIncludingLookupStages": 37,
+      "keysExaminedIncludingLookupStages": 37,
+      "planStages": [
+        "FETCH",
+        "IXSCAN",
+        "PROJECTION_SIMPLE"
+      ]
+    },
+    "candidateBatch": {
+      "documentsExaminedIncludingLookupStages": 74,
+      "keysExaminedIncludingLookupStages": 114,
+      "planStages": [
+        "FETCH",
+        "IXSCAN",
+        "PROJECTION_DEFAULT"
+      ]
+    }
+  },
+  "fullPlans": {
+    "baseline": {
+      "explainVersion": "1",
+      "stages": [
+        {
+          "$cursor": {
+            "queryPlanner": {
+              "namespace": "survey_optplan_168afacffc5c4433811975a3ce747597.surveys",
+              "indexFilterSet": false,
+              "parsedQuery": {},
+              "queryHash": "89A5BCB9",
+              "planCacheKey": "89A5BCB9",
+              "maxIndexedOrSolutionsReached": false,
+              "maxIndexedAndSolutionsReached": false,
+              "maxScansToExplodeReached": false,
+              "winningPlan": {
+                "stage": "PROJECTION_DEFAULT",
+                "transformBy": {
+                  "_id": true,
+                  "status": true,
+                  "currentVersionId": true,
+                  "draft": {
+                    "title": true
+                  },
+                  "ownership": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownerId",
+                          {
+                            "$const": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                          }
+                        ]
+                      },
+                      {
+                        "$const": "own"
+                      },
+                      {
+                        "$const": "other"
+                      }
+                    ]
+                  },
+                  "draftInstanceCount": {
+                    "$size": [
+                      {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$draftQuestionSources",
+                              {
+                                "$const": []
+                              }
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$const": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "inputStage": {
+                  "stage": "COLLSCAN",
+                  "direction": "forward"
+                }
+              },
+              "rejectedPlans": []
+            },
+            "executionStats": {
+              "executionSuccess": true,
+              "nReturned": 1042,
+              "executionTimeMillis": 602,
+              "totalKeysExamined": 0,
+              "totalDocsExamined": 1042,
+              "executionStages": {
+                "stage": "PROJECTION_DEFAULT",
+                "nReturned": 1042,
+                "executionTimeMillisEstimate": 0,
+                "works": 1043,
+                "advanced": 1042,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 2,
+                "restoreState": 2,
+                "isEOF": 1,
+                "transformBy": {
+                  "_id": true,
+                  "status": true,
+                  "currentVersionId": true,
+                  "draft": {
+                    "title": true
+                  },
+                  "ownership": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownerId",
+                          {
+                            "$const": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                          }
+                        ]
+                      },
+                      {
+                        "$const": "own"
+                      },
+                      {
+                        "$const": "other"
+                      }
+                    ]
+                  },
+                  "draftInstanceCount": {
+                    "$size": [
+                      {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$draftQuestionSources",
+                              {
+                                "$const": []
+                              }
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$const": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "inputStage": {
+                  "stage": "COLLSCAN",
+                  "nReturned": 1042,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 1043,
+                  "advanced": 1042,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 2,
+                  "restoreState": 2,
+                  "isEOF": 1,
+                  "direction": "forward",
+                  "docsExamined": 1042
+                }
+              }
+            }
+          },
+          "nReturned": 1042,
+          "executionTimeMillisEstimate": 4
+        },
+        {
+          "$lookup": {
+            "from": "survey_versions",
+            "as": "publicationCounts",
+            "localField": "_id",
+            "foreignField": "surveyId",
+            "let": {
+              "currentVersionId": "$currentVersionId"
+            },
+            "pipeline": [
+              {
+                "$match": {
+                  "questionSources": {
+                    "$elemMatch": {
+                      "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                    }
+                  }
+                }
+              },
+              {
+                "$project": {
+                  "_id": 1,
+                  "instanceCount": {
+                    "$size": {
+                      "$filter": {
+                        "input": {
+                          "$ifNull": [
+                            "$questionSources",
+                            []
+                          ]
+                        },
+                        "as": "reference",
+                        "cond": {
+                          "$and": [
+                            {
+                              "$eq": [
+                                "$$reference.questionId",
+                                {
+                                  "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "$group": {
+                  "_id": null,
+                  "publishedSnapshotCount": {
+                    "$sum": 1
+                  },
+                  "currentPublishedInstanceCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        "$instanceCount",
+                        0
+                      ]
+                    }
+                  },
+                  "historicalSnapshotCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "historicalInstanceCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        0,
+                        "$instanceCount"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "totalDocsExamined": 1032,
+          "totalKeysExamined": 1032,
+          "collectionScans": 0,
+          "indexesUsed": [
+            "uq_versions_survey_number"
+          ],
+          "nReturned": 1042,
+          "executionTimeMillisEstimate": 600
+        },
+        {
+          "$set": {
+            "publicationCounts": {
+              "$ifNull": [
+                {
+                  "$arrayElemAt": [
+                    "$publicationCounts",
+                    {
+                      "$const": 0
+                    }
+                  ]
+                },
+                {
+                  "$const": {}
+                }
+              ]
+            }
+          },
+          "nReturned": 1042,
+          "executionTimeMillisEstimate": 600
+        },
+        {
+          "$set": {
+            "publishedSnapshotCount": {
+              "$ifNull": [
+                "$publicationCounts.publishedSnapshotCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "currentPublishedInstanceCount": {
+              "$ifNull": [
+                "$publicationCounts.currentPublishedInstanceCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "historicalSnapshotCount": {
+              "$ifNull": [
+                "$publicationCounts.historicalSnapshotCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "historicalInstanceCount": {
+              "$ifNull": [
+                "$publicationCounts.historicalInstanceCount",
+                {
+                  "$const": 0
+                }
+              ]
+            }
+          },
+          "nReturned": 1042,
+          "executionTimeMillisEstimate": 600
+        },
+        {
+          "$match": {
+            "$or": [
+              {
+                "draftInstanceCount": {
+                  "$gt": 0
+                }
+              },
+              {
+                "publishedSnapshotCount": {
+                  "$gt": 0
+                }
+              }
+            ]
+          },
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 600
+        },
+        {
+          "$facet": {
+            "summary": [
+              {
+                "$internalFacetTeeConsumer": {},
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 600
+              },
+              {
+                "$group": {
+                  "_id": "$ownership",
+                  "surveyCount": {
+                    "$sum": {
+                      "$const": 1
+                    }
+                  },
+                  "draftSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$draftInstanceCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "publishedSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$publishedSnapshotCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "currentPublishedSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$currentPublishedInstanceCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "draftInstanceCount": {
+                    "$sum": "$draftInstanceCount"
+                  },
+                  "currentPublishedInstanceCount": {
+                    "$sum": "$currentPublishedInstanceCount"
+                  },
+                  "historicalSnapshotCount": {
+                    "$sum": "$historicalSnapshotCount"
+                  },
+                  "historicalInstanceCount": {
+                    "$sum": "$historicalInstanceCount"
+                  }
+                },
+                "maxAccumulatorMemoryUsageBytes": {
+                  "surveyCount": 160,
+                  "draftSurveyCount": 160,
+                  "publishedSurveyCount": 160,
+                  "currentPublishedSurveyCount": 160,
+                  "draftInstanceCount": 160,
+                  "currentPublishedInstanceCount": 160,
+                  "historicalSnapshotCount": 160,
+                  "historicalInstanceCount": 160
+                },
+                "totalOutputDataSizeBytes": 1258,
+                "usedDisk": false,
+                "spills": 0,
+                "nReturned": 2,
+                "executionTimeMillisEstimate": 600
+              }
+            ],
+            "items": [
+              {
+                "$internalFacetTeeConsumer": {},
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 0
+              },
+              {
+                "$sort": {
+                  "sortKey": {
+                    "_id": 1
+                  },
+                  "limit": 21
+                },
+                "totalDataSizeSortedBytesEstimate": 73451,
+                "usedDisk": false,
+                "spills": 0,
+                "nReturned": 21,
+                "executionTimeMillisEstimate": 0
+              },
+              {
+                "$project": {
+                  "_id": true,
+                  "ownership": true,
+                  "draftInstanceCount": true,
+                  "currentPublishedInstanceCount": true,
+                  "historicalSnapshotCount": true,
+                  "historicalInstanceCount": true,
+                  "surveyTitle": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownership",
+                          {
+                            "$const": "own"
+                          }
+                        ]
+                      },
+                      "$draft.title",
+                      "$$REMOVE"
+                    ]
+                  },
+                  "surveyStatus": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownership",
+                          {
+                            "$const": "own"
+                          }
+                        ]
+                      },
+                      "$status",
+                      "$$REMOVE"
+                    ]
+                  }
+                },
+                "nReturned": 21,
+                "executionTimeMillisEstimate": 0
+              }
+            ]
+          },
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 600
+        }
+      ],
+      "serverInfo": {
+        "host": "LAPTOP-F5CB7M1H",
+        "port": 27227,
+        "version": "6.0.29",
+        "gitVersion": "84e761de17af58439056c9d0444b51bda6b38e4f"
+      },
+      "serverParameters": {
+        "internalQueryFacetBufferSizeBytes": 104857600,
+        "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+        "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+        "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+        "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+        "internalQueryProhibitBlockingMergeOnMongoS": 0,
+        "internalQueryMaxAddToSetBytes": 104857600,
+        "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600
+      },
+      "command": {
+        "aggregate": "surveys",
+        "pipeline": [
+          {
+            "$project": {
+              "_id": 1,
+              "draft.title": 1,
+              "status": 1,
+              "currentVersionId": 1,
+              "ownership": {
+                "$cond": [
+                  {
+                    "$eq": [
+                      "$ownerId",
+                      {
+                        "$literal": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                      }
+                    ]
+                  },
+                  "own",
+                  "other"
+                ]
+              },
+              "draftInstanceCount": {
+                "$size": {
+                  "$filter": {
+                    "input": {
+                      "$ifNull": [
+                        "$draftQuestionSources",
+                        []
+                      ]
+                    },
+                    "as": "reference",
+                    "cond": {
+                      "$and": [
+                        {
+                          "$eq": [
+                            "$$reference.questionId",
+                            {
+                              "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "$lookup": {
+              "from": "survey_versions",
+              "localField": "_id",
+              "foreignField": "surveyId",
+              "let": {
+                "currentVersionId": "$currentVersionId"
+              },
+              "pipeline": [
+                {
+                  "$match": {
+                    "questionSources": {
+                      "$elemMatch": {
+                        "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                      }
+                    }
+                  }
+                },
+                {
+                  "$project": {
+                    "_id": 1,
+                    "instanceCount": {
+                      "$size": {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$questionSources",
+                              []
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "$group": {
+                    "_id": null,
+                    "publishedSnapshotCount": {
+                      "$sum": 1
+                    },
+                    "currentPublishedInstanceCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          "$instanceCount",
+                          0
+                        ]
+                      }
+                    },
+                    "historicalSnapshotCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          0,
+                          1
+                        ]
+                      }
+                    },
+                    "historicalInstanceCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          0,
+                          "$instanceCount"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "as": "publicationCounts"
+            }
+          },
+          {
+            "$set": {
+              "publicationCounts": {
+                "$ifNull": [
+                  {
+                    "$arrayElemAt": [
+                      "$publicationCounts",
+                      0
+                    ]
+                  },
+                  {}
+                ]
+              }
+            }
+          },
+          {
+            "$set": {
+              "publishedSnapshotCount": {
+                "$ifNull": [
+                  "$publicationCounts.publishedSnapshotCount",
+                  0
+                ]
+              },
+              "currentPublishedInstanceCount": {
+                "$ifNull": [
+                  "$publicationCounts.currentPublishedInstanceCount",
+                  0
+                ]
+              },
+              "historicalSnapshotCount": {
+                "$ifNull": [
+                  "$publicationCounts.historicalSnapshotCount",
+                  0
+                ]
+              },
+              "historicalInstanceCount": {
+                "$ifNull": [
+                  "$publicationCounts.historicalInstanceCount",
+                  0
+                ]
+              }
+            }
+          },
+          {
+            "$match": {
+              "$or": [
+                {
+                  "draftInstanceCount": {
+                    "$gt": 0
+                  }
+                },
+                {
+                  "publishedSnapshotCount": {
+                    "$gt": 0
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "$facet": {
+              "summary": [
+                {
+                  "$group": {
+                    "_id": "$ownership",
+                    "surveyCount": {
+                      "$sum": 1
+                    },
+                    "draftSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$draftInstanceCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "publishedSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$publishedSnapshotCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "currentPublishedSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$currentPublishedInstanceCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "draftInstanceCount": {
+                      "$sum": "$draftInstanceCount"
+                    },
+                    "currentPublishedInstanceCount": {
+                      "$sum": "$currentPublishedInstanceCount"
+                    },
+                    "historicalSnapshotCount": {
+                      "$sum": "$historicalSnapshotCount"
+                    },
+                    "historicalInstanceCount": {
+                      "$sum": "$historicalInstanceCount"
+                    }
+                  }
+                }
+              ],
+              "items": [
+                {
+                  "$sort": {
+                    "_id": 1
+                  }
+                },
+                {
+                  "$skip": 0
+                },
+                {
+                  "$limit": 21
+                },
+                {
+                  "$project": {
+                    "_id": 1,
+                    "ownership": 1,
+                    "draftInstanceCount": 1,
+                    "currentPublishedInstanceCount": 1,
+                    "historicalSnapshotCount": 1,
+                    "historicalInstanceCount": 1,
+                    "surveyTitle": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$ownership",
+                            "own"
+                          ]
+                        },
+                        "$draft.title",
+                        "$$REMOVE"
+                      ]
+                    },
+                    "surveyStatus": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$ownership",
+                            "own"
+                          ]
+                        },
+                        "$status",
+                        "$$REMOVE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "cursor": {},
+        "$db": "survey_optplan_168afacffc5c4433811975a3ce747597"
+      },
+      "ok": 1.0,
+      "$clusterTime": {
+        "clusterTime": {
+          "$timestamp": {
+            "t": 1793204475,
+            "i": 4
+          }
+        },
+        "signature": {
+          "hash": {
+            "$binary": {
+              "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "subType": "00"
+            }
+          },
+          "keyId": 0
+        }
+      },
+      "operationTime": {
+        "$timestamp": {
+          "t": 1793204475,
+          "i": 4
+        }
+      }
+    },
+    "draftCandidates": {
+      "explainVersion": "1",
+      "queryPlanner": {
+        "namespace": "survey_optplan_168afacffc5c4433811975a3ce747597.surveys",
+        "indexFilterSet": false,
+        "parsedQuery": {
+          "draftQuestionSources": {
+            "$elemMatch": {
+              "questionId": {
+                "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+              }
+            }
+          }
+        },
+        "queryHash": "B9940352",
+        "planCacheKey": "23025C1F",
+        "maxIndexedOrSolutionsReached": false,
+        "maxIndexedAndSolutionsReached": false,
+        "maxScansToExplodeReached": false,
+        "winningPlan": {
+          "stage": "PROJECTION_SIMPLE",
+          "transformBy": {
+            "_id": 1
+          },
+          "inputStage": {
+            "stage": "FETCH",
+            "filter": {
+              "draftQuestionSources": {
+                "$elemMatch": {
+                  "questionId": {
+                    "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                  }
+                }
+              }
+            },
+            "inputStage": {
+              "stage": "IXSCAN",
+              "keyPattern": {
+                "draftQuestionSources.questionId": 1,
+                "_id": 1
+              },
+              "indexName": "ix_surveys_question_impact",
+              "isMultiKey": true,
+              "multiKeyPaths": {
+                "draftQuestionSources.questionId": [
+                  "draftQuestionSources"
+                ],
+                "_id": []
+              },
+              "isUnique": false,
+              "isSparse": false,
+              "isPartial": false,
+              "indexVersion": 2,
+              "direction": "forward",
+              "indexBounds": {
+                "draftQuestionSources.questionId": [
+                  "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                ],
+                "_id": [
+                  "[MinKey, MaxKey]"
+                ]
+              }
+            }
+          }
+        },
+        "rejectedPlans": [
+          {
+            "stage": "SORT",
+            "sortPattern": {
+              "_id": 1
+            },
+            "memLimit": 104857600,
+            "type": "simple",
+            "inputStage": {
+              "stage": "PROJECTION_SIMPLE",
+              "transformBy": {
+                "_id": 1
+              },
+              "inputStage": {
+                "stage": "FETCH",
+                "filter": {
+                  "draftQuestionSources": {
+                    "$elemMatch": {
+                      "questionId": {
+                        "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                      }
+                    }
+                  }
+                },
+                "inputStage": {
+                  "stage": "IXSCAN",
+                  "keyPattern": {
+                    "draftQuestionSources.questionId": 1,
+                    "draftQuestionSources.questionVersionId": 1,
+                    "_id": 1
+                  },
+                  "indexName": "ix_surveys_question_version_impact",
+                  "isMultiKey": true,
+                  "multiKeyPaths": {
+                    "draftQuestionSources.questionId": [
+                      "draftQuestionSources"
+                    ],
+                    "draftQuestionSources.questionVersionId": [
+                      "draftQuestionSources"
+                    ],
+                    "_id": []
+                  },
+                  "isUnique": false,
+                  "isSparse": false,
+                  "isPartial": false,
+                  "indexVersion": 2,
+                  "direction": "forward",
+                  "indexBounds": {
+                    "draftQuestionSources.questionId": [
+                      "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                    ],
+                    "draftQuestionSources.questionVersionId": [
+                      "[MinKey, MaxKey]"
+                    ],
+                    "_id": [
+                      "[MinKey, MaxKey]"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "executionStats": {
+        "executionSuccess": true,
+        "nReturned": 32,
+        "executionTimeMillis": 0,
+        "totalKeysExamined": 32,
+        "totalDocsExamined": 32,
+        "executionStages": {
+          "stage": "PROJECTION_SIMPLE",
+          "nReturned": 32,
+          "executionTimeMillisEstimate": 0,
+          "works": 34,
+          "advanced": 32,
+          "needTime": 0,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "transformBy": {
+            "_id": 1
+          },
+          "inputStage": {
+            "stage": "FETCH",
+            "filter": {
+              "draftQuestionSources": {
+                "$elemMatch": {
+                  "questionId": {
+                    "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                  }
+                }
+              }
+            },
+            "nReturned": 32,
+            "executionTimeMillisEstimate": 0,
+            "works": 34,
+            "advanced": 32,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "docsExamined": 32,
+            "alreadyHasObj": 0,
+            "inputStage": {
+              "stage": "IXSCAN",
+              "nReturned": 32,
+              "executionTimeMillisEstimate": 0,
+              "works": 33,
+              "advanced": 32,
+              "needTime": 0,
+              "needYield": 0,
+              "saveState": 0,
+              "restoreState": 0,
+              "isEOF": 1,
+              "keyPattern": {
+                "draftQuestionSources.questionId": 1,
+                "_id": 1
+              },
+              "indexName": "ix_surveys_question_impact",
+              "isMultiKey": true,
+              "multiKeyPaths": {
+                "draftQuestionSources.questionId": [
+                  "draftQuestionSources"
+                ],
+                "_id": []
+              },
+              "isUnique": false,
+              "isSparse": false,
+              "isPartial": false,
+              "indexVersion": 2,
+              "direction": "forward",
+              "indexBounds": {
+                "draftQuestionSources.questionId": [
+                  "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                ],
+                "_id": [
+                  "[MinKey, MaxKey]"
+                ]
+              },
+              "keysExamined": 32,
+              "seeks": 1,
+              "dupsTested": 32,
+              "dupsDropped": 0
+            }
+          }
+        }
+      },
+      "command": {
+        "find": "surveys",
+        "filter": {
+          "draftQuestionSources": {
+            "$elemMatch": {
+              "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+            }
+          }
+        },
+        "projection": {
+          "_id": 1
+        },
+        "sort": {
+          "_id": 1
+        },
+        "$db": "survey_optplan_168afacffc5c4433811975a3ce747597"
+      },
+      "serverInfo": {
+        "host": "LAPTOP-F5CB7M1H",
+        "port": 27227,
+        "version": "6.0.29",
+        "gitVersion": "84e761de17af58439056c9d0444b51bda6b38e4f"
+      },
+      "serverParameters": {
+        "internalQueryFacetBufferSizeBytes": 104857600,
+        "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+        "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+        "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+        "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+        "internalQueryProhibitBlockingMergeOnMongoS": 0,
+        "internalQueryMaxAddToSetBytes": 104857600,
+        "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600
+      },
+      "ok": 1.0,
+      "$clusterTime": {
+        "clusterTime": {
+          "$timestamp": {
+            "t": 1793204475,
+            "i": 4
+          }
+        },
+        "signature": {
+          "hash": {
+            "$binary": {
+              "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "subType": "00"
+            }
+          },
+          "keyId": 0
+        }
+      },
+      "operationTime": {
+        "$timestamp": {
+          "t": 1793204475,
+          "i": 4
+        }
+      }
+    },
+    "publicationCandidates": {
+      "explainVersion": "1",
+      "stages": [
+        {
+          "$cursor": {
+            "queryPlanner": {
+              "namespace": "survey_optplan_168afacffc5c4433811975a3ce747597.survey_versions",
+              "indexFilterSet": false,
+              "parsedQuery": {
+                "questionSources": {
+                  "$elemMatch": {
+                    "questionId": {
+                      "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                    }
+                  }
+                }
+              },
+              "queryHash": "41FFF2A0",
+              "planCacheKey": "198A4097",
+              "maxIndexedOrSolutionsReached": false,
+              "maxIndexedAndSolutionsReached": false,
+              "maxScansToExplodeReached": false,
+              "winningPlan": {
+                "stage": "PROJECTION_SIMPLE",
+                "transformBy": {
+                  "surveyId": 1,
+                  "_id": 0
+                },
+                "inputStage": {
+                  "stage": "FETCH",
+                  "filter": {
+                    "questionSources": {
+                      "$elemMatch": {
+                        "questionId": {
+                          "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                        }
+                      }
+                    }
+                  },
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "keyPattern": {
+                      "questionSources.questionId": 1,
+                      "_id": 1
+                    },
+                    "indexName": "ix_versions_question_usage",
+                    "isMultiKey": true,
+                    "multiKeyPaths": {
+                      "questionSources.questionId": [
+                        "questionSources"
+                      ],
+                      "_id": []
+                    },
+                    "isUnique": false,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "questionSources.questionId": [
+                        "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                      ],
+                      "_id": [
+                        "[MinKey, MaxKey]"
+                      ]
+                    }
+                  }
+                }
+              },
+              "rejectedPlans": [
+                {
+                  "stage": "PROJECTION_SIMPLE",
+                  "transformBy": {
+                    "surveyId": 1,
+                    "_id": 0
+                  },
+                  "inputStage": {
+                    "stage": "FETCH",
+                    "filter": {
+                      "questionSources": {
+                        "$elemMatch": {
+                          "questionId": {
+                            "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                          }
+                        }
+                      }
+                    },
+                    "inputStage": {
+                      "stage": "IXSCAN",
+                      "keyPattern": {
+                        "questionSources.questionId": 1,
+                        "questionSources.questionVersionId": 1,
+                        "_id": 1
+                      },
+                      "indexName": "ix_versions_question_version_usage",
+                      "isMultiKey": true,
+                      "multiKeyPaths": {
+                        "questionSources.questionId": [
+                          "questionSources"
+                        ],
+                        "questionSources.questionVersionId": [
+                          "questionSources"
+                        ],
+                        "_id": []
+                      },
+                      "isUnique": false,
+                      "isSparse": false,
+                      "isPartial": false,
+                      "indexVersion": 2,
+                      "direction": "forward",
+                      "indexBounds": {
+                        "questionSources.questionId": [
+                          "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                        ],
+                        "questionSources.questionVersionId": [
+                          "[MinKey, MaxKey]"
+                        ],
+                        "_id": [
+                          "[MinKey, MaxKey]"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "executionStats": {
+              "executionSuccess": true,
+              "nReturned": 37,
+              "executionTimeMillis": 0,
+              "totalKeysExamined": 37,
+              "totalDocsExamined": 37,
+              "executionStages": {
+                "stage": "PROJECTION_SIMPLE",
+                "nReturned": 37,
+                "executionTimeMillisEstimate": 0,
+                "works": 39,
+                "advanced": 37,
+                "needTime": 0,
+                "needYield": 0,
+                "saveState": 1,
+                "restoreState": 1,
+                "isEOF": 1,
+                "transformBy": {
+                  "surveyId": 1,
+                  "_id": 0
+                },
+                "inputStage": {
+                  "stage": "FETCH",
+                  "filter": {
+                    "questionSources": {
+                      "$elemMatch": {
+                        "questionId": {
+                          "$eq": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                        }
+                      }
+                    }
+                  },
+                  "nReturned": 37,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 39,
+                  "advanced": 37,
+                  "needTime": 0,
+                  "needYield": 0,
+                  "saveState": 1,
+                  "restoreState": 1,
+                  "isEOF": 1,
+                  "docsExamined": 37,
+                  "alreadyHasObj": 0,
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "nReturned": 37,
+                    "executionTimeMillisEstimate": 0,
+                    "works": 38,
+                    "advanced": 37,
+                    "needTime": 0,
+                    "needYield": 0,
+                    "saveState": 1,
+                    "restoreState": 1,
+                    "isEOF": 1,
+                    "keyPattern": {
+                      "questionSources.questionId": 1,
+                      "_id": 1
+                    },
+                    "indexName": "ix_versions_question_usage",
+                    "isMultiKey": true,
+                    "multiKeyPaths": {
+                      "questionSources.questionId": [
+                        "questionSources"
+                      ],
+                      "_id": []
+                    },
+                    "isUnique": false,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "questionSources.questionId": [
+                        "[\"08fc84fc-5351-48b4-af34-407f6be101ae\", \"08fc84fc-5351-48b4-af34-407f6be101ae\"]"
+                      ],
+                      "_id": [
+                        "[MinKey, MaxKey]"
+                      ]
+                    },
+                    "keysExamined": 37,
+                    "seeks": 1,
+                    "dupsTested": 37,
+                    "dupsDropped": 0
+                  }
+                }
+              }
+            }
+          },
+          "nReturned": 37,
+          "executionTimeMillisEstimate": 0
+        },
+        {
+          "$group": {
+            "_id": "$surveyId"
+          },
+          "maxAccumulatorMemoryUsageBytes": {},
+          "totalOutputDataSizeBytes": 9986,
+          "usedDisk": false,
+          "spills": 0,
+          "nReturned": 37,
+          "executionTimeMillisEstimate": 0
+        },
+        {
+          "$sort": {
+            "sortKey": {
+              "_id": 1
+            }
+          },
+          "totalDataSizeSortedBytesEstimate": 12387,
+          "usedDisk": false,
+          "spills": 0,
+          "nReturned": 37,
+          "executionTimeMillisEstimate": 0
+        }
+      ],
+      "serverInfo": {
+        "host": "LAPTOP-F5CB7M1H",
+        "port": 27227,
+        "version": "6.0.29",
+        "gitVersion": "84e761de17af58439056c9d0444b51bda6b38e4f"
+      },
+      "serverParameters": {
+        "internalQueryFacetBufferSizeBytes": 104857600,
+        "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+        "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+        "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+        "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+        "internalQueryProhibitBlockingMergeOnMongoS": 0,
+        "internalQueryMaxAddToSetBytes": 104857600,
+        "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600
+      },
+      "command": {
+        "aggregate": "survey_versions",
+        "pipeline": [
+          {
+            "$match": {
+              "questionSources": {
+                "$elemMatch": {
+                  "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                }
+              }
+            }
+          },
+          {
+            "$group": {
+              "_id": "$surveyId"
+            }
+          },
+          {
+            "$sort": {
+              "_id": 1
+            }
+          }
+        ],
+        "cursor": {},
+        "$db": "survey_optplan_168afacffc5c4433811975a3ce747597"
+      },
+      "ok": 1.0,
+      "$clusterTime": {
+        "clusterTime": {
+          "$timestamp": {
+            "t": 1793204475,
+            "i": 4
+          }
+        },
+        "signature": {
+          "hash": {
+            "$binary": {
+              "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "subType": "00"
+            }
+          },
+          "keyId": 0
+        }
+      },
+      "operationTime": {
+        "$timestamp": {
+          "t": 1793204475,
+          "i": 4
+        }
+      }
+    },
+    "candidateBatch": {
+      "explainVersion": "1",
+      "stages": [
+        {
+          "$cursor": {
+            "queryPlanner": {
+              "namespace": "survey_optplan_168afacffc5c4433811975a3ce747597.surveys",
+              "indexFilterSet": false,
+              "parsedQuery": {
+                "_id": {
+                  "$in": [
+                    "02565fbe-389e-4a6f-86dd-a6d48752e342",
+                    "06b26778-3b3f-4f2a-902d-23c94e17847e",
+                    "092853ce-8fc2-47de-b586-c18fb7536dbc",
+                    "117d0e64-4c77-47b0-930c-53a0c9dd9352",
+                    "12788441-92c6-4bfd-baeb-89e4202c0f53",
+                    "1a63a222-7cce-49b0-83db-741959ddf78e",
+                    "1f1240b4-8c71-4ce8-a402-a99b9a2e066f",
+                    "23cf95f1-a63b-4abd-8779-72e6b07e8a82",
+                    "243b9a89-2246-4a2c-9b81-054744add786",
+                    "36a066ee-3f04-49f4-86e0-207b34ca865b",
+                    "37cb6f4b-b04d-47e0-9852-f309c8f19125",
+                    "3c11af70-fff2-4643-8672-6a5050ba5071",
+                    "67cc4981-85de-4ed4-875f-080b39ff02d7",
+                    "690a7e59-d5d8-4d64-98da-fb79a5d8da4c",
+                    "6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0",
+                    "76200c0c-c474-4246-adb6-38f5920d153e",
+                    "7a539366-b49b-4ce8-b229-4b71544f91e2",
+                    "7d5c3a85-2e78-461e-8e7b-7852165ed989",
+                    "7ded7ed7-2806-4f27-8c13-49f91a69c411",
+                    "7e2df6be-614a-4db8-a1c4-6b69235ecdf0",
+                    "8642a4b5-857a-4ce9-805c-6eb9123b02b5",
+                    "8adc3026-82ee-4eaa-9284-ee0f7946d3b6",
+                    "8b19a5f1-7cbf-47a0-9778-4d37f098bcf5",
+                    "8d611717-1952-4ce3-92b2-6573ffe2bc13",
+                    "a3aca0a5-6c09-472b-8d65-c5ea3ca43094",
+                    "aa216282-d50c-4aff-8253-e1c637e48618",
+                    "b2589a18-f754-4e0c-9b88-783c39e5a801",
+                    "b99c1721-8385-4581-b7e4-6d0bcd38a790",
+                    "bb31b77a-aeb1-44a8-8549-f3ed7a709d7e",
+                    "ca0b782f-c038-404c-b0aa-4efb04b50c34",
+                    "cf3590bc-74d0-4643-b2cd-874d039f69e3",
+                    "d3c1117f-974a-44a4-a2a1-46200c20cdf6",
+                    "d4a722fe-bd2f-42aa-91d4-d898347a295b",
+                    "d63f3f1a-ba85-4c5d-a51a-875741acd9f3",
+                    "d89403cf-a8e3-47de-879a-c95758b3a671",
+                    "dfbf8a32-5f7b-46df-a188-a718c4834101",
+                    "e302c135-b711-4e7b-9ef0-7187838fb76f",
+                    "e3cc42a9-9bdc-4259-aa17-198a97743efd",
+                    "e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd",
+                    "f0c7195d-0e0f-441d-b4e3-8c054873d774",
+                    "f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01",
+                    "fa2a23bb-6487-447b-913b-e022a37ae3a3",
+                    "orphan-plan-0",
+                    "orphan-plan-1",
+                    "orphan-plan-2",
+                    "orphan-plan-3",
+                    "orphan-plan-4"
+                  ]
+                }
+              },
+              "queryHash": "6A0909AE",
+              "planCacheKey": "346DA208",
+              "maxIndexedOrSolutionsReached": false,
+              "maxIndexedAndSolutionsReached": false,
+              "maxScansToExplodeReached": false,
+              "winningPlan": {
+                "stage": "PROJECTION_DEFAULT",
+                "transformBy": {
+                  "_id": true,
+                  "status": true,
+                  "currentVersionId": true,
+                  "draft": {
+                    "title": true
+                  },
+                  "ownership": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownerId",
+                          {
+                            "$const": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                          }
+                        ]
+                      },
+                      {
+                        "$const": "own"
+                      },
+                      {
+                        "$const": "other"
+                      }
+                    ]
+                  },
+                  "draftInstanceCount": {
+                    "$size": [
+                      {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$draftQuestionSources",
+                              {
+                                "$const": []
+                              }
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$const": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "inputStage": {
+                  "stage": "FETCH",
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "keyPattern": {
+                      "_id": 1
+                    },
+                    "indexName": "_id_",
+                    "isMultiKey": false,
+                    "multiKeyPaths": {
+                      "_id": []
+                    },
+                    "isUnique": true,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "_id": [
+                        "[\"02565fbe-389e-4a6f-86dd-a6d48752e342\", \"02565fbe-389e-4a6f-86dd-a6d48752e342\"]",
+                        "[\"06b26778-3b3f-4f2a-902d-23c94e17847e\", \"06b26778-3b3f-4f2a-902d-23c94e17847e\"]",
+                        "[\"092853ce-8fc2-47de-b586-c18fb7536dbc\", \"092853ce-8fc2-47de-b586-c18fb7536dbc\"]",
+                        "[\"117d0e64-4c77-47b0-930c-53a0c9dd9352\", \"117d0e64-4c77-47b0-930c-53a0c9dd9352\"]",
+                        "[\"12788441-92c6-4bfd-baeb-89e4202c0f53\", \"12788441-92c6-4bfd-baeb-89e4202c0f53\"]",
+                        "[\"1a63a222-7cce-49b0-83db-741959ddf78e\", \"1a63a222-7cce-49b0-83db-741959ddf78e\"]",
+                        "[\"1f1240b4-8c71-4ce8-a402-a99b9a2e066f\", \"1f1240b4-8c71-4ce8-a402-a99b9a2e066f\"]",
+                        "[\"23cf95f1-a63b-4abd-8779-72e6b07e8a82\", \"23cf95f1-a63b-4abd-8779-72e6b07e8a82\"]",
+                        "[\"243b9a89-2246-4a2c-9b81-054744add786\", \"243b9a89-2246-4a2c-9b81-054744add786\"]",
+                        "[\"36a066ee-3f04-49f4-86e0-207b34ca865b\", \"36a066ee-3f04-49f4-86e0-207b34ca865b\"]",
+                        "[\"37cb6f4b-b04d-47e0-9852-f309c8f19125\", \"37cb6f4b-b04d-47e0-9852-f309c8f19125\"]",
+                        "[\"3c11af70-fff2-4643-8672-6a5050ba5071\", \"3c11af70-fff2-4643-8672-6a5050ba5071\"]",
+                        "[\"67cc4981-85de-4ed4-875f-080b39ff02d7\", \"67cc4981-85de-4ed4-875f-080b39ff02d7\"]",
+                        "[\"690a7e59-d5d8-4d64-98da-fb79a5d8da4c\", \"690a7e59-d5d8-4d64-98da-fb79a5d8da4c\"]",
+                        "[\"6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0\", \"6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0\"]",
+                        "[\"76200c0c-c474-4246-adb6-38f5920d153e\", \"76200c0c-c474-4246-adb6-38f5920d153e\"]",
+                        "[\"7a539366-b49b-4ce8-b229-4b71544f91e2\", \"7a539366-b49b-4ce8-b229-4b71544f91e2\"]",
+                        "[\"7d5c3a85-2e78-461e-8e7b-7852165ed989\", \"7d5c3a85-2e78-461e-8e7b-7852165ed989\"]",
+                        "[\"7ded7ed7-2806-4f27-8c13-49f91a69c411\", \"7ded7ed7-2806-4f27-8c13-49f91a69c411\"]",
+                        "[\"7e2df6be-614a-4db8-a1c4-6b69235ecdf0\", \"7e2df6be-614a-4db8-a1c4-6b69235ecdf0\"]",
+                        "[\"8642a4b5-857a-4ce9-805c-6eb9123b02b5\", \"8642a4b5-857a-4ce9-805c-6eb9123b02b5\"]",
+                        "[\"8adc3026-82ee-4eaa-9284-ee0f7946d3b6\", \"8adc3026-82ee-4eaa-9284-ee0f7946d3b6\"]",
+                        "[\"8b19a5f1-7cbf-47a0-9778-4d37f098bcf5\", \"8b19a5f1-7cbf-47a0-9778-4d37f098bcf5\"]",
+                        "[\"8d611717-1952-4ce3-92b2-6573ffe2bc13\", \"8d611717-1952-4ce3-92b2-6573ffe2bc13\"]",
+                        "[\"a3aca0a5-6c09-472b-8d65-c5ea3ca43094\", \"a3aca0a5-6c09-472b-8d65-c5ea3ca43094\"]",
+                        "[\"aa216282-d50c-4aff-8253-e1c637e48618\", \"aa216282-d50c-4aff-8253-e1c637e48618\"]",
+                        "[\"b2589a18-f754-4e0c-9b88-783c39e5a801\", \"b2589a18-f754-4e0c-9b88-783c39e5a801\"]",
+                        "[\"b99c1721-8385-4581-b7e4-6d0bcd38a790\", \"b99c1721-8385-4581-b7e4-6d0bcd38a790\"]",
+                        "[\"bb31b77a-aeb1-44a8-8549-f3ed7a709d7e\", \"bb31b77a-aeb1-44a8-8549-f3ed7a709d7e\"]",
+                        "[\"ca0b782f-c038-404c-b0aa-4efb04b50c34\", \"ca0b782f-c038-404c-b0aa-4efb04b50c34\"]",
+                        "[\"cf3590bc-74d0-4643-b2cd-874d039f69e3\", \"cf3590bc-74d0-4643-b2cd-874d039f69e3\"]",
+                        "[\"d3c1117f-974a-44a4-a2a1-46200c20cdf6\", \"d3c1117f-974a-44a4-a2a1-46200c20cdf6\"]",
+                        "[\"d4a722fe-bd2f-42aa-91d4-d898347a295b\", \"d4a722fe-bd2f-42aa-91d4-d898347a295b\"]",
+                        "[\"d63f3f1a-ba85-4c5d-a51a-875741acd9f3\", \"d63f3f1a-ba85-4c5d-a51a-875741acd9f3\"]",
+                        "[\"d89403cf-a8e3-47de-879a-c95758b3a671\", \"d89403cf-a8e3-47de-879a-c95758b3a671\"]",
+                        "[\"dfbf8a32-5f7b-46df-a188-a718c4834101\", \"dfbf8a32-5f7b-46df-a188-a718c4834101\"]",
+                        "[\"e302c135-b711-4e7b-9ef0-7187838fb76f\", \"e302c135-b711-4e7b-9ef0-7187838fb76f\"]",
+                        "[\"e3cc42a9-9bdc-4259-aa17-198a97743efd\", \"e3cc42a9-9bdc-4259-aa17-198a97743efd\"]",
+                        "[\"e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd\", \"e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd\"]",
+                        "[\"f0c7195d-0e0f-441d-b4e3-8c054873d774\", \"f0c7195d-0e0f-441d-b4e3-8c054873d774\"]",
+                        "[\"f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01\", \"f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01\"]",
+                        "[\"fa2a23bb-6487-447b-913b-e022a37ae3a3\", \"fa2a23bb-6487-447b-913b-e022a37ae3a3\"]",
+                        "[\"orphan-plan-0\", \"orphan-plan-0\"]",
+                        "[\"orphan-plan-1\", \"orphan-plan-1\"]",
+                        "[\"orphan-plan-2\", \"orphan-plan-2\"]",
+                        "[\"orphan-plan-3\", \"orphan-plan-3\"]",
+                        "[\"orphan-plan-4\", \"orphan-plan-4\"]"
+                      ]
+                    }
+                  }
+                }
+              },
+              "rejectedPlans": []
+            },
+            "executionStats": {
+              "executionSuccess": true,
+              "nReturned": 42,
+              "executionTimeMillis": 24,
+              "totalKeysExamined": 82,
+              "totalDocsExamined": 42,
+              "executionStages": {
+                "stage": "PROJECTION_DEFAULT",
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 0,
+                "works": 83,
+                "advanced": 42,
+                "needTime": 40,
+                "needYield": 0,
+                "saveState": 1,
+                "restoreState": 1,
+                "isEOF": 1,
+                "transformBy": {
+                  "_id": true,
+                  "status": true,
+                  "currentVersionId": true,
+                  "draft": {
+                    "title": true
+                  },
+                  "ownership": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownerId",
+                          {
+                            "$const": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                          }
+                        ]
+                      },
+                      {
+                        "$const": "own"
+                      },
+                      {
+                        "$const": "other"
+                      }
+                    ]
+                  },
+                  "draftInstanceCount": {
+                    "$size": [
+                      {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$draftQuestionSources",
+                              {
+                                "$const": []
+                              }
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$const": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "inputStage": {
+                  "stage": "FETCH",
+                  "nReturned": 42,
+                  "executionTimeMillisEstimate": 0,
+                  "works": 83,
+                  "advanced": 42,
+                  "needTime": 40,
+                  "needYield": 0,
+                  "saveState": 1,
+                  "restoreState": 1,
+                  "isEOF": 1,
+                  "docsExamined": 42,
+                  "alreadyHasObj": 0,
+                  "inputStage": {
+                    "stage": "IXSCAN",
+                    "nReturned": 42,
+                    "executionTimeMillisEstimate": 0,
+                    "works": 83,
+                    "advanced": 42,
+                    "needTime": 40,
+                    "needYield": 0,
+                    "saveState": 1,
+                    "restoreState": 1,
+                    "isEOF": 1,
+                    "keyPattern": {
+                      "_id": 1
+                    },
+                    "indexName": "_id_",
+                    "isMultiKey": false,
+                    "multiKeyPaths": {
+                      "_id": []
+                    },
+                    "isUnique": true,
+                    "isSparse": false,
+                    "isPartial": false,
+                    "indexVersion": 2,
+                    "direction": "forward",
+                    "indexBounds": {
+                      "_id": [
+                        "[\"02565fbe-389e-4a6f-86dd-a6d48752e342\", \"02565fbe-389e-4a6f-86dd-a6d48752e342\"]",
+                        "[\"06b26778-3b3f-4f2a-902d-23c94e17847e\", \"06b26778-3b3f-4f2a-902d-23c94e17847e\"]",
+                        "[\"092853ce-8fc2-47de-b586-c18fb7536dbc\", \"092853ce-8fc2-47de-b586-c18fb7536dbc\"]",
+                        "[\"117d0e64-4c77-47b0-930c-53a0c9dd9352\", \"117d0e64-4c77-47b0-930c-53a0c9dd9352\"]",
+                        "[\"12788441-92c6-4bfd-baeb-89e4202c0f53\", \"12788441-92c6-4bfd-baeb-89e4202c0f53\"]",
+                        "[\"1a63a222-7cce-49b0-83db-741959ddf78e\", \"1a63a222-7cce-49b0-83db-741959ddf78e\"]",
+                        "[\"1f1240b4-8c71-4ce8-a402-a99b9a2e066f\", \"1f1240b4-8c71-4ce8-a402-a99b9a2e066f\"]",
+                        "[\"23cf95f1-a63b-4abd-8779-72e6b07e8a82\", \"23cf95f1-a63b-4abd-8779-72e6b07e8a82\"]",
+                        "[\"243b9a89-2246-4a2c-9b81-054744add786\", \"243b9a89-2246-4a2c-9b81-054744add786\"]",
+                        "[\"36a066ee-3f04-49f4-86e0-207b34ca865b\", \"36a066ee-3f04-49f4-86e0-207b34ca865b\"]",
+                        "[\"37cb6f4b-b04d-47e0-9852-f309c8f19125\", \"37cb6f4b-b04d-47e0-9852-f309c8f19125\"]",
+                        "[\"3c11af70-fff2-4643-8672-6a5050ba5071\", \"3c11af70-fff2-4643-8672-6a5050ba5071\"]",
+                        "[\"67cc4981-85de-4ed4-875f-080b39ff02d7\", \"67cc4981-85de-4ed4-875f-080b39ff02d7\"]",
+                        "[\"690a7e59-d5d8-4d64-98da-fb79a5d8da4c\", \"690a7e59-d5d8-4d64-98da-fb79a5d8da4c\"]",
+                        "[\"6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0\", \"6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0\"]",
+                        "[\"76200c0c-c474-4246-adb6-38f5920d153e\", \"76200c0c-c474-4246-adb6-38f5920d153e\"]",
+                        "[\"7a539366-b49b-4ce8-b229-4b71544f91e2\", \"7a539366-b49b-4ce8-b229-4b71544f91e2\"]",
+                        "[\"7d5c3a85-2e78-461e-8e7b-7852165ed989\", \"7d5c3a85-2e78-461e-8e7b-7852165ed989\"]",
+                        "[\"7ded7ed7-2806-4f27-8c13-49f91a69c411\", \"7ded7ed7-2806-4f27-8c13-49f91a69c411\"]",
+                        "[\"7e2df6be-614a-4db8-a1c4-6b69235ecdf0\", \"7e2df6be-614a-4db8-a1c4-6b69235ecdf0\"]",
+                        "[\"8642a4b5-857a-4ce9-805c-6eb9123b02b5\", \"8642a4b5-857a-4ce9-805c-6eb9123b02b5\"]",
+                        "[\"8adc3026-82ee-4eaa-9284-ee0f7946d3b6\", \"8adc3026-82ee-4eaa-9284-ee0f7946d3b6\"]",
+                        "[\"8b19a5f1-7cbf-47a0-9778-4d37f098bcf5\", \"8b19a5f1-7cbf-47a0-9778-4d37f098bcf5\"]",
+                        "[\"8d611717-1952-4ce3-92b2-6573ffe2bc13\", \"8d611717-1952-4ce3-92b2-6573ffe2bc13\"]",
+                        "[\"a3aca0a5-6c09-472b-8d65-c5ea3ca43094\", \"a3aca0a5-6c09-472b-8d65-c5ea3ca43094\"]",
+                        "[\"aa216282-d50c-4aff-8253-e1c637e48618\", \"aa216282-d50c-4aff-8253-e1c637e48618\"]",
+                        "[\"b2589a18-f754-4e0c-9b88-783c39e5a801\", \"b2589a18-f754-4e0c-9b88-783c39e5a801\"]",
+                        "[\"b99c1721-8385-4581-b7e4-6d0bcd38a790\", \"b99c1721-8385-4581-b7e4-6d0bcd38a790\"]",
+                        "[\"bb31b77a-aeb1-44a8-8549-f3ed7a709d7e\", \"bb31b77a-aeb1-44a8-8549-f3ed7a709d7e\"]",
+                        "[\"ca0b782f-c038-404c-b0aa-4efb04b50c34\", \"ca0b782f-c038-404c-b0aa-4efb04b50c34\"]",
+                        "[\"cf3590bc-74d0-4643-b2cd-874d039f69e3\", \"cf3590bc-74d0-4643-b2cd-874d039f69e3\"]",
+                        "[\"d3c1117f-974a-44a4-a2a1-46200c20cdf6\", \"d3c1117f-974a-44a4-a2a1-46200c20cdf6\"]",
+                        "[\"d4a722fe-bd2f-42aa-91d4-d898347a295b\", \"d4a722fe-bd2f-42aa-91d4-d898347a295b\"]",
+                        "[\"d63f3f1a-ba85-4c5d-a51a-875741acd9f3\", \"d63f3f1a-ba85-4c5d-a51a-875741acd9f3\"]",
+                        "[\"d89403cf-a8e3-47de-879a-c95758b3a671\", \"d89403cf-a8e3-47de-879a-c95758b3a671\"]",
+                        "[\"dfbf8a32-5f7b-46df-a188-a718c4834101\", \"dfbf8a32-5f7b-46df-a188-a718c4834101\"]",
+                        "[\"e302c135-b711-4e7b-9ef0-7187838fb76f\", \"e302c135-b711-4e7b-9ef0-7187838fb76f\"]",
+                        "[\"e3cc42a9-9bdc-4259-aa17-198a97743efd\", \"e3cc42a9-9bdc-4259-aa17-198a97743efd\"]",
+                        "[\"e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd\", \"e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd\"]",
+                        "[\"f0c7195d-0e0f-441d-b4e3-8c054873d774\", \"f0c7195d-0e0f-441d-b4e3-8c054873d774\"]",
+                        "[\"f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01\", \"f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01\"]",
+                        "[\"fa2a23bb-6487-447b-913b-e022a37ae3a3\", \"fa2a23bb-6487-447b-913b-e022a37ae3a3\"]",
+                        "[\"orphan-plan-0\", \"orphan-plan-0\"]",
+                        "[\"orphan-plan-1\", \"orphan-plan-1\"]",
+                        "[\"orphan-plan-2\", \"orphan-plan-2\"]",
+                        "[\"orphan-plan-3\", \"orphan-plan-3\"]",
+                        "[\"orphan-plan-4\", \"orphan-plan-4\"]"
+                      ]
+                    },
+                    "keysExamined": 82,
+                    "seeks": 41,
+                    "dupsTested": 0,
+                    "dupsDropped": 0
+                  }
+                }
+              }
+            }
+          },
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 0
+        },
+        {
+          "$lookup": {
+            "from": "survey_versions",
+            "as": "publicationCounts",
+            "localField": "_id",
+            "foreignField": "surveyId",
+            "let": {
+              "currentVersionId": "$currentVersionId"
+            },
+            "pipeline": [
+              {
+                "$match": {
+                  "questionSources": {
+                    "$elemMatch": {
+                      "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                    }
+                  }
+                }
+              },
+              {
+                "$project": {
+                  "_id": 1,
+                  "instanceCount": {
+                    "$size": {
+                      "$filter": {
+                        "input": {
+                          "$ifNull": [
+                            "$questionSources",
+                            []
+                          ]
+                        },
+                        "as": "reference",
+                        "cond": {
+                          "$and": [
+                            {
+                              "$eq": [
+                                "$$reference.questionId",
+                                {
+                                  "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "$group": {
+                  "_id": null,
+                  "publishedSnapshotCount": {
+                    "$sum": 1
+                  },
+                  "currentPublishedInstanceCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        "$instanceCount",
+                        0
+                      ]
+                    }
+                  },
+                  "historicalSnapshotCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "historicalInstanceCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$_id",
+                            "$$currentVersionId"
+                          ]
+                        },
+                        0,
+                        "$instanceCount"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "totalDocsExamined": 32,
+          "totalKeysExamined": 32,
+          "collectionScans": 0,
+          "indexesUsed": [
+            "uq_versions_survey_number"
+          ],
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 23
+        },
+        {
+          "$set": {
+            "publicationCounts": {
+              "$ifNull": [
+                {
+                  "$arrayElemAt": [
+                    "$publicationCounts",
+                    {
+                      "$const": 0
+                    }
+                  ]
+                },
+                {
+                  "$const": {}
+                }
+              ]
+            }
+          },
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 23
+        },
+        {
+          "$set": {
+            "publishedSnapshotCount": {
+              "$ifNull": [
+                "$publicationCounts.publishedSnapshotCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "currentPublishedInstanceCount": {
+              "$ifNull": [
+                "$publicationCounts.currentPublishedInstanceCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "historicalSnapshotCount": {
+              "$ifNull": [
+                "$publicationCounts.historicalSnapshotCount",
+                {
+                  "$const": 0
+                }
+              ]
+            },
+            "historicalInstanceCount": {
+              "$ifNull": [
+                "$publicationCounts.historicalInstanceCount",
+                {
+                  "$const": 0
+                }
+              ]
+            }
+          },
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 23
+        },
+        {
+          "$match": {
+            "$or": [
+              {
+                "draftInstanceCount": {
+                  "$gt": 0
+                }
+              },
+              {
+                "publishedSnapshotCount": {
+                  "$gt": 0
+                }
+              }
+            ]
+          },
+          "nReturned": 42,
+          "executionTimeMillisEstimate": 23
+        },
+        {
+          "$facet": {
+            "summary": [
+              {
+                "$internalFacetTeeConsumer": {},
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 23
+              },
+              {
+                "$group": {
+                  "_id": "$ownership",
+                  "surveyCount": {
+                    "$sum": {
+                      "$const": 1
+                    }
+                  },
+                  "draftSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$draftInstanceCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "publishedSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$publishedSnapshotCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "currentPublishedSurveyCount": {
+                    "$sum": {
+                      "$cond": [
+                        {
+                          "$gt": [
+                            "$currentPublishedInstanceCount",
+                            {
+                              "$const": 0
+                            }
+                          ]
+                        },
+                        {
+                          "$const": 1
+                        },
+                        {
+                          "$const": 0
+                        }
+                      ]
+                    }
+                  },
+                  "draftInstanceCount": {
+                    "$sum": "$draftInstanceCount"
+                  },
+                  "currentPublishedInstanceCount": {
+                    "$sum": "$currentPublishedInstanceCount"
+                  },
+                  "historicalSnapshotCount": {
+                    "$sum": "$historicalSnapshotCount"
+                  },
+                  "historicalInstanceCount": {
+                    "$sum": "$historicalInstanceCount"
+                  }
+                },
+                "maxAccumulatorMemoryUsageBytes": {
+                  "surveyCount": 160,
+                  "draftSurveyCount": 160,
+                  "publishedSurveyCount": 160,
+                  "currentPublishedSurveyCount": 160,
+                  "draftInstanceCount": 160,
+                  "currentPublishedInstanceCount": 160,
+                  "historicalSnapshotCount": 160,
+                  "historicalInstanceCount": 160
+                },
+                "totalOutputDataSizeBytes": 1258,
+                "usedDisk": false,
+                "spills": 0,
+                "nReturned": 2,
+                "executionTimeMillisEstimate": 23
+              }
+            ],
+            "items": [
+              {
+                "$internalFacetTeeConsumer": {},
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 0
+              },
+              {
+                "$sort": {
+                  "sortKey": {
+                    "_id": 1
+                  },
+                  "limit": 48
+                },
+                "totalDataSizeSortedBytesEstimate": 87226,
+                "usedDisk": false,
+                "spills": 0,
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 0
+              },
+              {
+                "$project": {
+                  "_id": true,
+                  "ownership": true,
+                  "draftInstanceCount": true,
+                  "currentPublishedInstanceCount": true,
+                  "historicalSnapshotCount": true,
+                  "historicalInstanceCount": true,
+                  "surveyTitle": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownership",
+                          {
+                            "$const": "own"
+                          }
+                        ]
+                      },
+                      "$draft.title",
+                      "$$REMOVE"
+                    ]
+                  },
+                  "surveyStatus": {
+                    "$cond": [
+                      {
+                        "$eq": [
+                          "$ownership",
+                          {
+                            "$const": "own"
+                          }
+                        ]
+                      },
+                      "$status",
+                      "$$REMOVE"
+                    ]
+                  }
+                },
+                "nReturned": 42,
+                "executionTimeMillisEstimate": 0
+              }
+            ]
+          },
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 23
+        }
+      ],
+      "serverInfo": {
+        "host": "LAPTOP-F5CB7M1H",
+        "port": 27227,
+        "version": "6.0.29",
+        "gitVersion": "84e761de17af58439056c9d0444b51bda6b38e4f"
+      },
+      "serverParameters": {
+        "internalQueryFacetBufferSizeBytes": 104857600,
+        "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+        "internalLookupStageIntermediateDocumentMaxSizeBytes": 104857600,
+        "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+        "internalQueryMaxBlockingSortMemoryUsageBytes": 104857600,
+        "internalQueryProhibitBlockingMergeOnMongoS": 0,
+        "internalQueryMaxAddToSetBytes": 104857600,
+        "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600
+      },
+      "command": {
+        "aggregate": "surveys",
+        "pipeline": [
+          {
+            "$match": {
+              "_id": {
+                "$in": [
+                  "02565fbe-389e-4a6f-86dd-a6d48752e342",
+                  "06b26778-3b3f-4f2a-902d-23c94e17847e",
+                  "092853ce-8fc2-47de-b586-c18fb7536dbc",
+                  "117d0e64-4c77-47b0-930c-53a0c9dd9352",
+                  "12788441-92c6-4bfd-baeb-89e4202c0f53",
+                  "1a63a222-7cce-49b0-83db-741959ddf78e",
+                  "1f1240b4-8c71-4ce8-a402-a99b9a2e066f",
+                  "23cf95f1-a63b-4abd-8779-72e6b07e8a82",
+                  "243b9a89-2246-4a2c-9b81-054744add786",
+                  "36a066ee-3f04-49f4-86e0-207b34ca865b",
+                  "37cb6f4b-b04d-47e0-9852-f309c8f19125",
+                  "3c11af70-fff2-4643-8672-6a5050ba5071",
+                  "67cc4981-85de-4ed4-875f-080b39ff02d7",
+                  "690a7e59-d5d8-4d64-98da-fb79a5d8da4c",
+                  "6b2503aa-fa0f-4f66-9f24-21fe5a53bfe0",
+                  "76200c0c-c474-4246-adb6-38f5920d153e",
+                  "7a539366-b49b-4ce8-b229-4b71544f91e2",
+                  "7d5c3a85-2e78-461e-8e7b-7852165ed989",
+                  "7ded7ed7-2806-4f27-8c13-49f91a69c411",
+                  "7e2df6be-614a-4db8-a1c4-6b69235ecdf0",
+                  "8642a4b5-857a-4ce9-805c-6eb9123b02b5",
+                  "8adc3026-82ee-4eaa-9284-ee0f7946d3b6",
+                  "8b19a5f1-7cbf-47a0-9778-4d37f098bcf5",
+                  "8d611717-1952-4ce3-92b2-6573ffe2bc13",
+                  "a3aca0a5-6c09-472b-8d65-c5ea3ca43094",
+                  "aa216282-d50c-4aff-8253-e1c637e48618",
+                  "b2589a18-f754-4e0c-9b88-783c39e5a801",
+                  "b99c1721-8385-4581-b7e4-6d0bcd38a790",
+                  "bb31b77a-aeb1-44a8-8549-f3ed7a709d7e",
+                  "ca0b782f-c038-404c-b0aa-4efb04b50c34",
+                  "cf3590bc-74d0-4643-b2cd-874d039f69e3",
+                  "d3c1117f-974a-44a4-a2a1-46200c20cdf6",
+                  "d4a722fe-bd2f-42aa-91d4-d898347a295b",
+                  "d63f3f1a-ba85-4c5d-a51a-875741acd9f3",
+                  "d89403cf-a8e3-47de-879a-c95758b3a671",
+                  "dfbf8a32-5f7b-46df-a188-a718c4834101",
+                  "e302c135-b711-4e7b-9ef0-7187838fb76f",
+                  "e3cc42a9-9bdc-4259-aa17-198a97743efd",
+                  "e8bb04d9-ddc4-49d1-9e6c-21c8ec2865fd",
+                  "f0c7195d-0e0f-441d-b4e3-8c054873d774",
+                  "f33b0cd7-56a7-4e8e-b2cd-a59ebb557b01",
+                  "fa2a23bb-6487-447b-913b-e022a37ae3a3",
+                  "orphan-plan-0",
+                  "orphan-plan-1",
+                  "orphan-plan-2",
+                  "orphan-plan-3",
+                  "orphan-plan-4"
+                ]
+              }
+            }
+          },
+          {
+            "$project": {
+              "_id": 1,
+              "draft.title": 1,
+              "status": 1,
+              "currentVersionId": 1,
+              "ownership": {
+                "$cond": [
+                  {
+                    "$eq": [
+                      "$ownerId",
+                      {
+                        "$literal": "df34a95d-5060-4d84-af88-5a7ddd1f27e2"
+                      }
+                    ]
+                  },
+                  "own",
+                  "other"
+                ]
+              },
+              "draftInstanceCount": {
+                "$size": {
+                  "$filter": {
+                    "input": {
+                      "$ifNull": [
+                        "$draftQuestionSources",
+                        []
+                      ]
+                    },
+                    "as": "reference",
+                    "cond": {
+                      "$and": [
+                        {
+                          "$eq": [
+                            "$$reference.questionId",
+                            {
+                              "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "$lookup": {
+              "from": "survey_versions",
+              "localField": "_id",
+              "foreignField": "surveyId",
+              "let": {
+                "currentVersionId": "$currentVersionId"
+              },
+              "pipeline": [
+                {
+                  "$match": {
+                    "questionSources": {
+                      "$elemMatch": {
+                        "questionId": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                      }
+                    }
+                  }
+                },
+                {
+                  "$project": {
+                    "_id": 1,
+                    "instanceCount": {
+                      "$size": {
+                        "$filter": {
+                          "input": {
+                            "$ifNull": [
+                              "$questionSources",
+                              []
+                            ]
+                          },
+                          "as": "reference",
+                          "cond": {
+                            "$and": [
+                              {
+                                "$eq": [
+                                  "$$reference.questionId",
+                                  {
+                                    "$literal": "08fc84fc-5351-48b4-af34-407f6be101ae"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "$group": {
+                    "_id": null,
+                    "publishedSnapshotCount": {
+                      "$sum": 1
+                    },
+                    "currentPublishedInstanceCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          "$instanceCount",
+                          0
+                        ]
+                      }
+                    },
+                    "historicalSnapshotCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          0,
+                          1
+                        ]
+                      }
+                    },
+                    "historicalInstanceCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$eq": [
+                              "$_id",
+                              "$$currentVersionId"
+                            ]
+                          },
+                          0,
+                          "$instanceCount"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "as": "publicationCounts"
+            }
+          },
+          {
+            "$set": {
+              "publicationCounts": {
+                "$ifNull": [
+                  {
+                    "$arrayElemAt": [
+                      "$publicationCounts",
+                      0
+                    ]
+                  },
+                  {}
+                ]
+              }
+            }
+          },
+          {
+            "$set": {
+              "publishedSnapshotCount": {
+                "$ifNull": [
+                  "$publicationCounts.publishedSnapshotCount",
+                  0
+                ]
+              },
+              "currentPublishedInstanceCount": {
+                "$ifNull": [
+                  "$publicationCounts.currentPublishedInstanceCount",
+                  0
+                ]
+              },
+              "historicalSnapshotCount": {
+                "$ifNull": [
+                  "$publicationCounts.historicalSnapshotCount",
+                  0
+                ]
+              },
+              "historicalInstanceCount": {
+                "$ifNull": [
+                  "$publicationCounts.historicalInstanceCount",
+                  0
+                ]
+              }
+            }
+          },
+          {
+            "$match": {
+              "$or": [
+                {
+                  "draftInstanceCount": {
+                    "$gt": 0
+                  }
+                },
+                {
+                  "publishedSnapshotCount": {
+                    "$gt": 0
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "$facet": {
+              "summary": [
+                {
+                  "$group": {
+                    "_id": "$ownership",
+                    "surveyCount": {
+                      "$sum": 1
+                    },
+                    "draftSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$draftInstanceCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "publishedSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$publishedSnapshotCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "currentPublishedSurveyCount": {
+                      "$sum": {
+                        "$cond": [
+                          {
+                            "$gt": [
+                              "$currentPublishedInstanceCount",
+                              0
+                            ]
+                          },
+                          1,
+                          0
+                        ]
+                      }
+                    },
+                    "draftInstanceCount": {
+                      "$sum": "$draftInstanceCount"
+                    },
+                    "currentPublishedInstanceCount": {
+                      "$sum": "$currentPublishedInstanceCount"
+                    },
+                    "historicalSnapshotCount": {
+                      "$sum": "$historicalSnapshotCount"
+                    },
+                    "historicalInstanceCount": {
+                      "$sum": "$historicalInstanceCount"
+                    }
+                  }
+                }
+              ],
+              "items": [
+                {
+                  "$sort": {
+                    "_id": 1
+                  }
+                },
+                {
+                  "$skip": 0
+                },
+                {
+                  "$limit": 48
+                },
+                {
+                  "$project": {
+                    "_id": 1,
+                    "ownership": 1,
+                    "draftInstanceCount": 1,
+                    "currentPublishedInstanceCount": 1,
+                    "historicalSnapshotCount": 1,
+                    "historicalInstanceCount": 1,
+                    "surveyTitle": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$ownership",
+                            "own"
+                          ]
+                        },
+                        "$draft.title",
+                        "$$REMOVE"
+                      ]
+                    },
+                    "surveyStatus": {
+                      "$cond": [
+                        {
+                          "$eq": [
+                            "$ownership",
+                            "own"
+                          ]
+                        },
+                        "$status",
+                        "$$REMOVE"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "cursor": {},
+        "$db": "survey_optplan_168afacffc5c4433811975a3ce747597"
+      },
+      "ok": 1.0,
+      "$clusterTime": {
+        "clusterTime": {
+          "$timestamp": {
+            "t": 1793204475,
+            "i": 4
+          }
+        },
+        "signature": {
+          "hash": {
+            "$binary": {
+              "base64": "AAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "subType": "00"
+            }
+          },
+          "keyId": 0
+        }
+      },
+      "operationTime": {
+        "$timestamp": {
+          "t": 1793204475,
+          "i": 4
+        }
+      }
+    }
+  },
+  "collectionFingerprints": {
+    "question_bank_items": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "question_banks": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "question_shares": {
+      "count": 1,
+      "sha256": "80cb68c6e57b271370df11790ab8fcd1d18199a22e5df9f5c7b56f9e1fae1aae"
+    },
+    "question_stat_grants": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "question_stat_scopes": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "question_stat_sources": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "question_versions": {
+      "count": 1,
+      "sha256": "aabbdbbe2b8f3cd32fa5f369737c03b5189388ac50ee5d7255506116e483f2c4"
+    },
+    "questions": {
+      "count": 1,
+      "sha256": "2b08878760ac838f729e2683b9a371684f6666dba6f26c89de3e5bcd26ddec19"
+    },
+    "responses": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "survey_versions": {
+      "count": 1037,
+      "sha256": "9961a6ac9126c7e49b599d62a22dc40e16bce59b525fe6c2b413ab0ed1bb9ea1"
+    },
+    "surveys": {
+      "count": 1042,
+      "sha256": "b3b1ec8a070d13f1eec3c526f1a7ae17c5abbdf242626b6ff577a37cf6afc5b5"
+    },
+    "users": {
+      "count": 2,
+      "sha256": "54100598b1e3e25af0cdfc87bbeeec0488fdb08f4df9ad7e03e87752137ae9f6"
+    }
+  },
+  "ownedDatabaseDropped": true,
+  "comparisonIgnoredFields": [
+    "checkedAt"
+  ],
+  "comparisonNote": "Dynamic check time normalized; summary, row order, aliases and page cursor were compared."
+}

@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-29",
+  "typecheckExitCode": 0,
+  "productionBuildExitCode": 0,
+  "viteVersion": "7.1.12",
+  "viteSeconds": 1.55,
+  "transformedModules": 40,
+  "cssAsset": "index-BnNzaZR-.css",
+  "jsAsset": "index-DmcwsOEW.js",
+  "source": "Observed actual compiler/build command output; no dependency installation"
+}

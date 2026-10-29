@@ -1113,6 +1113,16 @@
               "default": 0,
               "title": "Offset"
             }
+          },
+          {
+            "name": "includeCurrentVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Includecurrentversion"
+            }
           }
         ],
         "responses": {
@@ -1175,6 +1185,16 @@
                 }
               ],
               "title": "Afterid"
+            }
+          },
+          {
+            "name": "includeCurrentVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Includecurrentversion"
             }
           }
         ],
@@ -2234,6 +2254,16 @@
               "minimum": 0,
               "default": 0,
               "title": "Offset"
+            }
+          },
+          {
+            "name": "summary",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Summary"
             }
           }
         ],

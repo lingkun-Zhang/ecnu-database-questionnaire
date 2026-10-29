@@ -37,3 +37,7 @@ summary分own与others，分别返回surveyCount、draftSurveyCount、draftInsta
 真实浏览器从空合成库注册1账号，创建单选题V1、固定选题保存并发布1份问卷。检查显示本人去重1份、草稿1处、当前发布1处、历史0；取消后仍为V1且本地标题保留，审计成功写入仍只有原3次。重新检查并确认后生成V2，恢复V1前再次检查，确认形成V3；最终构建重新加载后核对“取消恢复”文案及取消不产生V4。最终5次成功审计写入。独立全文指纹核对十个受保护集合、原V1全文和题目稳定字段不变，草稿与发布仍固定V1。浏览器本轮是本人单选例，他人脱敏、撤销、分页和故障边界由API或受控组件测试覆盖，不冒称全部浏览器复演。
 
 证据：[结果](evidence/phase2-question-impact-results-20261027.json)、[写入审计](evidence/phase2-question-impact-browser-20261027.json)、[测试摘要](evidence/phase2-question-impact-tests-20261027.txt)、[清理](evidence/phase2-question-impact-shutdown-20261027.json)。截图只留私有目录。
+
+## 2026年10月29日后续优化
+
+新增的读取摘要、固定版本明细文案、同快照批读与有界缓存、候选影响查询及对应实测见[查询与页面加载优化](phase2-optimization.md)。本页原批次和边界继续保留；当前完整回归为502后端通过、3权限跳过、251子测试，以及216前端通过、类型/构建成功，见[最新结果](evidence/phase2-optimization-results-20261029.json)。10月27日报告PDF保留为历史文件；更新正文及10月29日本地PDF采用新批次，Word仍为待校稿副本。

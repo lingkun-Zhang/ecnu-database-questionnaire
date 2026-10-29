@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-29",
+  "relativeLinksChecked": 255,
+  "missingRelativeLinks": 0,
+  "testedSourceFilesHashChecked": 17,
+  "testedSourceHashesMatch": true,
+  "reportSourceAndPdfHashesMatch": true,
+  "allReportPagesReviewed": true,
+  "publicEvidenceFilesPrivacyChecked": [
+    "phase2-optimization-browser-20261029.json",
+    "phase2-optimization-build-20261029.json",
+    "phase2-optimization-history-20261029.json",
+    "phase2-optimization-impact-20261029.json",
+    "phase2-optimization-report-review-20261029.json",
+    "phase2-optimization-results-20261029.json",
+    "phase2-optimization-shutdown-20261029.json",
+    "phase2-optimization-statistics-20261029.json",
+    "phase2-optimization-tests-20261029.txt",
+    "phase2-optimization-tests-20261029.xml"
+  ],
+  "privateReportsAndRuntimeIgnored": true,
+  "apiPaths": 40,
+  "apiOperations": 47,
+  "newQueryDefaultsBackwardCompatible": true,
+  "oldDatedReportFilesPreserved": true,
+  "mainBaselinePreserved": true,
+  "testPortClosed": true,
+  "remotePush": false,
+  "courseSubmission": false
+}

@@ -9,6 +9,7 @@
 | 内容 | 入口 |
 |---|---|
 | 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[修改影响检查](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[跨问卷单题统计](docs/phase2-question-statistics.md)、[题库管理与选题界面](docs/phase2-question-banks-ui.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
+| 查询与页面加载优化 | [五项改动与实测](docs/phase2-optimization.md)、[本轮结果](docs/evidence/phase2-optimization-results-20261029.json) |
 | 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[最终回归证据](docs/evidence/phase2-delivery-results-20261027.json) |
 | 第一阶段报告与设计说明 | [第一阶段公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
@@ -77,7 +78,7 @@ npm.cmd run build
 Set-Location ..
 ```
 
-下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最终后端484项通过、3项既有Windows权限相关跳过、251个子测试通过；前端204项通过，类型检查和生产构建通过。见[最终证据](docs/evidence/phase2-delivery-results-20261027.json)。组件、浏览器和各次历史批次分别记录，不合并相加。
+下表保留第一阶段的历史批次，两个日期不能合并计数。第二阶段最近完整后端502项通过、3项既有Windows权限相关跳过、251个子测试通过；前端216项通过，类型检查和生产构建通过。见[本轮证据](docs/evidence/phase2-optimization-results-20261029.json)。组件、浏览器和各次历史批次分别记录，不合并相加。
 
 | 批次 | 结果 | 原始记录 |
 |---|---|---|

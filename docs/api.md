@@ -1,5 +1,7 @@
 # 第一阶段 API 说明
 
+最新读取优化的兼容参数见文末第15节；[优化说明](phase2-optimization.md)记录输出变化和实测边界。
+
 本文保留第一阶段21个API操作、20条路径的接口说明。第二阶段新增6个题目与版本操作，输入、输出及错误语义见[独立题目与版本](phase2-question-versions.md)。机器可读[OpenAPI快照](api-openapi.json)随当前应用更新，运行中的交互文档为http://127.0.0.1:8000/docs；以下第一阶段历史批次中的接口数量不包含新增操作。
 
 草稿保存支持可选 `questionSources`，所有者草稿和发布版本可返回固定来源；省略、空数组、内容匹配和复制历史的兼容规则见[问卷固定使用题目版本](phase2-question-reuse.md)。绑定没有新增单独端点。
@@ -258,3 +260,11 @@ CSV使用UTF-8 BOM、UTC时间，按acceptedSeq升序，包含回执、版本、
 ## 作者专用修改影响查询（2026-10-27）
 
 新增`GET /api/questions/{qid}/impact`，仅题目作者可用，原usages权限不变。可选questionVersionId；offset默认0且0—9007199254740991；limit默认20且1—100。返回checkedAt、scope=saved_references、own/others摘要及每份问卷的有界items页和nextOffset。本人条目带标题/ID/状态，他人仅HMAC引用代号与引用数，不含真实ID、标题、身份、实例标识、定义或答案。摘要区分去重问卷、草稿实例、当前发布实例及历史快照/实例；当前/历史按真实发布指针判断，闭卷仍可有当前版。一次请求snapshot一致，跨页实时偏移不冻结；保存前检查不代表全局锁或换版授权。字段、解释和边界见[影响说明](phase2-question-impact.md)。接入后当前共47个API操作、40条路径，OpenAPI由实际应用生成。
+
+## 15 题目摘要、历史摘要与明细文案（2026-10-29）
+
+GET /api/questions和GET /api/shared-questions支持includeCurrentVersion，默认false保持原格式；true时每项追加currentVersion:{id,questionId,versionNo,content:{kind,title}}，不返回config。根记录与当前摘要在同一快照核对，打开题目、选用或保存仍需实际权限，摘要不是使用凭证。
+
+GET /api/surveys/{survey_id}/versions支持summary，默认false保持完整版本及来源；true仅返回id、surveyId、versionNo、sourceDraftRevision、publishedAt、title。limit/offset和所有权规则保持。完整内容仍通过指定版GET获取。
+
+GET /api/questions/{question_id}/statistics/answers的本人选择题明细追加displayValue：single为固定版本选项文案，multi为对应文案数组。原value不变，数字/文本不使用该字段；CSV仍保留原ID。他人来源仍只参与汇总。没有新增API路径或操作，仍为47项操作、40条路径。

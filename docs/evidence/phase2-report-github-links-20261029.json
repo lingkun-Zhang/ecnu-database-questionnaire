@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-29",
+  "sourceFile": "docs/phase2-report.md",
+  "sourceSha256": "d6a09e4462d23870ddac0a2e192c7239d6d6064506889196b2a7ef7b8ce881df",
+  "pdfFile": "问川第二阶段实验报告_交付复验版20261029.pdf",
+  "pdfSha256": "8ec490d04eb1fd855cc95d8713b81e89be117c6942a25743472c276cf7dcd0b3",
+  "pages": 15,
+  "firstPageLinks": {
+    "phaseTwoBranch": "https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions",
+    "publishedCodeCommit": "https://github.com/lingkun-Zhang/ecnu-database-questionnaire/commit/7960aa10319e921252190d3b65ce7155dc7a1667"
+  },
+  "pdfLinkAnnotationsVerified": true,
+  "sourceVersionReferenced": "7960aa10319e921252190d3b65ce7155dc7a1667",
+  "mainBaseline": "99b66d1e637fa3b4ecb13719c0230ecb7e958701",
+  "priorSourceSha256": "be076353302f8d106c6514070e4e188e6c174fd90442bf44635b5f6145346969",
+  "priorPdfSha256": "25ff4cc07762a38d91de3c7f0e0aefa318345cf9207e2dcb897ebf45f909b657",
+  "priorPdfAndMarkdownBackedUpLocally": true,
+  "allPagesVisuallyReviewed": true,
+  "docxUpdated": false,
+  "newBusinessTestsRun": false,
+  "businessCodeChanged": false,
+  "courseSubmission": false,
+  "currentRenderedPagesInspected": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "previouslyReviewedIdenticalRenderedPages": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "reviewMethod": "Re-rendered all 15 pages. Inspected changed pages 1-3 and pages 4-5; pages 4-15 match the already reviewed prior PNG bytes exactly.",
+  "priorReview": "phase2-delivery-recheck-report-20261029.json"
+}

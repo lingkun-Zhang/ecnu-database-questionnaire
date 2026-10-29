@@ -2,7 +2,7 @@
 
 第二阶段代码仓库：[https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions)
 
-本报告对应已推送的公开代码提交[c1a43aa](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/commit/c1a43aa55768a0ae7697f95119ffb505e9147e4a)；请查看`phase2-question-versions`分支，`main`保留第一阶段基线。本版本提供公开复验工具，并统一测试配置；统计业务只整理常量命名和说明，原功能和数据结构保持兼容。
+代码版本：[8810cec](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/commit/8810cecc3e26c56a3e9753ec082440d916589c62)。第二阶段使用`phase2-question-versions`分支，`main`保留第一阶段基线。
 
 ## 一 项目概述
 

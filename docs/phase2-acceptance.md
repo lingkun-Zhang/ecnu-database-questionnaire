@@ -2,7 +2,7 @@
 
 核对日期：2026年10月29日。依据《大作业一：需求变更》的八项新增要求、《大作业一第一阶段》的交付与评分要求，以及当前代码和实际证据整理。当前完整回归和报告采用10月29日批次；10月27日批次保留在历史记录中，不合并计数，也不因整理日期变化重写执行日期。
 
-第一阶段可追溯基线为`99b66d1e637fa3b4ecb13719c0230ecb7e958701`，第二阶段在原Python/FastAPI、Vue/TypeScript与MongoDB项目上增量扩展。当前产品实现为`a62eb3e42985d1fa92aa8fae5d0448b99cc54eed`。第二阶段已按用户授权推送至[既有仓库的第二阶段分支](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions)，10月29日核实的发布提交为`7960aa10319e921252190d3b65ce7155dc7a1667`；`main`继续保留第一阶段基线。本页后续材料更新不预填尚未生成的提交号，课程平台尚未提交。查询与页面读取改动、数据兼容边界及实测见[优化说明](phase2-optimization.md)。
+第一阶段可追溯基线为`99b66d1e637fa3b4ecb13719c0230ecb7e958701`，第二阶段在原Python/FastAPI、Vue/TypeScript与MongoDB项目上增量扩展。主要实现与后续优化保留在提交历史中，当前文案版本为`8810cec`。第二阶段已按用户授权推送至[既有仓库的第二阶段分支](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions)，10月29日核实的发布提交为`8810cecc3e26c56a3e9753ec082440d916589c62`；`main`继续保留第一阶段基线。本页后续材料更新不预填尚未生成的提交号，课程平台尚未提交。查询与页面读取改动、数据兼容边界及实测见[优化说明](phase2-optimization.md)。
 
 ## 八项新增要求的核对
 
@@ -41,9 +41,13 @@
 |---|---|
 | MongoDB设计 | [数据库设计](schema.md)、[报告模型与约束部分](phase2-report.md)：十二集合的生命周期、嵌入与引用取舍、来源真实性、唯一/部分/多键/TTL索引、事务与有限聚合；[使用查询计划实验](evidence/phase2-question-usage-plans-20261025.json)保留实际扫描量及局限 |
 | 后端逻辑 | [关键协议](protocol.md)、[API说明](api.md)、[OpenAPI](api-openapi.json)：所有权、固定来源校验、预期修订、幂等恢复、共享写协调、恢复元数据、统计范围及独立汇总授权；错误边界有真实MongoDB测试 |
-| 测试 | [测试报告](test-report.md)、[当前完整摘要](evidence/phase2-optimization-results-20261029.json)、[日志](evidence/phase2-optimization-tests-20261029.txt)、[JUnit](evidence/phase2-optimization-tests-20261029.xml)：输入、预期、故障点、历史批次及未测范围分开记录 |
+| 测试 | [测试报告](test-report.md)、[当前完整摘要](evidence/phase2-review-results-20261029.json)、[日志](evidence/phase2-review-tests-20261029.txt)、[JUnit](evidence/phase2-review-tests-20261029.xml)：输入、预期、故障点、历史批次及未测范围分开记录 |
 | 文档 | [第二阶段报告](phase2-report.md)、[演示](phase2-demo.md)、本验收表及各专题设计；第一阶段报告、原设计与历史开发记录仍保留 |
 | AI使用说明 | [AI说明](ai-use-summary.md)、[逐轮日志](ai-log.md)、[报告AI章节](phase2-report.md)：用户决策、实际AI任务、代码/测试/文档产出、失败及修正均按发生事实记录，不补写学生手工编码或独立掌握 |
+
+## 10月29日文案整理
+
+README、报告和两份使用说明已整理措辞，界面调整了八处标题或提示。版本、权限和统计规则保持原有行为，AI分工与失败记录保留。前端216项测试、类型检查和构建通过；两个合成账号检查了题目管理、跨卷统计、题库预览和统计授权说明，实际统计为两条答案0和3、总和3、均值1.5。详见[文案与验证记录](evidence/phase2-copy-edit-results-20261029.json)。后端与已测文件指纹一致，本次未重跑完整后端测试。
 
 ## 当前完整验证：2026年10月29日复验工具批次
 
@@ -77,9 +81,9 @@
 
 | 材料 | 当前状态 |
 |---|---|
-| 当前源码与增量历史 | 第二阶段源码与脱敏文档已推送到`phase2-question-versions`分支，本轮已核实代码提交`c1a43aa`；早期主要实现为`a62eb3e`，`main`仍保留第一阶段`99b66d1`，后续材料版本以实际提交和包内清单为准 |
+| 当前源码与增量历史 | 第二阶段源码与脱敏文档已推送到`phase2-question-versions`分支，本次文案提交为`8810cec`；后端完整回归对应`c1a43aa`，`main`仍保留第一阶段`99b66d1`，后续材料版本以实际提交和包内清单为准 |
 | Markdown报告、设计与证据 | 已整理，可由本表、README和专题链接逐项查找；本地打包内容见[交付清单](phase2-submission.md) |
-| 当前本地PDF“问川第二阶段实验报告_交付复验版20261029.pdf” | 15页，首页包含可点击的第二阶段GitHub链接，分页与渲染已核对；见[当前报告核对](evidence/phase2-review-report-20261029.json)。此前15页版核对见[交付复验报告记录](evidence/phase2-delivery-recheck-report-20261029.json) |
+| 当前本地PDF“问川第二阶段实验报告_交付复验版20261029.pdf” | 15页，首页包含可点击的第二阶段GitHub链接，分页与渲染已核对；见[当前报告核对](evidence/phase2-report-copy-edit-20261029.json)。此前15页版核对见[交付复验报告记录](evidence/phase2-delivery-recheck-report-20261029.json) |
 | 此前10月29日14页PDF | 文件原样保留，对应正文另存[复验前正文](phase2-report-20261029-before-delivery.md)，其指纹与[历史核对记录](evidence/phase2-optimization-report-review-20261029.json)一致 |
 | 历史Word“问川第二阶段实验报告_20261029_待校稿.docx” | 对应此前14页正文的可编辑待校稿副本，本次未更新；结构已检查，标准工具缺少soffice，尚未核对原生Word分页。独立PDF不冒充Word渲染结果，Word不作为已验收的排版交付 |
 | 10月27日历史PDF与Word | “问川第二阶段实验报告.pdf”和“问川第二阶段实验报告_待校稿.docx”原样保留；当时PDF核对见[历史报告记录](evidence/phase2-report-review-20261027.json)，不能将其当作10月29日版本 |

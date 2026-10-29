@@ -1,0 +1,777 @@
+{
+  "date": "2026-10-29",
+  "sourceCommit": "628ff3530deeeb2245278e42efaafa9045ef6589",
+  "implementationCommit": "a62eb3e42985d1fa92aa8fae5d0448b99cc54eed",
+  "installation": {
+    "source": "Git archive of the exact frozen local commit",
+    "archiveSha256": "ee41104f88702c3ff8c8b2e59354e410d371eeefb11cefeb5ec65e998de5dc0e",
+    "archivedFilesByteChecked": 302,
+    "copiedOldEnvironmentOrBuild": false,
+    "python": "3.12.14",
+    "node": "24.18.0",
+    "npm": "11.16.0",
+    "mongo": "6.0.29",
+    "mongosh": "2.12.0",
+    "entry": "Unmodified scripts/install.ps1 with an explicit Python path; scripts/start.ps1 -NoBrowser",
+    "installExitCode": 0,
+    "pipCheckExitCode": 0,
+    "startExitCode": 0,
+    "backendPackages": "34 locked requirements; cached wheels used to create a new environment",
+    "frontendPackagesAdded": 45,
+    "frontendBuild": "vue-tsc and Vite 7.1.12 passed; 40 modules; 1.62s",
+    "assets": [
+      "index-BnNzaZR-.css",
+      "index-DmcwsOEW.js"
+    ],
+    "initialCollectorFailures": "Two outer PowerShell log collectors stopped on native pip stderr notices. Product scripts unchanged; subprocess file-handle capture completed successfully.",
+    "npmNotice": "npm reported the esbuild install-script approval notice; permissions were not changed and the actual production build passed.",
+    "boundary": "Fresh project directory and new dependencies on this existing Windows machine with installed runtimes and caches; not a new operating-system or offline-install claim."
+  },
+  "continuousHttpWalkthrough": {
+    "date": "2026-10-29",
+    "sourceCommit": "628ff3530deeeb2245278e42efaafa9045ef6589",
+    "mode": "Continuous real HTTP requests to the unmodified freshly installed application",
+    "startedAt": "2026-10-29T07:59:35.263945+00:00",
+    "success": true,
+    "data": "Two new synthetic accounts; every business record and answer created through actual API",
+    "steps": [
+      {
+        "step": 1,
+        "actor": "unauthenticated",
+        "method": "GET",
+        "route": "/health",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/health"
+      },
+      {
+        "step": 2,
+        "actor": "unauthenticated",
+        "method": "POST",
+        "route": "/auth/register",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "Register new synthetic author"
+      },
+      {
+        "step": 3,
+        "actor": "unauthenticated",
+        "method": "POST",
+        "route": "/auth/register",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "Register new synthetic recipient"
+      },
+      {
+        "step": 4,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions"
+      },
+      {
+        "step": 5,
+        "actor": "author",
+        "method": "POST",
+        "route": "/question-banks",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/question-banks"
+      },
+      {
+        "step": 6,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 7,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/shares",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/shares"
+      },
+      {
+        "step": 8,
+        "actor": "author",
+        "method": "POST",
+        "route": "/surveys",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys"
+      },
+      {
+        "step": 9,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896/draft",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896/draft"
+      },
+      {
+        "step": 10,
+        "actor": "author",
+        "method": "POST",
+        "route": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896/publish",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896/publish"
+      },
+      {
+        "step": 11,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896"
+      },
+      {
+        "step": 12,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/surveys",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys"
+      },
+      {
+        "step": 13,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft"
+      },
+      {
+        "step": 14,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/publish",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/publish"
+      },
+      {
+        "step": 15,
+        "actor": "recipient",
+        "method": "GET",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87"
+      },
+      {
+        "step": 16,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/impact",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/impact"
+      },
+      {
+        "step": 17,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/versions",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/versions"
+      },
+      {
+        "step": 18,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896"
+      },
+      {
+        "step": 19,
+        "actor": "author",
+        "method": "GET",
+        "route": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions"
+      },
+      {
+        "step": 20,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 21,
+        "actor": "author",
+        "method": "POST",
+        "route": "/surveys",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys"
+      },
+      {
+        "step": 22,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515/draft",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515/draft"
+      },
+      {
+        "step": 23,
+        "actor": "author",
+        "method": "POST",
+        "route": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515/publish",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515/publish"
+      },
+      {
+        "step": 24,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515"
+      },
+      {
+        "step": 25,
+        "actor": "author",
+        "method": "PUT",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/shares",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/shares"
+      },
+      {
+        "step": 26,
+        "actor": "recipient",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 404,
+        "expectedStatus": 404,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 27,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/surveys",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys"
+      },
+      {
+        "step": 28,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/66d178c1-5c70-4634-83d8-ed71770ce3b4/draft",
+        "status": 404,
+        "expectedStatus": 404,
+        "check": "/surveys/66d178c1-5c70-4634-83d8-ed71770ce3b4/draft"
+      },
+      {
+        "step": 29,
+        "actor": "recipient",
+        "method": "GET",
+        "route": "/surveys/66d178c1-5c70-4634-83d8-ed71770ce3b4",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/66d178c1-5c70-4634-83d8-ed71770ce3b4"
+      },
+      {
+        "step": 30,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft",
+        "status": 404,
+        "expectedStatus": 404,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft"
+      },
+      {
+        "step": 31,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/draft"
+      },
+      {
+        "step": 32,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/publish",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/publish"
+      },
+      {
+        "step": 33,
+        "actor": "recipient",
+        "method": "GET",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87"
+      },
+      {
+        "step": 34,
+        "actor": "author",
+        "method": "POST",
+        "route": "/survey/30122faf4b91486193909840048ea261/start",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/survey/30122faf4b91486193909840048ea261/start"
+      },
+      {
+        "step": 35,
+        "actor": "author",
+        "method": "POST",
+        "route": "/survey/30122faf4b91486193909840048ea261/submit",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/survey/30122faf4b91486193909840048ea261/submit"
+      },
+      {
+        "step": 36,
+        "actor": "author",
+        "method": "POST",
+        "route": "/survey/095aed7c9a2746ebb398f107a009d6de/start",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/survey/095aed7c9a2746ebb398f107a009d6de/start"
+      },
+      {
+        "step": 37,
+        "actor": "author",
+        "method": "POST",
+        "route": "/survey/095aed7c9a2746ebb398f107a009d6de/submit",
+        "status": 422,
+        "expectedStatus": 422,
+        "check": "V2 rejects zero through actual submit API"
+      },
+      {
+        "step": 38,
+        "actor": "author",
+        "method": "POST",
+        "route": "/survey/095aed7c9a2746ebb398f107a009d6de/submit",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/survey/095aed7c9a2746ebb398f107a009d6de/submit"
+      },
+      {
+        "step": 39,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/survey/d31ccba6ef004873bc41638dbf0ff84a/start",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/survey/d31ccba6ef004873bc41638dbf0ff84a/start"
+      },
+      {
+        "step": 40,
+        "actor": "recipient",
+        "method": "POST",
+        "route": "/survey/d31ccba6ef004873bc41638dbf0ff84a/submit",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/survey/d31ccba6ef004873bc41638dbf0ff84a/submit"
+      },
+      {
+        "step": 41,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes"
+      },
+      {
+        "step": 42,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 43,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 44,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 45,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes"
+      },
+      {
+        "step": 46,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 47,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/sources",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/sources"
+      },
+      {
+        "step": 48,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/answers",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/answers"
+      },
+      {
+        "step": 49,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/export",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/export"
+      },
+      {
+        "step": 50,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/stats",
+        "status": 404,
+        "expectedStatus": 404,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/stats"
+      },
+      {
+        "step": 51,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 52,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 409,
+        "expectedStatus": 409,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 53,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/sources",
+        "status": 409,
+        "expectedStatus": 409,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/sources"
+      },
+      {
+        "step": 54,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/answers",
+        "status": 409,
+        "expectedStatus": 409,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/answers"
+      },
+      {
+        "step": 55,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/export",
+        "status": 409,
+        "expectedStatus": 409,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/export"
+      },
+      {
+        "step": 56,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes"
+      },
+      {
+        "step": 57,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 58,
+        "actor": "recipient",
+        "method": "PUT",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87/question-statistics-grants/488dfd4c-cd71-4b1d-8a5e-1a978b24b630"
+      },
+      {
+        "step": 59,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 409,
+        "expectedStatus": 409,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 60,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics/scopes"
+      },
+      {
+        "step": 61,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/statistics"
+      },
+      {
+        "step": 62,
+        "actor": "author",
+        "method": "POST",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/restore",
+        "status": 201,
+        "expectedStatus": 201,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/restore"
+      },
+      {
+        "step": 63,
+        "actor": "author",
+        "method": "GET",
+        "route": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/versions/9a810fe9-10ea-4213-a21a-48f224d7cf98",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/questions/488dfd4c-cd71-4b1d-8a5e-1a978b24b630/versions/9a810fe9-10ea-4213-a21a-48f224d7cf98"
+      },
+      {
+        "step": 64,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/e598bd9b-c680-4b91-9cc5-a1306da19896"
+      },
+      {
+        "step": 65,
+        "actor": "author",
+        "method": "GET",
+        "route": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/0b00c719-6a00-4b6d-823f-3f5ea0565515"
+      },
+      {
+        "step": 66,
+        "actor": "recipient",
+        "method": "GET",
+        "route": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/surveys/63eac753-9975-44fa-a005-88398d1f8e87"
+      },
+      {
+        "step": 67,
+        "actor": "author",
+        "method": "GET",
+        "route": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions",
+        "status": 200,
+        "expectedStatus": 200,
+        "check": "/question-banks/da071732-3d88-4440-9d2a-4aa24021ccfb/questions"
+      }
+    ],
+    "browserAllStepsClaimed": false,
+    "health": {
+      "status": "ok",
+      "database": "MongoDB",
+      "mongoVersion": "6.0.29",
+      "replicaSetRequired": true
+    },
+    "requestCount": 67,
+    "assertions": {
+      "questionVersions": 3,
+      "surveyCount": 4,
+      "publishedSurveyCount": 3,
+      "publications": 4,
+      "acceptedResponses": 3,
+      "invalidZeroRejectedBySubmitApi": true,
+      "newReferenceAndVersionSwitchDeniedAfterRevocation": true,
+      "retainedBindingRepublished": true,
+      "foreignImpactTitleHidden": true,
+      "V1Authorized": {
+        "A": 2,
+        "sum": 3,
+        "avg": 1.5
+      },
+      "V2Authorized": {
+        "A": 1,
+        "sum": 3,
+        "avg": 3
+      },
+      "ownCsvValues": [
+        0,
+        3
+      ],
+      "foreignRawAccessDenied": true,
+      "revocationInvalidatesAllReadEndpoints": true,
+      "regrantDoesNotReviveOldScope": true,
+      "restorationPreservesSurveyAndBankBindings": true
+    },
+    "finishedAt": "2026-10-29T07:59:36.348131+00:00"
+  },
+  "browserCheckpoints": {
+    "sameInstalledApplication": true,
+    "twoSyntheticAccountsActuallyLoggedIn": true,
+    "author": "Question V3 restoration source V1 and prior V2; use share revoked r2; a newly requested statistics scope showed V1 A2/sum3/avg1.5, V2 A1/sum3/avg3, own detail 0/3 only.",
+    "recipient": "Existing saved D draft revision 2 and survey publication V2; pinned numeric content still 0..7; collection panel separately showed aggregate grant active r3.",
+    "mutations": "Browser obtained one new statistics scope; business setup and the 67-step lifecycle were actual HTTP API requests.",
+    "allStepsPerformedThroughBrowser": false,
+    "screenshotsPrivate": true,
+    "temporaryTabClosed": true
+  },
+  "restartAndShutdown": {
+    "date": "2026-10-29",
+    "startedAt": "2026-10-29T08:04:15.601507+00:00",
+    "success": true,
+    "archivedSourceFilesUnchanged": 302,
+    "stop-firstExitCode": 0,
+    "firstStopPortsClosed": true,
+    "restartExitCode": 0,
+    "businessCollections": {
+      "question_bank_items": {
+        "count": 1,
+        "sha256": "0877ec840f5de773527d9a9e6b7828625d1d0a3dc4489f3326945929d4472089"
+      },
+      "question_banks": {
+        "count": 1,
+        "sha256": "c0ba33232fcfbfc6fdec5b07853f4c2d55d5d21a1727523b26124e00fda7c09d"
+      },
+      "question_shares": {
+        "count": 1,
+        "sha256": "5e0dd6fe747be3f8f7fd06eb18aa1a337b66b79b4f33f79aa144e2d224720a46"
+      },
+      "question_stat_grants": {
+        "count": 1,
+        "sha256": "e96ec9fd0224a2ba775905ead1c1946c8d18eb3b34148ed82d2d6ea0af44505b"
+      },
+      "question_stat_scopes": {
+        "count": 5,
+        "sha256": "ab0da87510910a8e861f353f2480fcc0afcead967fcd4cf43fdecff7e0640233"
+      },
+      "question_stat_sources": {
+        "count": 16,
+        "sha256": "d3bc380b258220d1bb85b4a56663d84fdc586a4fa3a2ffba149ed13bc1146be3"
+      },
+      "question_versions": {
+        "count": 3,
+        "sha256": "3bd3caffb29ce9af6a15079f33fe96f96d20dd22445e65cc909af2e68c1d46c1"
+      },
+      "questions": {
+        "count": 1,
+        "sha256": "7821948837989a1bd108796267f6bf828b930e8bfd40c8872193b71af0554691"
+      },
+      "responses": {
+        "count": 3,
+        "sha256": "3485bdfa2ade0454c71c99fd548ac13073f726398c6f1380f1fc280575fc2600"
+      },
+      "survey_versions": {
+        "count": 4,
+        "sha256": "fd10ee03389819862416d2caa3038b6a5e1d636e5fbfbe563423d0334e4c8be5"
+      },
+      "surveys": {
+        "count": 4,
+        "sha256": "4a11e125be51356b6a62fdf7a052d2f504afbe4628449d3d6fc1101f07bc70a3"
+      },
+      "users": {
+        "count": 2,
+        "sha256": "40404a649b524bef3624978d56e021e2cc97e0969f7176ea427aac04f2543a01"
+      }
+    },
+    "businessDocumentsUnchangedAcrossRestart": true,
+    "freshConfigurationHashUnchanged": true,
+    "loginAndExistingStatisticsScopeAfterRestartPassed": true,
+    "testDataPreserved": true,
+    "realBusinessDatabaseConnected": false,
+    "stop-finalExitCode": 0,
+    "finalPortsClosed": true,
+    "mongoNormalExitCodes": [
+      0,
+      0
+    ],
+    "finishedAt": "2026-10-29T08:06:19.913555+00:00"
+  },
+  "desktopOriginalFilesChecked": 163,
+  "desktopOriginalHashesUnchanged": true,
+  "noRealConfigurationOrResponsesUsed": true,
+  "remotePush": false,
+  "courseSubmission": false,
+  "privateLogSha256": {
+    "fresh-install.log": "e87898645fb3c0ef05290c62e30f47c2b3dfd94c4ca77598f359ff696b06c8dd",
+    "install-retry.log": "a0777e2b5106477e553f905f1f0090e481fcdf287f63e5025f1d86ebc9a178c8",
+    "install-complete.log": "224e17d4eca2fdd804ae09af81678fe84ec14485ac1a84ea006a454b6ace6f61",
+    "dependency-check.log": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf",
+    "start-complete.log": "0501dfe51e5cac9387cce6fbe77cac0f00a80761a97e12c529d6ec524630a9f7",
+    "stop-first.log": "f6cec5b7f472ae9c893c02d1eae70f15a666ee80d800fd4abc24887b97ff3591",
+    "restart.log": "0501dfe51e5cac9387cce6fbe77cac0f00a80761a97e12c529d6ec524630a9f7",
+    "stop-final.log": "f6cec5b7f472ae9c893c02d1eae70f15a666ee80d800fd4abc24887b97ff3591"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-29",
+  "scope": "Rubric follow-up documentation and verified delivery evidence",
+  "modifiedBusinessCodeOrFormalTests": false,
+  "newRelativeLinksChecked": 234,
+  "missingRelativeLinks": 0,
+  "previouslyTestedSourceFilesHashChecked": 17,
+  "previouslyTestedSourceHashesMatch": true,
+  "currentReportSourceAndPdfHashesMatch": true,
+  "currentPdfPagesReviewed": 15,
+  "previousReportSourceArchivedWithIdenticalHash": true,
+  "newPublicEvidencePrivacyChecked": true,
+  "privateArtifactsIgnored": true,
+  "mainBaselinePreserved": true,
+  "verificationPortsClosed": true,
+  "fullRegressionRerunForDocsOnlyChange": false,
+  "remotePush": false,
+  "courseSubmission": false
+}

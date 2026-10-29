@@ -1,0 +1,33 @@
+{
+  "sourceFile": "docs/phase2-report.md",
+  "sourceSha256": "be076353302f8d106c6514070e4e188e6c174fd90442bf44635b5f6145346969",
+  "pdfFile": "问川第二阶段实验报告_交付复验版20261029.pdf",
+  "pdfSha256": "25ff4cc07762a38d91de3c7f0e0aefa318345cf9207e2dcb897ebf45f909b657",
+  "pages": 15,
+  "renderedPages": 15,
+  "createdWith": "ReportLab using updated Markdown and the unchanged report layout",
+  "originalDatedPdfAndWordPreserved": true,
+  "docxCreatedOrEdited": false,
+  "allPagesVisuallyReviewed": true,
+  "date": "2026-10-29",
+  "reviewedPageNumbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "visualChecks": "All 15 rendered pages inspected: Chinese glyphs, black headings, tables, diagram, margins, pagination and evidence paths.",
+  "oldReportSourceArchive": "docs/phase2-report-20261029-before-delivery.md",
+  "historicalSourceSha256": "88f72cf1eff1c5ce8de830a01e2367841ea934d5b3993aaf2ca8c2520960d262"
+}

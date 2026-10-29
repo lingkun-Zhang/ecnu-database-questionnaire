@@ -10,15 +10,17 @@
 |---|---|
 | 第二阶段当前进展与验证 | [进度与待办](docs/phase2-progress.md)、[修改影响检查](docs/phase2-question-impact.md)、[升级回退演练](docs/phase2-upgrade-rehearsal.md)、[跨问卷单题统计](docs/phase2-question-statistics.md)、[题库管理与选题界面](docs/phase2-question-banks-ui.md)、[题库后端](docs/phase2-question-banks.md)、[共享管理与选题界面](docs/phase2-sharing-ui.md)、[共享使用授权后端](docs/phase2-question-sharing.md)、[个人题目与问卷选题界面](docs/phase2-question-ui.md)、[换版/填写/解绑浏览器补验](docs/phase2-question-ui-browser-check.md)；前置后端见[恢复旧版本](docs/phase2-question-restore.md)、[使用查询](docs/phase2-question-usage.md)、[固定引用](docs/phase2-question-reuse.md)和[独立题目与版本](docs/phase2-question-versions.md) |
 | 查询与页面加载优化 | [五项改动与实测](docs/phase2-optimization.md)、[本轮结果](docs/evidence/phase2-optimization-results-20261029.json) |
-| 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[最终回归证据](docs/evidence/phase2-delivery-results-20261027.json) |
+| 第二阶段报告与交付核对 | [报告正文](docs/phase2-report.md)、[演示步骤](docs/phase2-demo.md)、[逐项验收与交付边界](docs/phase2-acceptance.md)、[当前完整回归](docs/evidence/phase2-optimization-results-20261029.json)、[新目录安装与连续验收](docs/phase2-delivery-review.md)、[交付清单](docs/phase2-submission.md) |
 | 第一阶段报告与设计说明 | [第一阶段公开版报告](docs/phase1-report.md)、[数据库设计](docs/schema.md)、[关键业务协议](docs/protocol.md) |
 | 增强功能、实现与实测结果 | [功能说明与测试](docs/功能说明.md)；下方也列出主要内容 |
 | 从创建到统计的完整操作 | [安装与演示](docs/demo.md)，包含输入、预期结果与六份教学样例 |
 | 测试范围、原始结果与需求对应 | [测试报告](docs/test-report.md)、[第一阶段及逐轮追踪](docs/requirements.md)、[第二阶段逐项验收](docs/phase2-acceptance.md) |
 | 接口参数 | [API说明](docs/api.md)、[OpenAPI快照](docs/api-openapi.json)；运行后也可打开 `/docs` |
-| AI辅助过程、问题与修改 | [AI使用说明](docs/ai-use-summary.md)、[详细日志](docs/ai-log.md) |
+| AI辅助过程、问题与修改 | [AI使用说明](docs/ai-use-summary.md)、[第二阶段真实案例](docs/phase2-ai-cases.md)、[详细日志](docs/ai-log.md) |
 
-课程平台单独收取PDF。报告PDF和Word副本留在本地，仓库提供脱敏Markdown正文；第二阶段没有代填姓名、学号或个人贡献。真实配置、运行数据和原始截图也不公开，见[公开材料说明](PRIVACY.md)。
+当前报告正文已加入10月29日最新交付复验，本地PDF为“问川第二阶段实验报告_交付复验版20261029.pdf”，15页已逐页检查。此前14页PDF“问川第二阶段实验报告_20261029.pdf”及对应正文归档、待校稿Word和10月27日副本保留为历史材料；Word尚未核对原生分页，不作为当前正式排版交付。仓库提供脱敏Markdown正文；真实配置、运行数据和原始截图不公开，见[公开材料说明](PRIVACY.md)。两份原始Word没有指定必须提交PDF或Word，也没有规定姓名学号或录屏格式；实际上传格式和身份信息按课程平台的实际要求另行确认，不代填个人贡献或学习陈述。
+
+评分表出自《大作业一第一阶段》第八节：MongoDB设计35、后端25、测试10、文档15、AI使用说明15，两阶段沿用；总评为第一阶段30%加第二阶段70%。《大作业一：需求变更》列出八项新增要求，没有另列评分表。需求解释、证据与仍需确认的口径集中在[逐项验收](docs/phase2-acceptance.md)。
 
 ## 安装、运行和停止
 

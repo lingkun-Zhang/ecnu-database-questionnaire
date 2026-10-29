@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-29",
+  "sourceFile": "docs/phase2-report.md",
+  "sourceSha256": "94414c05264c7cb0f45d533bf453db76a1831ebeb97bb86d3ad6768099481780",
+  "pdfFile": "\u95ee\u5ddd\u7b2c\u4e8c\u9636\u6bb5\u5b9e\u9a8c\u62a5\u544a_\u4ea4\u4ed8\u590d\u9a8c\u724820261029.pdf",
+  "pdfSha256": "be879e78642c60aae35cbedb44c69250fa16a8513561b98d9a16073267580912",
+  "pages": 15,
+  "publicCodeCommit": "c1a43aa55768a0ae7697f95119ffb505e9147e4a",
+  "firstPageClickableLinksVerified": true,
+  "allPagesVisuallyReviewed": true,
+  "oldDatedPdfAndWordPreserved": true,
+  "previousCurrentPdfAndMarkdownBackedUp": true,
+  "docxUpdated": false,
+  "renderer": "ReportLab with the same reviewed layout and updated Markdown",
+  "businessCodeChangedDuringReportUpdate": false,
+  "currentRenderedPagesInspected": [
+    1,
+    12,
+    13,
+    14,
+    15
+  ],
+  "previouslyReviewedIdenticalRenderedPages": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "reviewMethod": "Re-rendered all pages; viewed changed pages 1/12/13/14/15 and verified pages 2-11 match the previously reviewed PNG bytes exactly.",
+  "previousReview": "phase2-report-github-links-20261029.json"
+}

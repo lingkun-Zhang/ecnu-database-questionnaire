@@ -45,7 +45,13 @@
 | 文档 | [第二阶段报告](phase2-report.md)、[演示](phase2-demo.md)、本验收表及各专题设计；第一阶段报告、原设计与历史开发记录仍保留 |
 | AI使用说明 | [AI说明](ai-use-summary.md)、[逐轮日志](ai-log.md)、[报告AI章节](phase2-report.md)：用户决策、实际AI任务、代码/测试/文档产出、失败及修正均按发生事实记录，不补写学生手工编码或独立掌握 |
 
-## 当前完整验证：2026年10月29日
+## 当前完整验证：2026年10月29日复验工具批次
+
+完整后端533通过、3项既有Windows符号链接权限跳过、251子测试通过，220.91秒；JUnit有536个testcase。新增31项已包含其中。前端216通过、类型和构建通过。仅设旧变量的真实API/数据库定向6通过，导入顺序与全集合指纹定向10通过；均不与完整批次相加。见[当前完整结果](evidence/phase2-review-results-20261029.json)、[日志](evidence/phase2-review-tests-20261029.txt)与[JUnit](evidence/phase2-review-tests-20261029.xml)。
+
+仓库已提供[公开连续复验入口](../scripts/phase2_delivery_check.py)及[独立运行说明](phase2-verification.md)，本轮实际完成67个真实HTTP请求、自建服务正常结束和随机库精确清理；不声称本次重新安装或浏览器点击。公开启停指纹工具按所选项目覆盖四/十二集合，测试数据库配置也已统一。演示准备可先读[简短讲解与自查](phase2-walkthrough.md)。
+
+## 历史验证：2026年10月29日读取优化批次
 
 完整后端502项通过、3项既有Windows符号链接权限相关跳过、251个子测试通过，257.37秒；JUnit有505个testcase元素，不能把251个子测试再并入独立测试总数。完整前端216项通过、0失败/跳过，4740.0703毫秒，类型检查和生产构建通过。新增18项后端、12项前端已包含在上述总数中，不另行相加。见[当前结果](evidence/phase2-optimization-results-20261029.json)、[后端日志](evidence/phase2-optimization-tests-20261029.txt)、[JUnit](evidence/phase2-optimization-tests-20261029.xml)及[构建记录](evidence/phase2-optimization-build-20261029.json)。
 
@@ -71,9 +77,9 @@
 
 | 材料 | 当前状态 |
 |---|---|
-| 当前源码与增量历史 | 第二阶段源码与脱敏文档已推送到`phase2-question-versions`分支，已核实发布提交`7960aa1`；产品实现为`a62eb3e`，`main`仍保留第一阶段`99b66d1`，后续材料版本以实际提交和包内清单为准 |
+| 当前源码与增量历史 | 第二阶段源码与脱敏文档已推送到`phase2-question-versions`分支，本轮已核实代码提交`c1a43aa`；早期主要实现为`a62eb3e`，`main`仍保留第一阶段`99b66d1`，后续材料版本以实际提交和包内清单为准 |
 | Markdown报告、设计与证据 | 已整理，可由本表、README和专题链接逐项查找；本地打包内容见[交付清单](phase2-submission.md) |
-| 当前本地PDF“问川第二阶段实验报告_交付复验版20261029.pdf” | 15页，首页包含可点击的第二阶段GitHub链接，分页与渲染已核对；见[当前报告核对](evidence/phase2-report-github-links-20261029.json)。此前15页版核对见[交付复验报告记录](evidence/phase2-delivery-recheck-report-20261029.json) |
+| 当前本地PDF“问川第二阶段实验报告_交付复验版20261029.pdf” | 15页，首页包含可点击的第二阶段GitHub链接，分页与渲染已核对；见[当前报告核对](evidence/phase2-review-report-20261029.json)。此前15页版核对见[交付复验报告记录](evidence/phase2-delivery-recheck-report-20261029.json) |
 | 此前10月29日14页PDF | 文件原样保留，对应正文另存[复验前正文](phase2-report-20261029-before-delivery.md)，其指纹与[历史核对记录](evidence/phase2-optimization-report-review-20261029.json)一致 |
 | 历史Word“问川第二阶段实验报告_20261029_待校稿.docx” | 对应此前14页正文的可编辑待校稿副本，本次未更新；结构已检查，标准工具缺少soffice，尚未核对原生Word分页。独立PDF不冒充Word渲染结果，Word不作为已验收的排版交付 |
 | 10月27日历史PDF与Word | “问川第二阶段实验报告.pdf”和“问川第二阶段实验报告_待校稿.docx”原样保留；当时PDF核对见[历史报告记录](evidence/phase2-report-review-20261027.json)，不能将其当作10月29日版本 |

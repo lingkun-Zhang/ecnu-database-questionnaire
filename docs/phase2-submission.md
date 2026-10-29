@@ -1,6 +1,6 @@
 # 第二阶段交付清单
 
-第二阶段源码与脱敏文档已按用户授权推送到[既有GitHub仓库的第二阶段分支](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions)。10月29日核实的发布提交为`7960aa10319e921252190d3b65ce7155dc7a1667`，`main`仍为第一阶段基线`99b66d1e637fa3b4ecb13719c0230ecb7e958701`。报告PDF、Word和本地交付包保留本地，未向课程平台提交。当前产品代码仍是10月29日完整回归覆盖的实现；包内版本与SHA256以“文件校验清单.json”为准。
+第二阶段源码与脱敏文档已按用户授权推送到[既有GitHub仓库的第二阶段分支](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions)。10月29日核实的发布提交为`c1a43aa55768a0ae7697f95119ffb505e9147e4a`，`main`仍为第一阶段基线`99b66d1e637fa3b4ecb13719c0230ecb7e958701`。报告PDF、Word和本地交付包保留本地，未向课程平台提交。当前产品代码仍是10月29日完整回归覆盖的实现；包内版本与SHA256以“文件校验清单.json”为准。
 
 本地输出为项目根目录下“提交包/问川第二阶段_20261029.zip”。该目录按.gitignore保持本地，不随普通Git提交公开。在线查看或克隆第二阶段时应选择`phase2-question-versions`分支；仓库默认的`main`继续保留第一阶段。
 
@@ -16,7 +16,7 @@
 
 ## 审阅顺序
 
-先看PDF报告，再解压第二阶段源码阅读README和[逐项验收](phase2-acceptance.md)。需要核实可运行性时，先查看[新目录安装与连续验收](phase2-delivery-review.md)及其证据；需要追查权限决策和AI错误修正时，查看[AI案例](phase2-ai-cases.md)和[详细日志](ai-log.md)。数据库、API和原始回归结果均有对应链接。
+先看PDF报告，再解压第二阶段源码阅读README和[逐项验收](phase2-acceptance.md)。本轮公开连续复验入口、当前533/216回归及隔离步骤见[复验说明](phase2-verification.md)，演示先看[简短讲解](phase2-walkthrough.md)。需要核实可运行性时，先查看[新目录安装与连续验收](phase2-delivery-review.md)及其证据；需要追查权限决策和AI错误修正时，查看[AI案例](phase2-ai-cases.md)和[详细日志](ai-log.md)。数据库、API和原始回归结果均有对应链接。
 
 原任务Word未规定必须提交PDF、Word、录屏或身份封面；正式上传前按课程平台实际要求补所需信息，并由本人审阅。分工如实区分本人提出需求与确定规则、AI完成具体实现和执行，不增加未发生的独立编码经历。三个解释边界也应在演示时说明：修改保存采用创建新版/取消、他人问卷使用脱敏引用、跨卷统计按授权来源和内容版本分别解释。它们不是已经获得教师确认的统一口径。
 

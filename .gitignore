@@ -13,8 +13,9 @@ __pycache__/
 docs/evidence/*.tmp
 ~$*
 
-# Identified reports and private runtime evidence stay local
+# Historical reports and private runtime evidence stay local
 docs/*.pdf
+!docs/2026_ECNU_PJ1_2_张凌琨.pdf
 docs/*.docx
 docs/evidence/*.png
 docs/evidence/*.jpg

@@ -6,6 +6,10 @@
 
 第二阶段代码在 [`phase2-question-versions`](https://github.com/lingkun-Zhang/ecnu-database-questionnaire/tree/phase2-question-versions) 分支。`main`保留第一阶段提交`99b66d1e637fa3b4ecb13719c0230ecb7e958701`，可用来比较两阶段的变化。
 
+[第二阶段提交报告（PDF）](docs/2026_ECNU_PJ1_2_张凌琨.pdf) · [报告正文（Markdown）](docs/phase2-report.md)
+
+课程平台的PDF已由本人提交；这里同步最终报告，便于查看报告与代码。
+
 ## 阅读入口
 
 | 想了解的内容 | 文件 |
@@ -19,7 +23,7 @@
 | 交付材料与AI使用 | [交付清单](docs/phase2-submission.md)、[AI使用说明](docs/ai-use-summary.md)、[第二阶段案例](docs/phase2-ai-cases.md)、[开发日志](docs/ai-log.md) |
 | 第一阶段资料 | [第一阶段报告](docs/phase1-report.md)、[操作演示](docs/demo.md)、[需求记录](docs/requirements.md) |
 
-报告的Markdown正文随仓库提供；PDF、本地交付包和历史Word保留在本机。当前PDF为“问川第二阶段实验报告_交付复验版20261029.pdf”，历史Word仍待核对分页。配置、密钥和运行数据不公开，详见[公开材料说明](PRIVACY.md)。
+本地交付包和历史Word不公开。配置、密钥和运行数据不公开，详见[公开材料说明](PRIVACY.md)。
 
 ## 安装、运行和停止
 
